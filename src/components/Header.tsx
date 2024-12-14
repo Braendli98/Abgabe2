@@ -1,26 +1,49 @@
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "./ui/dropdown-menu";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from './ui/dropdown-menu';
 
-import { Button } from "./ui/button";
-import { Input } from "./ui/input";
-import { User } from "lucide-react";
+import { Button } from './ui/button';
+import { Input } from './ui/input';
+import { User } from 'lucide-react';
+import UserMenu from './UserMenu';
 
-export default function Header({ setLoggedIn }: { setLoggedIn: React.Dispatch<React.SetStateAction<boolean>>}) {
-    return (
-        <header className="flex flex-nowrap header justify-between">
-            <div className="flex-item flex-none w-20"/>
-            <Input className="flex-item flex-auto searchbar" type="string" id="password" placeholder="Search..." />
-            <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                    <Button>
-                        <User />
-                    </Button>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent style={{ marginRight: '20px'}}>
-                    <DropdownMenuLabel><span>Hello User!</span></DropdownMenuLabel>
-                    <DropdownMenuSeparator />
-                    <DropdownMenuItem onClick={() => setLoggedIn(false)}><span>Logout</span></DropdownMenuItem>
-                </DropdownMenuContent>
-            </DropdownMenu>
-        </header>
-    )
+export default function Header({
+  loggedIn,
+  setLoggedIn,
+  setPage,
+}: {
+  loggedIn: boolean;
+  setLoggedIn: React.Dispatch<React.SetStateAction<boolean>>;
+  setPage: React.Dispatch<React.SetStateAction<string>>;
+}) {
+  return (
+    <header className="flex flex-nowrap header justify-between">
+      <div className="flex-item flex-none w-20" />
+      <Input
+        className="flex-item flex-auto searchbar"
+        type="string"
+        id="password"
+        placeholder="Search..."
+      />
+      <DropdownMenu>
+        <DropdownMenuTrigger asChild>
+          <Button>
+            <User />
+          </Button>
+        </DropdownMenuTrigger>
+        {loggedIn ? (
+          <UserMenu name={'User'} setLoggedIn={setLoggedIn} />
+        ) : (
+          <DropdownMenuContent style={{ marginRight: '20px' }}>
+            <DropdownMenuItem onClick={() => setPage('login')}>
+              <span>To Login</span>
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        )}
+      </DropdownMenu>
+    </header>
+  );
 }

@@ -7,17 +7,21 @@ import {
   CardTitle,
 } from './ui/card';
 
+import { Buch } from '@/types/buch';
+
 export default function BookCard({
   className,
+  book,
   setPage,
 }: {
   className: string;
+  book: Buch;
   setPage: React.Dispatch<React.SetStateAction<string>>;
 }) {
   return (
     <Card
       className={`${className} cursor-pointer hover:shadow-lg transition-shadow`}
-      style={{ margin: '10px' }}
+      style={{ margin: '10px', minWidth: '350px', minHeight: '50px' }}
       onClick={() => setPage('details')}
       role="button"
     >
@@ -29,14 +33,11 @@ export default function BookCard({
             </td>
             <td>
               <CardHeader>
-                <CardTitle>Alpha</CardTitle>
-                <CardDescription>Alpha</CardDescription>
+                <CardTitle>{book.titel.titel}</CardTitle>
+                <CardDescription>{book.titel.untertitel}</CardDescription>
               </CardHeader>
-              <CardContent>
-                <p>Content and such</p>
-              </CardContent>
               <CardFooter>
-                <p>Buch</p>
+                <p>{book.preis} €</p>
               </CardFooter>
             </td>
           </tr>

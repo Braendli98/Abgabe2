@@ -6,7 +6,7 @@ export default function AddCard({ className }: { className: string }) {
   return (
     <Card
       className={`flex items-center flex-col w-40 ${className} cursor-pointer hover:shadow-lg transition-shadow`}
-      style={{ margin: '10px' }}
+      style={{ margin: '10px', minWidth: '150px', minHeight: '200px' }}
       onClick={() => console.log('Book Added!')}
       role="button"
     >

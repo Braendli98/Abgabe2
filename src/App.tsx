@@ -11,6 +11,7 @@ function App() {
   const [page, setPage] = useState('overview');
   console.log(page);
 
+  // TODO: We definitely need better navigation than this
   switch (page) {
     case 'login': {
       return (

@@ -10,6 +10,28 @@ export default function Login({
 }) {
     const navigate = useNavigate();
 
+    const fetchData = async () => {
+        try {
+            const response = await fetch('api/auth/token', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: 'username=admin&password=p',
+            });
+
+            if (!response.ok) {
+                throw new Error(`HTTP error! Status: ${response.status}`);
+            }
+
+            const content = await response.json();
+            // Debugging
+            console.log(content);
+        } catch (error) {
+            console.error('Fehler beim Laden des Tokens:', error);
+        }
+    };
+    
     return (
         <div className="grid w-full flex-item max-w-sm items-center gap-1.5">
             <div style={{ fontSize: '30px' }}>
@@ -26,6 +48,7 @@ export default function Login({
                 onClick={() => {
                     setLoggedIn(true);
                     navigate('/');
+                    fetchData();
                 }}
             >
                 Login

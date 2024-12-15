@@ -1,7 +1,8 @@
-import { Breadcrumb, BreadcrumbItem, BreadcrumbList, BreadcrumbSeparator, BreadcrumbPage } from './ui/breadcrumb';
+import { Breadcrumb, BreadcrumbItem, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from './ui/breadcrumb';
+
 import { Buch } from '@/types/buch';
 
-export default function Details({ book }: { book?: Buch }) {
+export default function Details({ book, setPage }: { book?: Buch; setPage: React.Dispatch<React.SetStateAction<string>>; }) {
   if (!book) {
     return <div className="text-2xl text-center mt-8">Keine Buchdaten verfügbar</div>; // Fallback für fehlende Daten
   }
@@ -11,7 +12,7 @@ export default function Details({ book }: { book?: Buch }) {
       {/* Breadcrumb */}
       <Breadcrumb className="text-4xl mb-6">
         <BreadcrumbList>
-          <BreadcrumbItem className="cursor-pointer hover:text-black">
+          <BreadcrumbItem className="cursor-pointer hover:text-black" onClick={() => setPage('overview')}>
             Books
           </BreadcrumbItem>
           <BreadcrumbSeparator />

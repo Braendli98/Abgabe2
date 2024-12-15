@@ -6,10 +6,10 @@ import { Buch } from '@/types/buch';
 
 export default function Overview({
   setPage,
-  setSelectedBook, // setSelectedBook wird optional hinzugefügt
+  setSelectedBook,
 }: {
   setPage: React.Dispatch<React.SetStateAction<string>>;
-  setSelectedBook?: React.Dispatch<React.SetStateAction<Buch | null>>; // Optionales Prop
+  setSelectedBook: React.Dispatch<React.SetStateAction<Buch | null>>;
 }) {
   const [books, setBooks] = useState<Buch[]>([]);
   

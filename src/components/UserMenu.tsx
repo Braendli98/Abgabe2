@@ -5,12 +5,14 @@ import {
     DropdownMenuSeparator,
 } from './ui/dropdown-menu';
 
+import { UserData } from '@/types/context';
+
 export default function UserMenu({
     name,
-    setLoggedIn,
+    setUser,
 }: {
-    name: string;
-    setLoggedIn: React.Dispatch<React.SetStateAction<boolean>>;
+    name?: string;
+    setUser: React.Dispatch<React.SetStateAction<UserData>>;
 }) {
     return (
         <DropdownMenuContent style={{ marginRight: '20px' }}>
@@ -18,7 +20,7 @@ export default function UserMenu({
                 <span>Hello {name}!</span>
             </DropdownMenuLabel>
             <DropdownMenuSeparator />
-            <DropdownMenuItem onClick={() => setLoggedIn(false)}>
+            <DropdownMenuItem onClick={() => setUser({})}>
                 <span>Logout</span>
             </DropdownMenuItem>
         </DropdownMenuContent>

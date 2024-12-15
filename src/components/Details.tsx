@@ -7,11 +7,15 @@ import {
     BreadcrumbSeparator,
 } from './ui/breadcrumb';
 import { useEffect, useState } from 'react';
+import { useNavigate, useParams } from 'react-router';
 
 import { Buch } from '@/types/buch';
-import { useParams } from 'react-router';
+import { Button } from './ui/button';
+import { useAppContext } from './Context';
 
 export default function Details() {
+    const navigate = useNavigate();
+    const { user } = useAppContext();
     const [book, setBook] = useState<Buch | undefined>(undefined);
     const params = useParams();
 
@@ -41,6 +45,29 @@ export default function Details() {
 
         fetchData();
     }, [params]);
+
+    const deleteEntry = async () => {
+        try {
+            console.log(params.bookId);
+            const response = await fetch(`api/rest/${params.bookId}`, {
+                method: 'DELETE',
+                headers: {
+                    'Authorization': `Bearer ${user.token}`,
+                    "key": "If-Match",
+					"value": "\"0\"",
+					"type": "text"
+                },
+                body: ''
+            });
+            console.log(response);
+
+            if (!response.ok) {
+                throw new Error(`HTTP error! Status: ${response.status}`);
+            }
+        } catch (error) {
+            console.error('Fehler beim Löschen der Buchdaten:', error);
+        }
+    }
 
     if (book === undefined) {
         return (
@@ -111,6 +138,12 @@ export default function Details() {
                             <strong>Schlagwörter:</strong>{' '}
                             {book?.schlagwoerter?.join(', ') || 'Keine'}
                         </div>
+                    </div>
+                    <div className="flex flex-row-reverse">
+                        <Button variant="destructive" className="flex-item" onClick={() => {
+                            deleteEntry();
+                            navigate('/');
+                            }}>Buch Löschen</Button>
                     </div>
                 </div>
             </div>

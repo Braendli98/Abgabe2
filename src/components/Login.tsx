@@ -1,14 +1,19 @@
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import { useAppContext } from './Context';
 import { useNavigate } from 'react-router';
+import { useState } from 'react';
 
-export default function Login({
-    setLoggedIn,
-}: {
-    setLoggedIn: React.Dispatch<React.SetStateAction<boolean>>;
-}) {
+declare interface LoginData {
+    username?: string;
+    password?: string;
+}
+
+export default function Login() {
     const navigate = useNavigate();
+    const { setUser } = useAppContext();
+    const [ login, setLogin ] = useState<LoginData>({});
 
     const fetchData = async () => {
         try {
@@ -17,18 +22,24 @@ export default function Login({
                 headers: {
                     'Content-Type': 'application/x-www-form-urlencoded',
                 },
-                body: 'username=admin&password=p',
+                body: `username=${login.username}&password=${login.password}`,
             });
+            // Debugging
+            console.log(response);
+
+            if (response.ok) {
+                const content = await response.json();
+                setUser({username: login.username, token: content.access_token });
+                setLogin({});
+                navigate('/');
+            }
+
 
             if (!response.ok) {
                 throw new Error(`HTTP error! Status: ${response.status}`);
             }
-
-            const content = await response.json();
-            // Debugging
-            console.log(content);
         } catch (error) {
-            console.error('Fehler beim Laden des Tokens:', error);
+            console.error('An Error occured while fetching a token:', error);
         }
     };
     
@@ -37,17 +48,15 @@ export default function Login({
             <div style={{ fontSize: '30px' }}>
                 <strong>Login to your Account:</strong>
             </div>
-            <Label htmlFor="email" style={{ marginTop: '50px' }}>
-                E-Mail
+            <Label htmlFor="username" style={{ marginTop: '50px' }} >
+                Username
             </Label>
-            <Input type="email" id="email" />
+            <Input type="string" id="username" onChange={(e) => setLogin({ ...login, username: e.target.value})} />
             <Label htmlFor="password">Password</Label>
-            <Input type="string" id="password" />
+            <Input type="string" id="password" onChange={(e) => setLogin({ ...login, password: e.target.value})} />
             <Button
                 style={{ marginTop: '50px' }}
                 onClick={() => {
-                    setLoggedIn(true);
-                    navigate('/');
                     fetchData();
                 }}
             >

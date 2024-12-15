@@ -2,23 +2,20 @@ import './App.css';
 
 import { BrowserRouter, Route, Routes } from 'react-router';
 
+import { AppProvider } from './components/Context';
 import ContentLayout from './components/ContentLayout';
 import Details from './components/Details';
 import Login from './components/Login';
 import Overview from './components/Overview';
-import { useState } from 'react';
 
 function App() {
-    const [loggedIn, setLoggedIn] = useState(false);
     return (
+        <AppProvider>
         <BrowserRouter>
             <Routes>
                 <Route
                     element={
-                        <ContentLayout
-                            loggedIn={loggedIn}
-                            setLoggedIn={setLoggedIn}
-                        />
+                        <ContentLayout />
                     }
                 >
                     <Route index element={<Overview />} />
@@ -31,12 +28,13 @@ function App() {
                             className="flex justify-center items-center"
                             style={{ height: '100vh' }}
                         >
-                            <Login setLoggedIn={setLoggedIn} />
+                            <Login />
                         </div>
                     }
                 />
             </Routes>
         </BrowserRouter>
+        </AppProvider>
     );
 }
 

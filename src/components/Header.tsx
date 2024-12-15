@@ -9,16 +9,12 @@ import { Button } from './ui/button';
 import { Input } from './ui/input';
 import { User } from 'lucide-react';
 import UserMenu from './UserMenu';
+import { useAppContext } from './Context';
 import { useNavigate } from 'react-router';
 
-export default function Header({
-    loggedIn,
-    setLoggedIn,
-}: {
-    loggedIn: boolean;
-    setLoggedIn: React.Dispatch<React.SetStateAction<boolean>>;
-}) {
+export default function Header() {
     const navigate = useNavigate();
+    const { user, setUser } = useAppContext();
 
     return (
         <header className="flex flex-nowrap header justify-between">
@@ -35,8 +31,8 @@ export default function Header({
                         <User />
                     </Button>
                 </DropdownMenuTrigger>
-                {loggedIn ? (
-                    <UserMenu name={'User'} setLoggedIn={setLoggedIn} />
+                {user.token ? (
+                    <UserMenu name={user.username} setUser={setUser} />
                 ) : (
                     <DropdownMenuContent style={{ marginRight: '20px' }}>
                         <DropdownMenuItem onClick={() => navigate('/login')}>

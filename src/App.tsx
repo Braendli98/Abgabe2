@@ -5,13 +5,13 @@ import Header from './components/Header';
 import Login from './components/Login';
 import Overview from './components/Overview';
 import { useState } from 'react';
+import { Buch } from './types/buch';
 
 function App() {
   const [loggedIn, setLoggedIn] = useState(false);
   const [page, setPage] = useState('overview');
-  console.log(page);
+  const [selectedBook, setSelectedBook] = useState<Buch | null>(null); // Zustand für das ausgewählte Buch
 
-  // TODO: We definitely need better navigation than this
   switch (page) {
     case 'login': {
       return (
@@ -31,7 +31,7 @@ function App() {
             setLoggedIn={setLoggedIn}
             setPage={setPage}
           />
-          <Overview setPage={setPage} />
+          <Overview setPage={setPage} setSelectedBook={setSelectedBook} />
         </>
       );
     }
@@ -43,7 +43,11 @@ function App() {
             setLoggedIn={setLoggedIn}
             setPage={setPage}
           />
-          <Details setPage={setPage} />
+          {selectedBook ? (
+            <Details book={selectedBook} setPage={setPage} />
+          ) : (
+            <p>Keine Buchdaten verfügbar</p>
+          )}
         </>
       );
     }

@@ -7,14 +7,20 @@ export default defineConfig({
     plugins: [react()],
     server: {
         proxy: {
-          '/api': {
-            target: "https://localhost:3000",
-            changeOrigin: true,
-            secure: false,
-            rewrite: path => path.replace('/api', ''),
-          }
-        }
-      },
+            '/api': {
+                target: 'https://localhost:3000',
+                changeOrigin: true,
+                secure: false,
+                rewrite: (path) => path.replace('/api', ''),
+            },
+            '/details/api': {
+                target: 'https://localhost:3000',
+                changeOrigin: true,
+                secure: false,
+                rewrite: (path) => path.replace('/details/api', ''),
+            },
+        },
+    },
     resolve: {
         alias: {
             '@': path.resolve(__dirname, './src'),

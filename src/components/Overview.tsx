@@ -3,9 +3,13 @@ import { useEffect, useState } from 'react';
 import AddCard from './AddCard';
 import BookCard from './BookCard';
 import { Buch } from '@/types/buch';
+import { useAppContext } from './Context';
+import { useLocation } from 'react-router';
 
 export default function Overview() {
+    const location = useLocation();
     const [books, setBooks] = useState<Buch[]>([]);
+    const { user } = useAppContext();
 
     // TODO: Put this into an abstract object?
     useEffect(() => {
@@ -33,7 +37,7 @@ export default function Overview() {
         };
 
         fetchData();
-    }, []);
+    }, [location]);
 
     return (
         <div className="content">
@@ -46,7 +50,7 @@ export default function Overview() {
                         book={book}
                     />
                 ))}
-                <AddCard className="flex-item" />
+                {user.token && <AddCard className="flex-item" />}
             </div>
         </div>
     );

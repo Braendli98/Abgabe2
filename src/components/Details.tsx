@@ -139,12 +139,14 @@ export default function Details() {
                             {book?.schlagwoerter?.join(', ') || 'Keine'}
                         </div>
                     </div>
+                    {user.token && 
                     <div className="flex flex-row-reverse">
-                        <Button variant="destructive" className="flex-item" onClick={() => {
-                            deleteEntry();
-                            navigate('/');
-                            }}>Buch Löschen</Button>
+                    <Button variant="destructive" className="flex-item" onClick={() => {
+                        deleteEntry();
+                        navigate('/');
+                        }}>Buch Löschen</Button>
                     </div>
+                    }   
                 </div>
             </div>
         </div>

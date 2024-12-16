@@ -1,6 +1,7 @@
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import hkaLogo from '../assets/hka-logo.png';
 import { useAppContext } from './Context';
 import { useNavigate } from 'react-router';
 import { useState } from 'react';
@@ -44,24 +45,25 @@ export default function Login() {
     };
     
     return (
+        <div className="flex justify-center items-center min-h-[400px] bg-backgroundColor">
         <div className="grid w-full flex-item max-w-sm items-center gap-1.5">
-            <div style={{ fontSize: '30px' }}>
-                <strong>Login to your Account:</strong>
-            </div>
-            <Label htmlFor="username" style={{ marginTop: '50px' }} >
-                Username
-            </Label>
-            <Input type="string" id="username" onChange={(e) => setLogin({ ...login, username: e.target.value})} />
-            <Label htmlFor="password">Password</Label>
-            <Input type="string" id="password" onChange={(e) => setLogin({ ...login, password: e.target.value})} />
-            <Button
-                style={{ marginTop: '50px' }}
-                onClick={() => {
-                    fetchData();
-                }}
-            >
-                Login
-            </Button>
+          <div className="text-2xl text-textGray text-center mb-10">
+            <strong>Login to your account:</strong>
+          </div>
+          <Label htmlFor="username" className="text-sm text-textGray">Username</Label>
+          <Input type="string" id="username" className="p-2 rounded-md border border-input bg-inputBg" onChange={(e) => setLogin({ ...login, username: e.target.value})}/>
+          <Label htmlFor="password" className="text-sm text-textGray">Password</Label>
+          <Input type="string" id="password" className="p-2 rounded-md border border-input bg-inputBg" onChange={(e) => setLogin({ ...login, password: e.target.value})}/>
+          <Button
+            className="w-full bg-mainColor bg-opacity-60 text-white py-2 rounded-lg mt-16"
+            onClick={() => {
+                fetchData();
+            }}
+          >
+            Login
+          </Button>
         </div>
+        <img src={hkaLogo} alt="HKA Logo" className="absolute top-3 right-3 h-20"/>
+      </div>
     );
 }

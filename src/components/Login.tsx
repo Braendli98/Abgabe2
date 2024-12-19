@@ -63,7 +63,7 @@ export default function Login() {
             Login
           </Button>
         </div>
-        <img src={hkaLogo} alt="HKA Logo" className="absolute top-3 right-3 h-20"/>
+        <img src={hkaLogo} alt="HKA Logo" className="absolute top-8 right-8" style={{ height: '195px' }}/>
       </div>
     );
 }

@@ -5,11 +5,14 @@ import { BrowserRouter, Route, Routes } from 'react-router';
 import { AppProvider } from './components/Context';
 import ContentLayout from './components/ContentLayout';
 import Details from './components/Details';
+import ErrorComponent from './components/ErrorComponent';
 import Login from './components/Login';
 import Overview from './components/Overview';
+import { Toaster } from './components/ui/toaster';
 
 function App() {
     return (
+        <div>
         <AppProvider>
         <BrowserRouter>
             <Routes>
@@ -32,9 +35,15 @@ function App() {
                         </div>
                     }
                 />
+                <Route
+                    path="*"
+                    element={<ErrorComponent type={'notFound'} error='Die gesuchte Seite konnte leider nicht gefunden werden.' />}
+                />
             </Routes>
         </BrowserRouter>
         </AppProvider>
+        <Toaster />
+        </div>
     );
 }
 

@@ -11,10 +11,13 @@ import { useNavigate, useParams } from 'react-router';
 
 import { Buch } from '@/types/buch';
 import { Button } from './ui/button';
+import { handleResponse } from '@/lib/delete-validation';
 import { useAppContext } from './Context';
+import { useToast } from '@/hooks/use-toast';
 
 export default function Details() {
     const navigate = useNavigate();
+    const { toast } = useToast();
     const { user } = useAppContext();
     const [book, setBook] = useState<Buch | undefined>(undefined);
     const params = useParams();
@@ -37,7 +40,7 @@ export default function Details() {
                 const book = await response.json();
                 // Debugging
                 console.log(book);
-                setBook(book);
+                setBook({...book, id: params.bookId});
             } catch (error) {
                 console.error('Fehler beim Laden der Buchdaten:', error);
             }
@@ -59,11 +62,7 @@ export default function Details() {
                 },
                 body: ''
             });
-            console.log(response);
-
-            if (!response.ok) {
-                throw new Error(`HTTP error! Status: ${response.status}`);
-            }
+            await handleResponse(response, toast, navigate, book);
         } catch (error) {
             console.error('Fehler beim Löschen der Buchdaten:', error);
         }
@@ -143,7 +142,6 @@ export default function Details() {
                     <div className="flex flex-row-reverse">
                     <Button variant="destructive" className="flex-item" onClick={() => {
                         deleteEntry();
-                        navigate('/');
                         }}>Buch Löschen</Button>
                     </div>
                     }   

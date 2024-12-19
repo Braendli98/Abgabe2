@@ -1,17 +1,14 @@
-import { useEffect, useState } from 'react';
-
+import { useEffect } from 'react';
 import AddCard from './AddCard';
 import BookCard from './BookCard';
 import { Buch } from '@/types/buch';
 import { useAppContext } from './Context';
-import { useLocation } from 'react-router';
+import { useNavigate } from 'react-router';
 
-export default function Overview() {
-    const location = useLocation();
-    const [books, setBooks] = useState<Buch[]>([]);
+export default function Overview({ books, setBooks }: { books: Buch[]; setBooks: (books: Buch[]) => void; }) {
+    const navigate = useNavigate();
     const { user } = useAppContext();
 
-    // TODO: Put this into an abstract object?
     useEffect(() => {
         const fetchData = async () => {
             try {
@@ -27,30 +24,32 @@ export default function Overview() {
                 }
 
                 const content = await response.json();
-                // Debugging
-                console.log(content);
-                const books = content._embedded?.buecher || [];
-                setBooks(books);
+                const fetchedBooks = content._embedded?.buecher || [];
+                setBooks(fetchedBooks);
             } catch (error) {
                 console.error('Fehler beim Laden der Buchdaten:', error);
             }
         };
 
         fetchData();
-    }, [location]);
+    }, [setBooks]);  // Abhängigkeitsarray korrigiert
 
     return (
         <div className="content">
             <h1>Books</h1>
             <div className="flex flex-wrap">
                 {books.map((book) => (
-                    <BookCard
-                        key={book._links.self.href}
-                        className="flex-item"
-                        book={book}
-                    />
+                    <BookCard key={book._links.self.href} className="flex-item" book={book} />
                 ))}
-                {user.token && <AddCard className="flex-item" />}
+                {user.token && (
+                    <AddCard
+                        className="flex-item"
+                        onClick={(event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+                            event.preventDefault();  // Optional, verhindert das Standardverhalten
+                            navigate('/add'); // Navigiert zur Hinzufügen-Seite
+                          }}
+                    />
+                )}
             </div>
         </div>
     );

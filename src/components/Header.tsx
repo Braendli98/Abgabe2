@@ -6,7 +6,6 @@ import {
 } from './ui/dropdown-menu';
 
 import { Button } from './ui/button';
-import { Input } from './ui/input';
 import { User } from 'lucide-react';
 import UserMenu from './UserMenu';
 import hkaLogo from '../assets/hka-logo.png';
@@ -22,13 +21,6 @@ export default function Header() {
             <div className="flex items-center">
                 <img src={hkaLogo} alt="HKA Logo" className="h-11 w-auto mr-4" />
             </div>
-            <div className="flex-item flex-none w-20" />
-            <Input
-                className="flex-item flex-auto searchbar bg-mainColor bg-opacity-10"
-                type="string"
-                id="password"
-                placeholder="Search..."
-            />
             <DropdownMenu>
                 <DropdownMenuTrigger asChild>
                     <Button>

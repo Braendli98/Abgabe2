@@ -9,7 +9,7 @@ import { Button } from './ui/button';
 import { Input } from './ui/input';
 import { User } from 'lucide-react';
 import UserMenu from './UserMenu';
-import hkaLogo from '../assets/hka-logo.png';
+import hkaLogo from '../assets/hka.png';
 import { useAppContext } from './Context';
 import { useNavigate } from 'react-router';
 
@@ -31,7 +31,7 @@ export default function Header() {
             />
             <DropdownMenu>
                 <DropdownMenuTrigger asChild>
-                    <Button>
+                    <Button className="bg-mainColor text-textGray hover:bg-mainColor hover:bg-opacity-20 bg-opacity-10 border-inputBorder">
                         <User />
                     </Button>
                 </DropdownMenuTrigger>

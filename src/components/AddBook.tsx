@@ -1,38 +1,56 @@
-import { useState } from "react";
-import { useNavigate } from "react-router";
-import { Buch } from "@/types/buch";
-import { Button } from "./ui/button";
-import { useAppContext } from "./Context";
+import { useState } from 'react';
+import { useNavigate } from 'react-router';
+import { Button } from './ui/button';
+import { useAppContext } from './Context';
+import { Buch } from '@/types/buch';
 
-export default function AddBook() {
+interface AddBookProps {
+  onAddBook: (newBook: Buch) => void;
+}
+interface Errors {
+  preis?: string;
+  rabatt?: string;
+  datum?: string;
+  schlagwoerter?: string;
+}
+
+export default function AddBook({ onAddBook }: AddBookProps) {
   const navigate = useNavigate();
   const { user } = useAppContext();
 
   const [formData, setFormData] = useState<Buch>({
-    id: "",
-    titel: { titel: "", untertitel: "" },
-    isbn: "",
+    id: '',
+    titel: { titel: '', untertitel: '' },
+    isbn: '',
     preis: 0,
     rating: 0,
-    art: "EPUB",
+    art: 'EPUB',
     lieferbar: false,
     rabatt: 0,
-    datum: "",
+    datum: '',
     schlagwoerter: [],
-    coverImage: "",
-    _links: { self: { href: "" } },
+    coverImage: '',
+    _links: { self: { href: '' } },
   });
 
-  const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
-  ) => {
+  //const [errors, setErrors] = useState<Errors>({});
+
+  // Formulardaten beim Eingeben ändern
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value, type, checked } = e.target as HTMLInputElement;
+    let fieldValue: string | boolean | string[];
 
-    const fieldValue =
-      type === "checkbox" ? checked : name === "schlagwoerter" ? value.split(",") : value;
+    if (type === 'checkbox') {
+        fieldValue = checked;
+    } else if (name === 'schlagwoerter') {
+        fieldValue = value.split(','); // Konvertiere String in ein Array
+    } else {
+        fieldValue = value;
+    }
+    
 
-    if (name.startsWith("titel.")) {
-      const field = name.split(".")[1];
+    if (name.startsWith('titel.')) {
+      const field = name.split('.')[1];
       setFormData((prev) => ({
         ...prev,
         titel: {
@@ -49,34 +67,63 @@ export default function AddBook() {
   };
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+    e.preventDefault(); // Verhindert das Standardverhalten des Formulars
+
+    // Formatieren des Datums im Format YYYY-MM-DD
+    const formattedDate = new Date(formData.datum).toISOString().split('T')[0];
+
+    // Erstelle ein neues Objekt, um das formData nicht direkt zu ändern
+    const submissionData = {
+        ...formData,
+        datum: formattedDate,
+        preis: parseFloat(formData.preis.toString()), // Sicherstellen, dass es eine Zahl ist
+        rabatt: parseFloat(formData.rabatt.toString()), // Sicherstellen, dass es eine Zahl ist
+    };
+
+    console.log('Gesendete Formulardaten:', submissionData); // Debugging
 
     try {
-      const response = await fetch("/api/rest", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${user.token}`,
-        },
-        body: JSON.stringify(formData),
-      });
+        // Sende das Formular an die API
+        const response = await fetch('/api/rest', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${user.token}`, // Token für Authentifizierung
+            },
+            body: JSON.stringify(submissionData),
+        });
 
-      if (!response.ok) {
-        throw new Error(`HTTP error! Status: ${response.status}`);
-      }
+        if (!response.ok) {
+            // Hole die detaillierte Fehlermeldung der API
+            const errorDetails = await response.json();
+            console.error('API-Fehler:', errorDetails);
 
-      // Navigate back to the overview after successfully adding the book
-      navigate("/", { state: { refresh: true } });
+            // Fehler für den Benutzer anzeigen
+            if (errorDetails.message) {
+                alert(`Fehler: ${errorDetails.message.join(', ')}`);
+            }
+
+            throw new Error(
+                `HTTP error! Status: ${response.status} - ${JSON.stringify(errorDetails)}`
+            );
+        }
+
+        // Erfolgreich hinzugefügtes Buch zur Übersicht hinzufügen
+        onAddBook(submissionData);
+
+        // Navigiere zurück zur Übersicht
+        navigate('/'); // Dies navigiert den Benutzer zurück zur Übersicht
     } catch (error) {
-      console.error("Fehler beim Hinzufügen des Buches:", error);
+        console.error('Fehler beim Hinzufügen des Buches:', error);
     }
-  };
+};
+
 
   return (
     <div className="content max-w-screen-lg mx-auto">
       <h2 className="text-4xl font-extrabold mb-6">Buch anlegen</h2>
       <form
-        onSubmit={handleSubmit}
+        onSubmit={handleSubmit} // Der Handler wird beim Absenden des Formulars aufgerufen
         className="grid grid-cols-1 md:grid-cols-2 gap-8 border rounded-lg shadow-lg p-8 bg-white"
       >
         {/* Linke Spalte */}
@@ -160,7 +207,7 @@ export default function AddBook() {
                 type="radio"
                 name="art"
                 value="EPUB"
-                checked={formData.art === "EPUB"}
+                checked={formData.art === 'EPUB'}
                 onChange={handleChange}
               />
               <span>EPUB</span>
@@ -170,7 +217,7 @@ export default function AddBook() {
                 type="radio"
                 name="art"
                 value="HARDCOVER"
-                checked={formData.art === "HARDCOVER"}
+                checked={formData.art === 'HARDCOVER'}
                 onChange={handleChange}
               />
               <span>HARDCOVER</span>
@@ -180,7 +227,7 @@ export default function AddBook() {
                 type="radio"
                 name="art"
                 value="PAPERBACK"
-                checked={formData.art === "PAPERBACK"}
+                checked={formData.art === 'PAPERBACK'}
                 onChange={handleChange}
               />
               <span>PAPERBACK</span>
@@ -203,7 +250,7 @@ export default function AddBook() {
             <input
               type="text"
               name="schlagwoerter"
-              value={formData.schlagwoerter.join(",")}
+              value={formData.schlagwoerter.join(',')}
               onChange={handleChange}
               className="border rounded-md p-2 w-full"
               placeholder="Comma-separated"
@@ -213,7 +260,7 @@ export default function AddBook() {
 
         <div className="col-span-2">
           <Button
-            type="submit"
+            type="submit" // Der Button löst die Formularabsendung aus
             className="w-full bg-blue-500 text-white py-2 px-4 rounded-md"
           >
             Buch anlegen

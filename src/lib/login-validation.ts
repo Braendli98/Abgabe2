@@ -9,6 +9,8 @@ export async function handleResponse(
     setUser: React.Dispatch<React.SetStateAction<UserData>>, 
     login: LoginData,
     setLogin: React.Dispatch<React.SetStateAction<LoginData>>, 
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    toast: any, 
     navigate: NavigateFunction) {
     switch(response.status) {
         case(200): {
@@ -17,6 +19,10 @@ export async function handleResponse(
             setLogin({});
             setAlert('none');
             navigate('/');
+            toast({
+                variant: 'success',
+                description: `Du bist jetzt als ${login.username} angemeldet.`
+            });
             break;
         }
         case(401):

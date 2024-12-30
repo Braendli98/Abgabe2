@@ -1,10 +1,11 @@
 import * as React from "react"
 import * as ToastPrimitives from "@radix-ui/react-toast"
 import { cva, type VariantProps } from "class-variance-authority"
-import { X } from "lucide-react"
+import { AlertCircle, CircleCheck, X } from "lucide-react"
 
 import { cn } from "@/lib/utils"
 
+declare const ToastIconPrimitives: React.ForwardRefExoticComponent<React.RefAttributes<HTMLOListElement>>;
 const ToastProvider = ToastPrimitives.Provider
 
 const ToastViewport = React.forwardRef<
@@ -30,6 +31,8 @@ const toastVariants = cva(
         default: "border bg-background text-foreground",
         destructive:
           "destructive group border-destructive bg-destructive text-destructive-foreground",
+        failure: "border-red-500 bg-background text-red-500",
+        success: "border-green-500 bg-background text-green-500",
       },
     },
     defaultVariants: {
@@ -110,6 +113,29 @@ const ToastDescription = React.forwardRef<
 ))
 ToastDescription.displayName = ToastPrimitives.Description.displayName
 
+const ToastIcon = React.forwardRef<
+  React.ElementRef<typeof ToastIconPrimitives>,
+  React.ComponentPropsWithoutRef<typeof ToastIconPrimitives> &
+  VariantProps<typeof toastVariants>
+>(({ variant }) => (
+  getToastIcon(variant)
+))
+
+function getToastIcon(variant: string | null | undefined) {
+  switch(variant) {
+    case ('default'):
+    case ('destructive'): {
+      return <></>;
+    }
+    case ('success'): {
+      return <CircleCheck className="h-5 w-5"></CircleCheck>;
+    }
+    case ('failure'): {
+      return <AlertCircle className="h-5 w-5"></AlertCircle>;
+    }
+  }
+}
+
 type ToastProps = React.ComponentPropsWithoutRef<typeof Toast>
 
 type ToastActionElement = React.ReactElement<typeof ToastAction>
@@ -124,4 +150,5 @@ export {
   ToastDescription,
   ToastClose,
   ToastAction,
+  ToastIcon,
 }

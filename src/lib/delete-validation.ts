@@ -36,7 +36,7 @@ export async function handleResponse(
 
 function getToastProps(resType?: ResType, title?: string, id?: string) {
     return {
-        className: resType === 'success' ? 'text-green-500 border-green-500' : 'text-red-500 border-red-500',
+        variant: resType === 'success' ? 'success' : 'failure',
         title: resType === 'success' ? 'Erfolg!' : 'Fehler!',
         description: getToastDescription(resType, title, id),  
     }

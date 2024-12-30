@@ -9,10 +9,12 @@ import hkaLogo from '../assets/hka-logo.png';
 import { useAppContext } from './Context';
 import { useNavigate } from 'react-router';
 import { useState } from 'react';
+import { useToast } from '@/hooks/use-toast';
 
 export default function Login() {
     const navigate = useNavigate();
     const { setUser } = useAppContext();
+    const { toast } = useToast();
     const [ login, setLogin ] = useState<LoginData>({});
     const [ alert, setAlert ] = useState<AlertType>('none');
 
@@ -22,10 +24,13 @@ export default function Login() {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/x-www-form-urlencoded',
+                    'Cache-Control': 'no-cache, no-store',
+                    'Pragma': 'no-cache',
+                    'Expires': '0',
                 },
                 body: `username=${login.username}&password=${login.password}`,
             });
-            await handleResponse(response, setAlert, setUser, login, setLogin, navigate);
+            await handleResponse(response, setAlert, setUser, login, setLogin, toast, navigate);
 
         } catch (error) {
             console.error('An Error occured while fetching a token:', error);

@@ -74,7 +74,7 @@ export default function Overview() {
                     value={searchTerm}
                     onChange={(e) => setSearchTerm(e.target.value)}
                     onKeyDown={handleKeyDown}
-                    placeholder="Bücher suchen..."
+                    placeholder="Nach Buchtiteln suchen..."
                 />
                 {/* Dropdown für Kategorie */}
                 <select
@@ -82,7 +82,7 @@ export default function Overview() {
                     value={category}
                     onChange={(e) => setCategory(e.target.value)}
                 >
-                    <option value="">Filter</option>
+                    <option value="">Alle Buchkategorien</option>
                     <option value="EPUB">EPUB</option>
                     <option value="HARDCOVER">HARDCOVER</option>
                     <option value="PAPERBACK">PAPERBACK</option>

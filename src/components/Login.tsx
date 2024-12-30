@@ -50,15 +50,16 @@ export default function Login() {
           <div className="text-2xl text-textGray text-center mb-10">
             <strong>Login to your account:</strong>
           </div>
-          <Label htmlFor="username" className="text-sm text-textGray">Username</Label>
+          <Label htmlFor="username" className="text-sm text-textGray" data-cy="username-label">Username</Label>
           <Input type="string" id="username" className="p-2 rounded-md border border-input bg-inputBg" onChange={(e) => setLogin({ ...login, username: e.target.value})}/>
-          <Label htmlFor="password" className="text-sm text-textGray">Password</Label>
+          <Label htmlFor="password" className="text-sm text-textGray" data-cy="password-label">Password</Label>
           <Input type="string" id="password" className="p-2 rounded-md border border-input bg-inputBg" onChange={(e) => setLogin({ ...login, password: e.target.value})}/>
           <Button
             className="w-full bg-mainColor bg-opacity-60 text-white py-2 rounded-lg mt-16"
             onClick={() => {
                 fetchData();
             }}
+            data-cy="login-button"
           >
             Login
           </Button>

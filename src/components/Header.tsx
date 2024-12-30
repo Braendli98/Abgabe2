@@ -18,9 +18,9 @@ export default function Header() {
     const { user, setUser } = useAppContext();
 
     return (
-        <header className="flex flex-nowrap header justify-between">
+        <header className="flex flex-nowrap header justify-between" data-cy="header">
             <div className="flex items-center">
-                <img src={hkaLogo} alt="HKA Logo" className="h-11 w-auto mr-4" />
+                <img src={hkaLogo} alt="HKA Logo" className="h-11 w-auto mr-4" data-cy="hka-logo" />
             </div>
             <div className="flex-item flex-none w-20" />
             <Input

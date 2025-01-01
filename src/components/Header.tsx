@@ -31,7 +31,7 @@ export default function Header() {
             />
             <DropdownMenu>
                 <DropdownMenuTrigger asChild>
-                    <Button className="bg-mainColor text-textGray hover:bg-mainColor hover:bg-opacity-20 bg-opacity-10 border-inputBorder">
+                    <Button className="bg-mainColor text-textGray hover:bg-mainColor hover:bg-opacity-60 bg-opacity-10 border-inputBorder">
                         <User />
                     </Button>
                 </DropdownMenuTrigger>

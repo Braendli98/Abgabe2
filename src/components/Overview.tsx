@@ -1,13 +1,14 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import AddCard from './AddCard';
 import BookCard from './BookCard';
 import { Buch } from '@/types/buch';
 import { useAppContext } from './Context';
 import { useNavigate } from 'react-router';
 
-export default function Overview({ books, setBooks }: { books: Buch[]; setBooks: (books: Buch[]) => void; }) {
+export default function Overview() {
     const navigate = useNavigate();
     const { user } = useAppContext();
+    const [books, setBooks] = useState<Buch[]>([]); // State lokal verwaltet
 
     useEffect(() => {
         const fetchData = async () => {
@@ -32,7 +33,7 @@ export default function Overview({ books, setBooks }: { books: Buch[]; setBooks:
         };
 
         fetchData();
-    }, [setBooks]);  // Abhängigkeitsarray korrigiert
+    }, []); // Lädt die Bücher nur einmal beim Mount
 
     return (
         <div className="content">
@@ -45,9 +46,9 @@ export default function Overview({ books, setBooks }: { books: Buch[]; setBooks:
                     <AddCard
                         className="flex-item"
                         onClick={(event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
-                            event.preventDefault();  // Optional, verhindert das Standardverhalten
+                            event.preventDefault(); // Optional, verhindert Standardverhalten
                             navigate('/add'); // Navigiert zur Hinzufügen-Seite
-                          }}
+                        }}
                     />
                 )}
             </div>

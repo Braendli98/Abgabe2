@@ -31,4 +31,4 @@
               uses: actions/upload-artifact@v4
               with:
                 name: documentation
-                path: ./.extras/doc/projekthandbuch/html
+                path: ./docs/html

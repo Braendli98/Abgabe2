@@ -42,7 +42,11 @@ export default function Header() {
                     <UserMenu name={user.username} setUser={setUser} />
                 ) : (
                     <DropdownMenuContent style={{ marginRight: '20px' }}>
-                        <DropdownMenuItem onClick={() => navigate(`/login?callback=${location.pathname}`)}>
+                        <DropdownMenuItem
+                            onClick={() =>
+                                navigate(`/login?callback=${location.pathname}`)
+                            }
+                        >
                             <span>To Login</span>
                         </DropdownMenuItem>
                     </DropdownMenuContent>

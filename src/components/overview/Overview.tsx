@@ -68,7 +68,7 @@ export default function Overview() {
 
     return (
         <div className="content p-4">
-            <Breadcrumbs path={[ { base: '' }]} />
+            <Breadcrumbs path={[{ base: '' }]} />
             <h1 className="text-2xl font-bold mb-4">Bücher</h1>
             <div className="flex items-center space-x-2 searchbar mb-4">
                 {/* Suchfeld */}

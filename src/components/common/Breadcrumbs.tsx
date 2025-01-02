@@ -11,10 +11,10 @@ import { BreadcrumbComponent } from '@/types/breadcrumb';
 
 const breadcrumbMapping = {
     '': 'Startseite',
-    'add': 'Neu Anlegen',
-    'details': 'Details',
-    'login': 'Login',
-}
+    add: 'Neu Anlegen',
+    details: 'Details',
+    login: 'Login',
+};
 
 export default function Breadcrumbs({ path }: { path: BreadcrumbComponent[] }) {
     return (
@@ -37,23 +37,30 @@ function generateBreadcrumbs(path: BreadcrumbComponent[]) {
 
     return (
         <>
-            {path.filter((_, index) => index !== path.length - 1).map((value) => {
-                return(
-                <>
-                    <BreadcrumbLink href={getRefLink(value)}>{mapToName(value)}</BreadcrumbLink>
-                    <BreadcrumbSeparator />
-                </>
-                )
-            })}
+            {path
+                .filter((_, index) => index !== path.length - 1)
+                .map((value) => {
+                    return (
+                        <>
+                            <BreadcrumbLink href={getRefLink(value)}>
+                                {mapToName(value)}
+                            </BreadcrumbLink>
+                            <BreadcrumbSeparator />
+                        </>
+                    );
+                })}
             <BreadcrumbItem>
-                <BreadcrumbPage>{mapToName(path[path.length - 1])}</BreadcrumbPage>
+                <BreadcrumbPage>
+                    {mapToName(path[path.length - 1])}
+                </BreadcrumbPage>
             </BreadcrumbItem>
         </>
     );
 }
 
 function getRefLink(component: BreadcrumbComponent) {
-    const pathSuffix = component.param === undefined ? '' : `/${component.param}`;
+    const pathSuffix =
+        component.param === undefined ? '' : `/${component.param}`;
     return `/${component.base}${pathSuffix}`;
 }
 

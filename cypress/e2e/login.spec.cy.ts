@@ -1,5 +1,4 @@
 describe('login page tests', () => {
-
     before(() => {
         cy.visit('/login');
     });

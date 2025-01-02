@@ -47,7 +47,9 @@ export default function Login() {
 
     return (
         <div className="flex justify-center items-center min-h-[400px] w-4/12 bg-backgroundColor">
-            <Breadcrumbs path={['login']} />
+            <div className="absolute top-8 left-8">
+                <Breadcrumbs path={['login']} />
+            </div>
             <div className="grid w-full flex-item max-w-sm items-center gap-1.5">
                 <div className="text-2xl text-textGray text-center mb-10">
                     <strong>Login to your account:</strong>

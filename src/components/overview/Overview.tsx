@@ -108,18 +108,15 @@ export default function Overview() {
                         : 'Keine Bücher gefunden oder ein Fehler ist aufgetreten.'}
                 </p>
             )}
-            {books.length > 0 && (
-                <div className="flex flex-wrap">
-                    {books.map((book) => (
+            <div className="flex flex-wrap">
+            {books.length > 0 && 
+                books.map((book) => (
                         <BookCard
                             key={book._links.self.href}
                             className="flex-item"
                             book={book}
                         />
                     ))}
-                </div>
-            )}
-
             {/* Zusatzoption für eingeloggte Benutzer */}
             {user.token && (
                 <AddCard
@@ -132,6 +129,7 @@ export default function Overview() {
                     }}
                 />
             )}
+            </div>
         </div>
     );
 }

@@ -6,6 +6,7 @@ import {
     CardTitle,
 } from '../shadcn-ui/card';
 
+import BookCover from '../common/BookCover';
 import { Buch } from '@/types/buch';
 import { useNavigate } from 'react-router';
 
@@ -20,7 +21,7 @@ export default function BookCard({
     const id = getIdFromBook(book);
 
     const handleClick = () => {
-        navigate(`/details/${id}`); // Navigiert zur Details-Seite
+        navigate(`/details/${id}`);
     };
 
     return (
@@ -34,15 +35,7 @@ export default function BookCard({
                 <tbody>
                     <tr>
                         <td>
-                            <img
-                                className="border-2 object-contain h-48 w-36 m-2 bg-gray-100 object-cover"
-                                src={`/covers/${book.isbn}.jpg`}
-                                alt={`${book.titel.titel} Cover`}
-                                onError={(e) =>
-                                    (e.currentTarget.src =
-                                        '/covers/default.jpg')
-                                }
-                            />
+                            <BookCover book={book} size='small' />
                         </td>
                         <td>
                             <CardHeader>

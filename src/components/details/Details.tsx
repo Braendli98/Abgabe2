@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router';
 
+import BookCover from '../common/BookCover';
 import Breadcrumbs from '../common/Breadcrumbs';
 import { Buch } from '@/types/buch';
 import { Button } from '../shadcn-ui/button';
@@ -74,11 +75,7 @@ export default function Details() {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-12 border rounded-lg shadow-lg p-8 bg-white">
                 {/* Bild des Buches */}
                 <div className="flex justify-center items-start">
-                    <img
-                        src={book.coverImage || '/placeholder.jpg'}
-                        alt={book?.titel?.titel || 'Kein Titel'}
-                        className="border-4 object-contain h-80 w-60 rounded-lg bg-gray-100"
-                    />
+                    <BookCover book={book} size='large' />
                 </div>
 
                 {/* Buchinformationen */}
@@ -111,7 +108,7 @@ export default function Details() {
                             <strong>Rabatt:</strong> {book?.rabatt || 0} %
                         </div>
                         <div>
-                            <strong>Datum:</strong>{' '}
+                            <strong>Erscheinungsdatum:</strong>{' '}
                             {book?.datum || 'Nicht verfügbar'}
                         </div>
                         <div className="col-span-2">

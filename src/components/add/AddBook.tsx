@@ -1,12 +1,15 @@
 import Breadcrumbs from '../common/Breadcrumbs';
 import { Buch } from '@/types/buch';
 import { Button } from '../shadcn-ui/button';
+import { handleResponse } from '@/lib/add-validation';
 import { useAppContext } from '../common/Context';
 import { useNavigate } from 'react-router';
 import { useState } from 'react';
+import { useToast } from '@/hooks/use-toast';
 
 export default function AddBook() {
     const navigate = useNavigate();
+    const { toast } = useToast();
     const { user } = useAppContext();
 
     const [formData, setFormData] = useState<Buch>({
@@ -81,20 +84,7 @@ export default function AddBook() {
                 body: JSON.stringify(submissionData),
             });
 
-            if (!response.ok) {
-                const errorDetails = await response.json();
-                console.error('API-Fehler:', errorDetails);
-
-                if (errorDetails.message) {
-                    alert(`Fehler: ${errorDetails.message.join(', ')}`);
-                }
-
-                throw new Error(
-                    `HTTP error! Status: ${response.status} - ${JSON.stringify(errorDetails)}`,
-                );
-            }
-
-            navigate('/', { state: { refresh: true } });
+            await handleResponse(response, toast, navigate, formData);
         } catch (error) {
             console.error('Fehler beim Hinzufügen des Buches:', error);
         }

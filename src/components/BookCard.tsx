@@ -5,7 +5,6 @@ import {
     CardHeader,
     CardTitle,
 } from './ui/card';
-
 import { Buch } from '@/types/buch';
 import { useNavigate } from 'react-router';
 
@@ -35,8 +34,13 @@ export default function BookCard({
                     <tr>
                         <td>
                             <img
-                                className="border-2 object-contain h-48 w-36 rounded-lg m-2 bg-gray-100"
-                                alt="Book Cover"
+                                className="border-2 object-contain h-48 w-36 m-2 bg-gray-100 object-cover"
+                                src={`/covers/${book.isbn}.jpg`}
+                                alt={`${book.titel.titel} Cover`}
+                                onError={(e) =>
+                                    (e.currentTarget.src =
+                                        '/covers/default.jpg')
+                                }
                             />
                         </td>
                         <td>

@@ -1,34 +1,34 @@
 ---
-    name: Lint
-    on: # yamllint disable-line rule:truthy
-        - push
-    jobs:
-        lint-test-docs:
-            name: Lint, Test and Docs
-            runs-on: ubuntu-latest
-            steps:
-            - name: Checkout
-              uses: actions/checkout@v4
-            - name: Setup Node
-              uses: actions/setup-node@v4
-              with:
-                node-version: '21'
-            - name: Install
-              run: npm ci
-            - name: Run ESLint
-              run: npm run lint
-            - name: Run Cypress
-              uses: cypress-io/github-action@v6
-              with:
-                build: npm run build
-                start: npm run dev
-            - name: Generate Documentation
-              run: npm run asciidoctor
-            - name: List Files
-              run: |
-                ls
-            - name: Upload Doc Artifact
-              uses: actions/upload-artifact@v4
-              with:
-                name: documentation
-                path: ./docs/html
+name: Lint
+on: # yamllint disable-line rule:truthy
+  - push
+jobs:
+  lint-test-docs:
+    name: Lint, Test and Docs
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '21'
+      - name: Install
+        run: npm ci
+      - name: Run ESLint
+        run: npm run lint
+      - name: Run Cypress
+        uses: cypress-io/github-action@v6
+        with:
+          build: npm run build
+          start: npm run dev
+      - name: Generate Documentation
+        run: npm run asciidoctor
+      - name: List Files
+        run: |
+          ls
+      - name: Upload Doc Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: documentation
+          path: ./docs/html

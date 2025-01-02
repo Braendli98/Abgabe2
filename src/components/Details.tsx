@@ -11,10 +11,13 @@ import { useNavigate, useParams } from 'react-router';
 
 import { Buch } from '@/types/buch';
 import { Button } from './ui/button';
+import { handleResponse } from '@/lib/delete-validation';
 import { useAppContext } from './Context';
+import { useToast } from '@/hooks/use-toast';
 
 export default function Details() {
     const navigate = useNavigate();
+    const { toast } = useToast();
     const { user } = useAppContext();
     const [book, setBook] = useState<Buch | undefined>(undefined);
     const params = useParams();
@@ -37,7 +40,7 @@ export default function Details() {
                 const book = await response.json();
                 // Debugging
                 console.log(book);
-                setBook(book);
+                setBook({ ...book, id: params.bookId });
             } catch (error) {
                 console.error('Fehler beim Laden der Buchdaten:', error);
             }
@@ -52,29 +55,22 @@ export default function Details() {
             const response = await fetch(`api/rest/${params.bookId}`, {
                 method: 'DELETE',
                 headers: {
-                    'Authorization': `Bearer ${user.token}`,
-                    "key": "If-Match",
-					"value": "\"0\"",
-					"type": "text"
+                    Authorization: `Bearer ${user.token}`,
+                    'If-Match': `"0"`, // Header für Optimistic Locking
                 },
-                body: ''
             });
-            console.log(response);
-
-            if (!response.ok) {
-                throw new Error(`HTTP error! Status: ${response.status}`);
-            }
+            await handleResponse(response, toast, navigate, book);
         } catch (error) {
             console.error('Fehler beim Löschen der Buchdaten:', error);
         }
-    }
+    };
 
     if (book === undefined) {
         return (
             <div className="text-2xl text-center mt-8">
                 Keine Buchdaten verfügbar
             </div>
-        ); // Fallback für fehlende Daten
+        );
     }
 
     return (
@@ -139,14 +135,19 @@ export default function Details() {
                             {book?.schlagwoerter?.join(', ') || 'Keine'}
                         </div>
                     </div>
-                    {user.token && 
-                    <div className="flex flex-row-reverse">
-                    <Button variant="destructive" className="flex-item" onClick={() => {
-                        deleteEntry();
-                        navigate('/');
-                        }}>Buch Löschen</Button>
-                    </div>
-                    }   
+                    {user.token && (
+                        <div className="flex flex-row-reverse">
+                            <Button
+                                variant="destructive"
+                                className="flex-item"
+                                onClick={() => {
+                                    deleteEntry();
+                                }}
+                            >
+                                Buch Löschen
+                            </Button>
+                        </div>
+                    )}
                 </div>
             </div>
         </div>

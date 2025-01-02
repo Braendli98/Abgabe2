@@ -2,7 +2,7 @@
 // https://asciidoctor-docs.netlify.com
 // https://asciidoctor.org
 
-import asciidoctor from '@asciidoctor/core'
+import asciidoctor from '@asciidoctor/core';
 import { join } from 'node:path';
 import kroki from 'asciidoctor-kroki';
 
@@ -18,7 +18,4 @@ const options = {
     to_dir: 'html',
     mkdirs: true,
 };
-adoc.convertFile(
-    join('docs', 'projekthandbuch.adoc'),
-    options,
-);
+adoc.convertFile(join('docs', 'projekthandbuch.adoc'), options);

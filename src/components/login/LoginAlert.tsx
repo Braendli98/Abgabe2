@@ -23,7 +23,7 @@ export default function LoginAlert({
     }
 
     return (
-        <Alert variant="destructive">
+        <Alert variant="destructive" data-cy="login-alert">
             <AlertCircle className="h-4 w-4" />
             <AlertTitle>Fehler!</AlertTitle>
             <AlertDescription>{message}</AlertDescription>

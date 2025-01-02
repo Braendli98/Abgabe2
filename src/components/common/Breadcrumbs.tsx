@@ -7,7 +7,16 @@ import {
     BreadcrumbSeparator,
 } from '../shadcn-ui/breadcrumb';
 
-export default function Breadcrumbs({ path }: { path: string[] }) {
+import { BreadcrumbComponent } from '@/types/breadcrumb';
+
+const breadcrumbMapping = {
+    '': 'Startseite',
+    'add': 'Neu Anlegen',
+    'details': 'Details',
+    'login': 'Login',
+}
+
+export default function Breadcrumbs({ path }: { path: BreadcrumbComponent[] }) {
     return (
         <Breadcrumb className="text-4xl mb-6">
             <BreadcrumbList>{generateBreadcrumbs(path)}</BreadcrumbList>
@@ -15,7 +24,7 @@ export default function Breadcrumbs({ path }: { path: string[] }) {
     );
 }
 
-function generateBreadcrumbs(path: string[]) {
+function generateBreadcrumbs(path: BreadcrumbComponent[]) {
     if (path === undefined || path.length === 0) {
         return (
             <BreadcrumbItem>
@@ -24,27 +33,30 @@ function generateBreadcrumbs(path: string[]) {
         );
     }
 
+    console.log(path);
+
     return (
         <>
-            <BreadcrumbLink href="/">Startseite</BreadcrumbLink>
-            <BreadcrumbSeparator />
+            {path.filter((_, index) => index !== path.length - 1).map((value) => {
+                return(
+                <>
+                    <BreadcrumbLink href={getRefLink(value)}>{mapToName(value)}</BreadcrumbLink>
+                    <BreadcrumbSeparator />
+                </>
+                )
+            })}
             <BreadcrumbItem>
-                <BreadcrumbPage>{mapToName(path[0])}</BreadcrumbPage>
+                <BreadcrumbPage>{mapToName(path[path.length - 1])}</BreadcrumbPage>
             </BreadcrumbItem>
         </>
     );
 }
 
-function mapToName(part: string) {
-    switch (part) {
-        case 'add': {
-            return 'Neu Anlegen';
-        }
-        case 'details': {
-            return 'Details';
-        }
-        case 'login': {
-            return 'login';
-        }
-    }
+function getRefLink(component: BreadcrumbComponent) {
+    const pathSuffix = component.param === undefined ? '' : `/${component.param}`;
+    return `/${component.base}${pathSuffix}`;
+}
+
+function mapToName(component: BreadcrumbComponent) {
+    return breadcrumbMapping[component.base];
 }

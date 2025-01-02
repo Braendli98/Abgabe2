@@ -5,6 +5,7 @@ import BookCover from '../common/BookCover';
 import Breadcrumbs from '../common/Breadcrumbs';
 import { Buch } from '@/types/buch';
 import { Button } from '../shadcn-ui/button';
+import { getBreadcrumbComponents } from '@/lib/breadcrumb-utils';
 import { handleResponse } from '@/lib/delete-validation';
 import { useAppContext } from '../common/Context';
 import { useToast } from '@/hooks/use-toast';
@@ -69,7 +70,7 @@ export default function Details() {
 
     return (
         <div className="content max-w-screen-lg mx-auto">
-            <Breadcrumbs path={['details']} />
+            <Breadcrumbs path={getBreadcrumbComponents(`details/${book.id}`)} />
 
             {/* Buchdetails */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-12 border rounded-lg shadow-lg p-8 bg-white">

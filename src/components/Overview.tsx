@@ -1,12 +1,15 @@
 import { useEffect, useState } from 'react';
+
 import AddCard from './AddCard';
 import BookCard from './BookCard';
 import { Buch } from '@/types/buch';
-import { useAppContext } from './Context';
-import { Input } from './ui/input';
 import { Button } from './ui/button';
+import { Input } from './ui/input';
+import { useAppContext } from './Context';
+import { useNavigate } from 'react-router';
 
 export default function Overview() {
+    const navigate = useNavigate();
     const [books, setBooks] = useState<Buch[]>([]);
     const [searchTerm, setSearchTerm] = useState('');
     const [category, setCategory] = useState('');
@@ -32,10 +35,10 @@ export default function Overview() {
             }
 
             const content = await response.json();
-            const books = content._embedded?.buecher || [];
-            setBooks(books);
+            const fetchedBooks = content._embedded?.buecher || [];
+            setBooks(fetchedBooks);
 
-            if (books.length === 0) {
+            if (fetchedBooks.length === 0) {
                 console.warn('Keine Bücher gefunden.');
             }
         } catch (error) {
@@ -45,21 +48,20 @@ export default function Overview() {
     };
 
     useEffect(() => {
-        fetchBooks(); // Initialer API-Aufruf
+        fetchBooks();
     }, []);
 
     const handleSearch = () => {
-        // Wenn weder ein Suchbegriff noch eine Kategorie ausgewählt wurde
         if (searchTerm.trim() === '' && category.trim() === '') {
-            fetchBooks(); // Zeige alle Bücher
+            fetchBooks();
         } else {
-            fetchBooks(searchTerm, category); // Filtere basierend auf Eingabe
+            fetchBooks(searchTerm, category);
         }
     };
 
     const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
         if (event.key === 'Enter') {
-            handleSearch(); // Starte die Suche auch bei Enter
+            handleSearch();
         }
     };
 
@@ -114,7 +116,14 @@ export default function Overview() {
             )}
 
             {/* Zusatzoption für eingeloggte Benutzer */}
-            {user.token && <AddCard className="flex-item" />}
+            {user.token && 
+            <AddCard 
+                className="flex-item" 
+                onClick={(event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+                            event.preventDefault();
+                            navigate('/add');
+                }} 
+            />}
         </div>
     );
 }

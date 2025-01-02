@@ -53,21 +53,21 @@ export default function Details() {
                 method: 'DELETE',
                 headers: {
                     'Authorization': `Bearer ${user.token}`,
-                    "key": "If-Match",
-					"value": "\"0\"",
-					"type": "text"
+                    'If-Match': `"0"`, // Header für Optimistic Locking
                 },
-                body: ''
             });
             console.log(response);
 
             if (!response.ok) {
                 throw new Error(`HTTP error! Status: ${response.status}`);
             }
+
+            // Navigiere zur Overview-Seite mit der Refresh-Flag
+            navigate('/', { state: { refresh: true } });
         } catch (error) {
             console.error('Fehler beim Löschen der Buchdaten:', error);
         }
-    }
+    };
 
     if (book === undefined) {
         return (
@@ -141,12 +141,17 @@ export default function Details() {
                     </div>
                     {user.token && 
                     <div className="flex flex-row-reverse">
-                    <Button variant="destructive" className="flex-item" onClick={() => {
-                        deleteEntry();
-                        navigate('/');
-                        }}>Buch Löschen</Button>
+                        <Button
+                            variant="destructive"
+                            className="flex-item"
+                            onClick={() => {
+                                deleteEntry();
+                            }}
+                        >
+                            Buch Löschen
+                        </Button>
                     </div>
-                    }   
+                    }
                 </div>
             </div>
         </div>

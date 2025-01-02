@@ -12,6 +12,7 @@ export async function handleResponse(
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     toast: any,
     navigate: NavigateFunction,
+    callback: string,
 ) {
     switch (response.status) {
         case 200: {
@@ -19,7 +20,7 @@ export async function handleResponse(
             setUser({ username: login.username, token: content.access_token });
             setLogin({});
             setAlert('none');
-            navigate('/');
+            navigate(callback);
             toast({
                 variant: 'success',
                 description: `Du bist jetzt als ${login.username} angemeldet.`,

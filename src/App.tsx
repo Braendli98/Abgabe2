@@ -2,14 +2,14 @@ import './App.css';
 
 import { BrowserRouter, Route, Routes } from 'react-router';
 
-import AddBook from './components/AddBook';
-import { AppProvider } from './components/Context';
-import ContentLayout from './components/ContentLayout';
-import Details from './components/Details';
-import ErrorComponent from './components/ErrorComponent';
-import Login from './components/Login';
-import Overview from './components/Overview';
-import { Toaster } from './components/ui/toaster';
+import AddBook from './components/add/AddBook';
+import { AppProvider } from './components/common/Context';
+import ContentLayout from './components/common/ContentLayout';
+import Details from './components/details/Details';
+import ErrorComponent from './components/error-handling/ErrorComponent';
+import Login from './components/login/Login';
+import Overview from './components/overview/Overview';
+import { Toaster } from './components/shadcn-ui/toaster';
 
 function App(): JSX.Element {
     return (

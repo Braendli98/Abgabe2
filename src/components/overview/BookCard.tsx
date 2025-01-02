@@ -35,7 +35,7 @@ export default function BookCard({
                 <tbody>
                     <tr>
                         <td>
-                            <BookCover book={book} size='small' />
+                            <BookCover book={book} size="small" />
                         </td>
                         <td>
                             <CardHeader>

@@ -75,7 +75,7 @@ export default function Details() {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-12 border rounded-lg shadow-lg p-8 bg-white">
                 {/* Bild des Buches */}
                 <div className="flex justify-center items-start">
-                    <BookCover book={book} size='large' />
+                    <BookCover book={book} size="large" />
                 </div>
 
                 {/* Buchinformationen */}

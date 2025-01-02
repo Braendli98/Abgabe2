@@ -1,17 +1,22 @@
-import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from "../shadcn-ui/breadcrumb";
+import {
+    Breadcrumb,
+    BreadcrumbItem,
+    BreadcrumbLink,
+    BreadcrumbList,
+    BreadcrumbPage,
+    BreadcrumbSeparator,
+} from '../shadcn-ui/breadcrumb';
 
 export default function Breadcrumbs({ path }: { path: string[] }) {
     return (
-    <Breadcrumb className="text-4xl mb-6">
-        <BreadcrumbList>
-            {generateBreadcrumbs(path)}
-        </BreadcrumbList>
-    </Breadcrumb>
+        <Breadcrumb className="text-4xl mb-6">
+            <BreadcrumbList>{generateBreadcrumbs(path)}</BreadcrumbList>
+        </Breadcrumb>
     );
 }
 
 function generateBreadcrumbs(path: string[]) {
-    if(path === undefined || path.length === 0) {
+    if (path === undefined || path.length === 0) {
         return (
             <BreadcrumbItem>
                 <BreadcrumbPage>Startseite</BreadcrumbPage>
@@ -31,7 +36,7 @@ function generateBreadcrumbs(path: string[]) {
 }
 
 function mapToName(part: string) {
-    switch(part) {
+    switch (part) {
         case 'add': {
             return 'Neu Anlegen';
         }

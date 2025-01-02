@@ -109,26 +109,26 @@ export default function Overview() {
                 </p>
             )}
             <div className="flex flex-wrap">
-            {books.length > 0 && 
-                books.map((book) => (
+                {books.length > 0 &&
+                    books.map((book) => (
                         <BookCard
                             key={book._links.self.href}
                             className="flex-item"
                             book={book}
                         />
                     ))}
-            {/* Zusatzoption für eingeloggte Benutzer */}
-            {user.token && (
-                <AddCard
-                    className="flex-item"
-                    onClick={(
-                        event: React.MouseEvent<HTMLDivElement, MouseEvent>,
-                    ) => {
-                        event.preventDefault();
-                        navigate('/add');
-                    }}
-                />
-            )}
+                {/* Zusatzoption für eingeloggte Benutzer */}
+                {user.token && (
+                    <AddCard
+                        className="flex-item"
+                        onClick={(
+                            event: React.MouseEvent<HTMLDivElement, MouseEvent>,
+                        ) => {
+                            event.preventDefault();
+                            navigate('/add');
+                        }}
+                    />
+                )}
             </div>
         </div>
     );

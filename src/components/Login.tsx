@@ -51,7 +51,7 @@ export default function Login() {
           <Label htmlFor="password" className="text-sm text-textGray">Password</Label>
           <Input type="password" id="password" className="p-2 rounded-md border border-input bg-inputBg" onChange={(e) => setLogin({ ...login, password: e.target.value})}/>
           <Button
-            className="w-full bg-mainColor bg-opacity-60 text-white py-2 rounded-lg mt-16"
+            className="w-full bg-mainColor bg-opacity-60 text-white hover:bg-mainColor hover:bg-opacity-70 py-2 rounded-lg mt-16"
             disabled={!isButtonEnabled(login)}
             onClick={() => {
                 fetchData();
@@ -60,7 +60,7 @@ export default function Login() {
             Login
           </Button>
         </div>
-        <img src={hkaLogo} alt="HKA Logo" className="absolute top-3 right-3 h-20"/>
+        <img src={hkaLogo} alt="HKA Logo" className="absolute top-8 right-8" style={{ height: '195px' }}/>
       </div>
     );
 }

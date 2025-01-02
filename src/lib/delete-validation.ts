@@ -30,7 +30,7 @@ export async function handleResponse(
     }
     toast(getToastProps(responseType, book?.titel.titel, book?.id));
     if(responseType === 'success') {
-        navigate('/');
+        navigate('/', { state: { refresh: true } });
     }
 }
 

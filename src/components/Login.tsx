@@ -15,8 +15,8 @@ export default function Login() {
     const navigate = useNavigate();
     const { setUser } = useAppContext();
     const { toast } = useToast();
-    const [ login, setLogin ] = useState<LoginData>({});
-    const [ alert, setAlert ] = useState<AlertType>('none');
+    const [login, setLogin] = useState<LoginData>({});
+    const [alert, setAlert] = useState<AlertType>('none');
 
     const fetchData = async () => {
         try {
@@ -25,48 +25,88 @@ export default function Login() {
                 headers: {
                     'Content-Type': 'application/x-www-form-urlencoded',
                     'Cache-Control': 'no-cache, no-store',
-                    'Pragma': 'no-cache',
-                    'Expires': '0',
+                    Pragma: 'no-cache',
+                    Expires: '0',
                 },
                 body: `username=${login.username}&password=${login.password}`,
             });
-            await handleResponse(response, setAlert, setUser, login, setLogin, toast, navigate);
-
+            await handleResponse(
+                response,
+                setAlert,
+                setUser,
+                login,
+                setLogin,
+                toast,
+                navigate,
+            );
         } catch (error) {
             console.error('An Error occured while fetching a token:', error);
         }
     };
-    
+
     return (
         <div className="flex justify-center items-center min-h-[400px] w-4/12 bg-backgroundColor">
-        <div className="grid w-full flex-item max-w-sm items-center gap-1.5">
-          <div className="text-2xl text-textGray text-center mb-10">
-            <strong>Login to your account:</strong>
-          </div>
-          {alert !== 'none' &&
-            <LoginAlert alertType={alert} />
-          }
-          <Label htmlFor="username" className="text-sm text-textGray">Username</Label>
-          <Input type="string" id="username" className="p-2 rounded-md border border-input bg-inputBg" onChange={(e) => setLogin({ ...login, username: e.target.value})}/>
-          <Label htmlFor="password" className="text-sm text-textGray">Password</Label>
-          <Input type="password" id="password" className="p-2 rounded-md border border-input bg-inputBg" onChange={(e) => setLogin({ ...login, password: e.target.value})}/>
-          <Button
-            className="w-full bg-mainColor bg-opacity-60 text-white hover:bg-mainColor hover:bg-opacity-70 py-2 rounded-lg mt-16"
-            disabled={!isButtonEnabled(login)}
-            onClick={() => {
-                fetchData();
-            }}
-          >
-            Login
-          </Button>
+            <div className="grid w-full flex-item max-w-sm items-center gap-1.5">
+                <div className="text-2xl text-textGray text-center mb-10">
+                    <strong>Login to your account:</strong>
+                </div>
+                {alert !== 'none' && <LoginAlert alertType={alert} />}
+                <Label
+                    htmlFor="username"
+                    className="text-sm text-textGray"
+                    data-cy="username-label"
+                >
+                    Username
+                </Label>
+                <Input
+                    type="string"
+                    id="username"
+                    className="p-2 rounded-md border border-input bg-inputBg"
+                    onChange={(e) =>
+                        setLogin({ ...login, username: e.target.value })
+                    }
+                />
+                <Label
+                    htmlFor="password"
+                    className="text-sm text-textGray"
+                    data-cy="password-label"
+                >
+                    Password
+                </Label>
+                <Input
+                    type="password"
+                    id="password"
+                    className="p-2 rounded-md border border-input bg-inputBg"
+                    onChange={(e) =>
+                        setLogin({ ...login, password: e.target.value })
+                    }
+                />
+                <Button
+                    className="w-full bg-mainColor bg-opacity-60 text-white hover:bg-mainColor hover:bg-opacity-70 py-2 rounded-lg mt-16"
+                    disabled={!isButtonEnabled(login)}
+                    onClick={() => {
+                        fetchData();
+                    }}
+                    data-cy="login-button"
+                >
+                    Login
+                </Button>
+            </div>
+            <img
+                src={hkaLogo}
+                alt="HKA Logo"
+                className="absolute top-8 right-8"
+                style={{ height: '195px' }}
+            />
         </div>
-        <img src={hkaLogo} alt="HKA Logo" className="absolute top-8 right-8" style={{ height: '195px' }}/>
-      </div>
     );
 }
 
 function isButtonEnabled(loginData: LoginData) {
-    return loginData.username && loginData.username.length > 0 
-        && loginData.password && loginData.password.length > 0;
+    return (
+        loginData.username &&
+        loginData.username.length > 0 &&
+        loginData.password &&
+        loginData.password.length > 0
+    );
 }
-

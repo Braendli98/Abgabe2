@@ -90,11 +90,14 @@ export default function Overview() {
                     <option value="PAPERBACK">PAPERBACK</option>
                 </select>
                 {/* Suchbutton */}
-                <Button className="bg-mainColor text-white px-4 py-2 rounded shadow hover:bg-opacity-90" onClick={handleSearch}>
+                <Button
+                    className="bg-mainColor text-white px-4 py-2 rounded shadow hover:bg-opacity-90"
+                    onClick={handleSearch}
+                >
                     Suchen
                 </Button>
             </div>
-            
+
             {/* Anzeige der Bücher oder eine Fehlermeldung */}
             {books.length === 0 && (
                 <p className="text-center mt-4 text-gray-500">
@@ -116,14 +119,17 @@ export default function Overview() {
             )}
 
             {/* Zusatzoption für eingeloggte Benutzer */}
-            {user.token && 
-            <AddCard 
-                className="flex-item" 
-                onClick={(event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
-                            event.preventDefault();
-                            navigate('/add');
-                }} 
-            />}
+            {user.token && (
+                <AddCard
+                    className="flex-item"
+                    onClick={(
+                        event: React.MouseEvent<HTMLDivElement, MouseEvent>,
+                    ) => {
+                        event.preventDefault();
+                        navigate('/add');
+                    }}
+                />
+            )}
         </div>
     );
 }

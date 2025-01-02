@@ -1,0 +1,16 @@
+@startuml state
+[*] --> Overview : Start
+
+Overview --> Login : Click on Login
+Overview --> Details : Click on a Book
+Overview --> Add : Click Add
+
+Login --> Overview : Successful Login
+Login --> Rejected : Invalid Credentials
+Rejected --> Login : Retry Login
+
+Details --> Overview : Return
+Details --> Overview : Delete Book (if logged in)
+
+Add --> Overview : Return to Overview
+@enduml

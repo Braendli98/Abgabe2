@@ -40,7 +40,7 @@ export default function Details() {
                 const book = await response.json();
                 // Debugging
                 console.log(book);
-                setBook({...book, id: params.bookId});
+                setBook({ ...book, id: params.bookId });
             } catch (error) {
                 console.error('Fehler beim Laden der Buchdaten:', error);
             }
@@ -55,7 +55,7 @@ export default function Details() {
             const response = await fetch(`api/rest/${params.bookId}`, {
                 method: 'DELETE',
                 headers: {
-                    'Authorization': `Bearer ${user.token}`,
+                    Authorization: `Bearer ${user.token}`,
                     'If-Match': `"0"`, // Header für Optimistic Locking
                 },
             });
@@ -135,19 +135,19 @@ export default function Details() {
                             {book?.schlagwoerter?.join(', ') || 'Keine'}
                         </div>
                     </div>
-                    {user.token && 
-                    <div className="flex flex-row-reverse">
-                        <Button
-                            variant="destructive"
-                            className="flex-item"
-                            onClick={() => {
-                                deleteEntry();
-                            }}
-                        >
-                            Buch Löschen
-                        </Button>
-                    </div>
-                    }
+                    {user.token && (
+                        <div className="flex flex-row-reverse">
+                            <Button
+                                variant="destructive"
+                                className="flex-item"
+                                onClick={() => {
+                                    deleteEntry();
+                                }}
+                            >
+                                Buch Löschen
+                            </Button>
+                        </div>
+                    )}
                 </div>
             </div>
         </div>

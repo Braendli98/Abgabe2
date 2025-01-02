@@ -23,13 +23,15 @@ export default function UserMenu({
                 <span>Hello {name}!</span>
             </DropdownMenuLabel>
             <DropdownMenuSeparator />
-            <DropdownMenuItem onClick={() => {
-                setUser({});
-                toast({
-                    variant: 'success',
-                    description: 'Du wurdest erfolgreich ausgeloggt.'
-                });
-                }}>
+            <DropdownMenuItem
+                onClick={() => {
+                    setUser({});
+                    toast({
+                        variant: 'success',
+                        description: 'Du wurdest erfolgreich ausgeloggt.',
+                    });
+                }}
+            >
                 <span>Logout</span>
             </DropdownMenuItem>
         </DropdownMenuContent>

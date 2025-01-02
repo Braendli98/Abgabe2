@@ -1,4 +1,4 @@
-export declare interface AppContextType{
+export declare interface AppContextType {
     user: UserData;
     setUser: React.Dispatch<React.SetStateAction<UserData>>;
 }

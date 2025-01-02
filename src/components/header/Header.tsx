@@ -17,8 +17,6 @@ export default function Header() {
     const navigate = useNavigate();
     const { user, setUser } = useAppContext();
 
-    console.log(location);
-
     return (
         <header
             className="flex flex-nowrap header justify-between"

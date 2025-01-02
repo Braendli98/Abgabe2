@@ -92,7 +92,7 @@ export default function AddBook() {
 
     return (
         <div className="content max-w-screen-lg mx-auto">
-            <Breadcrumbs path={['add']} />
+            <Breadcrumbs path={[{ base: '' }, { base: 'add' }]} />
             <h2 className="text-4xl font-extrabold mb-6">Buch anlegen</h2>
             <form
                 onSubmit={handleSubmit}

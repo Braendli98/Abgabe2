@@ -22,7 +22,6 @@ export default function Login() {
     const [alert, setAlert] = useState<AlertType>('none');
 
     const callback = searchParams.get('callback') ?? '/';
-    console.log(callback);
 
     const fetchData = async () => {
         try {

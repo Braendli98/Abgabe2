@@ -1,18 +1,11 @@
-import {
-    Breadcrumb,
-    BreadcrumbItem,
-    BreadcrumbLink,
-    BreadcrumbList,
-    BreadcrumbPage,
-    BreadcrumbSeparator,
-} from './ui/breadcrumb';
 import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router';
 
+import Breadcrumbs from '../common/Breadcrumbs';
 import { Buch } from '@/types/buch';
-import { Button } from './ui/button';
+import { Button } from '../shadcn-ui/button';
 import { handleResponse } from '@/lib/delete-validation';
-import { useAppContext } from './Context';
+import { useAppContext } from '../common/Context';
 import { useToast } from '@/hooks/use-toast';
 
 export default function Details() {
@@ -42,7 +35,7 @@ export default function Details() {
                 console.log(book);
                 setBook({ ...book, id: params.bookId });
             } catch (error) {
-                console.error('Fehler beim Laden der Buchdaten:', error);
+                console.error('Error while loading book data: ', error);
             }
         };
 
@@ -61,7 +54,7 @@ export default function Details() {
             });
             await handleResponse(response, toast, navigate, book);
         } catch (error) {
-            console.error('Fehler beim Löschen der Buchdaten:', error);
+            console.error('Error while deleting book:', error);
         }
     };
 
@@ -75,16 +68,7 @@ export default function Details() {
 
     return (
         <div className="content max-w-screen-lg mx-auto">
-            {/* Breadcrumb */}
-            <Breadcrumb className="text-4xl mb-6">
-                <BreadcrumbList>
-                    <BreadcrumbLink href="/">Books</BreadcrumbLink>
-                    <BreadcrumbSeparator />
-                    <BreadcrumbItem>
-                        <BreadcrumbPage>Details</BreadcrumbPage>
-                    </BreadcrumbItem>
-                </BreadcrumbList>
-            </Breadcrumb>
+            <Breadcrumbs path={['details']} />
 
             {/* Buchdetails */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-12 border rounded-lg shadow-lg p-8 bg-white">

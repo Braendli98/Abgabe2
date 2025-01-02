@@ -2,10 +2,11 @@ import { useEffect, useState } from 'react';
 
 import AddCard from './AddCard';
 import BookCard from './BookCard';
+import Breadcrumbs from '../common/Breadcrumbs';
 import { Buch } from '@/types/buch';
-import { Button } from './ui/button';
-import { Input } from './ui/input';
-import { useAppContext } from './Context';
+import { Button } from '../shadcn-ui/button';
+import { Input } from '../shadcn-ui/input';
+import { useAppContext } from '../common/Context';
 import { useNavigate } from 'react-router';
 
 export default function Overview() {
@@ -67,6 +68,7 @@ export default function Overview() {
 
     return (
         <div className="content p-4">
+            <Breadcrumbs path={[]} />
             <h1 className="text-2xl font-bold mb-4">Bücher</h1>
             <div className="flex items-center space-x-2 searchbar mb-4">
                 {/* Suchfeld */}

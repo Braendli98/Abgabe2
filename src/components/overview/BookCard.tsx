@@ -4,7 +4,8 @@ import {
     CardFooter,
     CardHeader,
     CardTitle,
-} from './ui/card';
+} from '../shadcn-ui/card';
+
 import { Buch } from '@/types/buch';
 import { useNavigate } from 'react-router';
 

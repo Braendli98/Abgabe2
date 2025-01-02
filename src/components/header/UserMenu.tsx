@@ -3,7 +3,7 @@ import {
     DropdownMenuItem,
     DropdownMenuLabel,
     DropdownMenuSeparator,
-} from './ui/dropdown-menu';
+} from '../shadcn-ui/dropdown-menu';
 
 import { UserData } from '@/types/context';
 import { useToast } from '@/hooks/use-toast';

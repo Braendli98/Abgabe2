@@ -1,4 +1,4 @@
-import { Alert, AlertDescription, AlertTitle } from './ui/alert';
+import { Alert, AlertDescription, AlertTitle } from '../shadcn-ui/alert';
 
 import { AlertCircle } from 'lucide-react';
 import { AlertType } from '@/types/login';

@@ -3,13 +3,13 @@ import {
     DropdownMenuContent,
     DropdownMenuItem,
     DropdownMenuTrigger,
-} from './ui/dropdown-menu';
+} from '../shadcn-ui/dropdown-menu';
 
-import { Button } from './ui/button';
+import { Button } from '../shadcn-ui/button';
 import { User } from 'lucide-react';
 import UserMenu from './UserMenu';
-import hkaLogo from '../assets/hka.png';
-import { useAppContext } from './Context';
+import hkaLogo from '../../assets/hka.png';
+import { useAppContext } from '../common/Context';
 import { useNavigate } from 'react-router';
 
 export default function Header() {

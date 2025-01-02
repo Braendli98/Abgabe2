@@ -1,12 +1,13 @@
 import { AlertType, LoginData } from '@/types/login';
 
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
+import Breadcrumbs from '../common/Breadcrumbs';
+import { Button } from '@/components/shadcn-ui/button';
+import { Input } from '@/components/shadcn-ui/input';
+import { Label } from '@/components/shadcn-ui/label';
 import LoginAlert from './LoginAlert';
 import { handleResponse } from '@/lib/login-validation';
-import hkaLogo from '../assets/hka-logo.png';
-import { useAppContext } from './Context';
+import hkaLogo from '../../assets/hka-logo.png';
+import { useAppContext } from '../common/Context';
 import { useNavigate } from 'react-router';
 import { useState } from 'react';
 import { useToast } from '@/hooks/use-toast';
@@ -46,6 +47,7 @@ export default function Login() {
 
     return (
         <div className="flex justify-center items-center min-h-[400px] w-4/12 bg-backgroundColor">
+            <Breadcrumbs path={['login']} />
             <div className="grid w-full flex-item max-w-sm items-center gap-1.5">
                 <div className="text-2xl text-textGray text-center mb-10">
                     <strong>Login to your account:</strong>

@@ -1,19 +1,27 @@
 ---
+name: Docs
+on: # yamllint disable-line rule:truthy
+  - push
+jobs:
+  lint-test-docs:
     name: Docs
-    on: # yamllint disable-line rule:truthy
-      - push
-    jobs:
-      lint-test-docs:
-        name: Docs
-        runs-on: ubuntu-latest
-        steps:
-          - name: Generate Documentation
-            run: npm run asciidoctor
-          - name: List Documentation
-            run: |
-              ls /docs/html
-          - name: Upload Artifact
-            uses: actions/upload-artifact@v4
-            with:
-              name: documentation
-              path: ./docs/html
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '21'
+      - name: Install
+        run: npm ci
+      - name: Generate Documentation
+        run: npm run asciidoctor
+      - name: List Documentation
+        run: |
+          ls /docs/html
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: documentation
+          path: ./docs/html

@@ -5,6 +5,7 @@ import { AlertCircle, CircleCheck, X } from 'lucide-react';
 
 import { cn } from '@/lib/utils';
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 declare const ToastIconPrimitives: React.ForwardRefExoticComponent<
     React.RefAttributes<HTMLOListElement>
 >;

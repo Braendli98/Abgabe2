@@ -17,6 +17,8 @@ jobs:
         run: npm ci
       - name: Run ESLint
         run: npm run lint
+      - name: Run Prettier Check
+        run: npx prettier . --check
       - name: Run Cypress
         uses: cypress-io/github-action@v6
         with:

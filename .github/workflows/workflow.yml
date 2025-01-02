@@ -1,10 +1,10 @@
 ---
-name: Lint
+name: Lint and Test
 on: # yamllint disable-line rule:truthy
   - push
 jobs:
   lint-test-docs:
-    name: Lint, Test and Docs
+    name: Lint and Test
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -22,13 +22,3 @@ jobs:
         with:
           build: npm run build
           start: npm run dev
-      - name: Generate Documentation
-        run: npm run asciidoctor
-      - name: List Files
-        run: |
-          ls
-      - name: Upload Doc Artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: documentation
-          path: ./docs/html

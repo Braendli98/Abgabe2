@@ -1,0 +1,19 @@
+---
+    name: Docs
+    on: # yamllint disable-line rule:truthy
+      - push
+    jobs:
+      lint-test-docs:
+        name: Docs
+        runs-on: ubuntu-latest
+        steps:
+          - name: Generate Documentation
+            run: npm run asciidoctor
+          - name: List Documentation
+            run: |
+              ls /docs/html
+          - name: Upload Artifact
+            uses: actions/upload-artifact@v4
+            with:
+              name: documentation
+              path: ./docs/html

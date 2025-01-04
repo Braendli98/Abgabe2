@@ -3,16 +3,17 @@ import {
     DropdownMenuContent,
     DropdownMenuItem,
     DropdownMenuTrigger,
-} from './ui/dropdown-menu';
+} from '../shadcn-ui/dropdown-menu';
+import { useLocation, useNavigate } from 'react-router';
 
-import { Button } from './ui/button';
+import { Button } from '../shadcn-ui/button';
 import { User } from 'lucide-react';
 import UserMenu from './UserMenu';
-import hkaLogo from '../assets/hka.png';
-import { useAppContext } from './Context';
-import { useNavigate } from 'react-router';
+import hkaLogo from '../../assets/hka.png';
+import { useAppContext } from '../common/Context';
 
 export default function Header() {
+    const location = useLocation();
     const navigate = useNavigate();
     const { user, setUser } = useAppContext();
 
@@ -39,7 +40,11 @@ export default function Header() {
                     <UserMenu name={user.username} setUser={setUser} />
                 ) : (
                     <DropdownMenuContent style={{ marginRight: '20px' }}>
-                        <DropdownMenuItem onClick={() => navigate('/login')}>
+                        <DropdownMenuItem
+                            onClick={() =>
+                                navigate(`/login?callback=${location.pathname}`)
+                            }
+                        >
                             <span>To Login</span>
                         </DropdownMenuItem>
                     </DropdownMenuContent>

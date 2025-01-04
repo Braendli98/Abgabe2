@@ -1,4 +1,5 @@
-import { Card, CardContent, CardFooter } from './ui/card';
+import { Card, CardContent, CardFooter } from '../shadcn-ui/card';
+
 import { Plus } from 'lucide-react';
 
 interface AddCardProps {

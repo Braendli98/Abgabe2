@@ -1,22 +1,27 @@
 import { AlertType, LoginData } from '@/types/login';
+import { useNavigate, useSearchParams } from 'react-router';
 
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
+import Breadcrumbs from '../common/Breadcrumbs';
+import { Button } from '@/components/shadcn-ui/button';
+import { Input } from '@/components/shadcn-ui/input';
+import { Label } from '@/components/shadcn-ui/label';
 import LoginAlert from './LoginAlert';
+import { getBreadcrumbComponents } from '@/lib/breadcrumb-utils';
 import { handleResponse } from '@/lib/login-validation';
-import hkaLogo from '../assets/hka-logo.png';
-import { useAppContext } from './Context';
-import { useNavigate } from 'react-router';
+import hkaLogo from '../../assets/hka-logo.png';
+import { useAppContext } from '../common/Context';
 import { useState } from 'react';
 import { useToast } from '@/hooks/use-toast';
 
 export default function Login() {
     const navigate = useNavigate();
+    const [searchParams] = useSearchParams();
     const { setUser } = useAppContext();
     const { toast } = useToast();
     const [login, setLogin] = useState<LoginData>({});
     const [alert, setAlert] = useState<AlertType>('none');
+
+    const callback = searchParams.get('callback') ?? '/';
 
     const fetchData = async () => {
         try {
@@ -38,6 +43,7 @@ export default function Login() {
                 setLogin,
                 toast,
                 navigate,
+                callback,
             );
         } catch (error) {
             console.error('An Error occured while fetching a token:', error);
@@ -46,6 +52,14 @@ export default function Login() {
 
     return (
         <div className="flex justify-center items-center min-h-[400px] w-4/12 bg-backgroundColor">
+            <div className="absolute top-8 left-8">
+                <Breadcrumbs
+                    path={[
+                        ...getBreadcrumbComponents(callback),
+                        { base: 'login' },
+                    ]}
+                />
+            </div>
             <div className="grid w-full flex-item max-w-sm items-center gap-1.5">
                 <div className="text-2xl text-textGray text-center mb-10">
                     <strong>Login to your account:</strong>

@@ -2,10 +2,11 @@ import { useEffect, useState } from 'react';
 
 import AddCard from './AddCard';
 import BookCard from './BookCard';
+import Breadcrumbs from '../common/Breadcrumbs';
 import { Buch } from '@/types/buch';
-import { Button } from './ui/button';
-import { Input } from './ui/input';
-import { useAppContext } from './Context';
+import { Button } from '../shadcn-ui/button';
+import { Input } from '../shadcn-ui/input';
+import { useAppContext } from '../common/Context';
 import { useNavigate } from 'react-router';
 
 export default function Overview() {
@@ -67,6 +68,7 @@ export default function Overview() {
 
     return (
         <div className="content p-4">
+            <Breadcrumbs path={[{ base: '' }]} />
             <h1 className="text-2xl font-bold mb-4">Bücher</h1>
             <div className="flex items-center space-x-2 searchbar mb-4">
                 {/* Suchfeld */}
@@ -106,30 +108,28 @@ export default function Overview() {
                         : 'Keine Bücher gefunden oder ein Fehler ist aufgetreten.'}
                 </p>
             )}
-            {books.length > 0 && (
-                <div className="flex flex-wrap">
-                    {books.map((book) => (
+            <div className="flex flex-wrap">
+                {books.length > 0 &&
+                    books.map((book) => (
                         <BookCard
                             key={book._links.self.href}
                             className="flex-item"
                             book={book}
                         />
                     ))}
-                </div>
-            )}
-
-            {/* Zusatzoption für eingeloggte Benutzer */}
-            {user.token && (
-                <AddCard
-                    className="flex-item"
-                    onClick={(
-                        event: React.MouseEvent<HTMLDivElement, MouseEvent>,
-                    ) => {
-                        event.preventDefault();
-                        navigate('/add');
-                    }}
-                />
-            )}
+                {/* Zusatzoption für eingeloggte Benutzer */}
+                {user.token && (
+                    <AddCard
+                        className="flex-item"
+                        onClick={(
+                            event: React.MouseEvent<HTMLDivElement, MouseEvent>,
+                        ) => {
+                            event.preventDefault();
+                            navigate('/add');
+                        }}
+                    />
+                )}
+            </div>
         </div>
     );
 }

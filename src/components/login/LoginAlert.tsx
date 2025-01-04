@@ -1,4 +1,4 @@
-import { Alert, AlertDescription, AlertTitle } from './ui/alert';
+import { Alert, AlertDescription, AlertTitle } from '../shadcn-ui/alert';
 
 import { AlertCircle } from 'lucide-react';
 import { AlertType } from '@/types/login';
@@ -23,7 +23,7 @@ export default function LoginAlert({
     }
 
     return (
-        <Alert variant="destructive">
+        <Alert variant="destructive" data-cy="login-alert">
             <AlertCircle className="h-4 w-4" />
             <AlertTitle>Fehler!</AlertTitle>
             <AlertDescription>{message}</AlertDescription>

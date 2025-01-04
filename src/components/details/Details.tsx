@@ -1,18 +1,13 @@
-import {
-    Breadcrumb,
-    BreadcrumbItem,
-    BreadcrumbLink,
-    BreadcrumbList,
-    BreadcrumbPage,
-    BreadcrumbSeparator,
-} from './ui/breadcrumb';
 import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router';
 
+import BookCover from '../common/BookCover';
+import Breadcrumbs from '../common/Breadcrumbs';
 import { Buch } from '@/types/buch';
-import { Button } from './ui/button';
+import { Button } from '../shadcn-ui/button';
+import { getBreadcrumbComponents } from '@/lib/breadcrumb-utils';
 import { handleResponse } from '@/lib/delete-validation';
-import { useAppContext } from './Context';
+import { useAppContext } from '../common/Context';
 import { useToast } from '@/hooks/use-toast';
 
 export default function Details() {
@@ -42,7 +37,7 @@ export default function Details() {
                 console.log(book);
                 setBook({ ...book, id: params.bookId });
             } catch (error) {
-                console.error('Fehler beim Laden der Buchdaten:', error);
+                console.error('Error while loading book data: ', error);
             }
         };
 
@@ -61,7 +56,7 @@ export default function Details() {
             });
             await handleResponse(response, toast, navigate, book);
         } catch (error) {
-            console.error('Fehler beim Löschen der Buchdaten:', error);
+            console.error('Error while deleting book:', error);
         }
     };
 
@@ -75,26 +70,13 @@ export default function Details() {
 
     return (
         <div className="content max-w-screen-lg mx-auto">
-            {/* Breadcrumb */}
-            <Breadcrumb className="text-4xl mb-6">
-                <BreadcrumbList>
-                    <BreadcrumbLink href="/">Books</BreadcrumbLink>
-                    <BreadcrumbSeparator />
-                    <BreadcrumbItem>
-                        <BreadcrumbPage>Details</BreadcrumbPage>
-                    </BreadcrumbItem>
-                </BreadcrumbList>
-            </Breadcrumb>
+            <Breadcrumbs path={getBreadcrumbComponents(`details/${book.id}`)} />
 
             {/* Buchdetails */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-12 border rounded-lg shadow-lg p-8 bg-white">
                 {/* Bild des Buches */}
                 <div className="flex justify-center items-start">
-                    <img
-                        src={book.coverImage || '/placeholder.jpg'}
-                        alt={book?.titel?.titel || 'Kein Titel'}
-                        className="border-4 object-contain h-80 w-60 rounded-lg bg-gray-100"
-                    />
+                    <BookCover book={book} size="large" />
                 </div>
 
                 {/* Buchinformationen */}
@@ -127,7 +109,7 @@ export default function Details() {
                             <strong>Rabatt:</strong> {book?.rabatt || 0} %
                         </div>
                         <div>
-                            <strong>Datum:</strong>{' '}
+                            <strong>Erscheinungsdatum:</strong>{' '}
                             {book?.datum || 'Nicht verfügbar'}
                         </div>
                         <div className="col-span-2">

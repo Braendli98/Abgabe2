@@ -6,6 +6,7 @@ import Breadcrumbs from '../common/Breadcrumbs';
 import { Buch } from '@/types/buch';
 import { Button } from '../shadcn-ui/button';
 import { Input } from '../shadcn-ui/input';
+import { hasAddRights } from '@/lib/role-utils';
 import { useAppContext } from '../common/Context';
 import { useNavigate } from 'react-router';
 
@@ -65,6 +66,7 @@ export default function Overview() {
             handleSearch();
         }
     };
+    console.log(user);
 
     return (
         <div className="content p-4">
@@ -117,8 +119,8 @@ export default function Overview() {
                             book={book}
                         />
                     ))}
-                {/* Zusatzoption für eingeloggte Benutzer */}
-                {user.token && (
+                {/* Zusatzoption für eingeloggte Admins */}
+                {hasAddRights(user) && (
                     <AddCard
                         className="flex-item"
                         onClick={(

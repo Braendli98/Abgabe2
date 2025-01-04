@@ -1,8 +1,8 @@
 import Breadcrumbs from '../common/Breadcrumbs';
 import { Buch } from '@/types/buch';
 import { Button } from '../shadcn-ui/button';
+import { getToken } from '@/lib/token-handling';
 import { handleResponse } from '@/lib/add-validation';
-import { useAppContext } from '../common/Context';
 import { useNavigate } from 'react-router';
 import { useState } from 'react';
 import { useToast } from '@/hooks/use-toast';
@@ -10,7 +10,6 @@ import { useToast } from '@/hooks/use-toast';
 export default function AddBook() {
     const navigate = useNavigate();
     const { toast } = useToast();
-    const { user } = useAppContext();
 
     const [formData, setFormData] = useState<Buch>({
         id: '',
@@ -79,7 +78,7 @@ export default function AddBook() {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
-                    Authorization: `Bearer ${user.token}`,
+                    Authorization: `Bearer ${getToken()}`,
                 },
                 body: JSON.stringify(submissionData),
             });

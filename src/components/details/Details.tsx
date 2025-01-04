@@ -6,7 +6,9 @@ import Breadcrumbs from '../common/Breadcrumbs';
 import { Buch } from '@/types/buch';
 import { Button } from '../shadcn-ui/button';
 import { getBreadcrumbComponents } from '@/lib/breadcrumb-utils';
+import { getToken } from '@/lib/token-handling';
 import { handleResponse } from '@/lib/delete-validation';
+import { hasRemoveRights } from '@/lib/role-utils';
 import { useAppContext } from '../common/Context';
 import { useToast } from '@/hooks/use-toast';
 
@@ -50,7 +52,7 @@ export default function Details() {
             const response = await fetch(`api/rest/${params.bookId}`, {
                 method: 'DELETE',
                 headers: {
-                    Authorization: `Bearer ${user.token}`,
+                    Authorization: `Bearer ${getToken()}`,
                     'If-Match': `"0"`, // Header für Optimistic Locking
                 },
             });
@@ -117,7 +119,7 @@ export default function Details() {
                             {book?.schlagwoerter?.join(', ') || 'Keine'}
                         </div>
                     </div>
-                    {user.token && (
+                    {hasRemoveRights(user) && (
                         <div className="flex flex-row-reverse">
                             <Button
                                 variant="destructive"

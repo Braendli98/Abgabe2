@@ -39,7 +39,6 @@ export default function Login() {
                 response,
                 setAlert,
                 setUser,
-                login,
                 setLogin,
                 toast,
                 navigate,
@@ -62,7 +61,7 @@ export default function Login() {
             </div>
             <div className="grid w-full flex-item max-w-sm items-center gap-1.5">
                 <div className="text-2xl text-textGray text-center mb-10">
-                    <strong>Login to your account:</strong>
+                    <strong>Melde dich mit deinem Account an:</strong>
                 </div>
                 {alert !== 'none' && <LoginAlert alertType={alert} />}
                 <Label
@@ -70,7 +69,7 @@ export default function Login() {
                     className="text-sm text-textGray"
                     data-cy="username-label"
                 >
-                    Username
+                    Benutzername
                 </Label>
                 <Input
                     type="string"
@@ -85,7 +84,7 @@ export default function Login() {
                     className="text-sm text-textGray"
                     data-cy="password-label"
                 >
-                    Password
+                    Passwort
                 </Label>
                 <Input
                     type="password"
@@ -103,7 +102,7 @@ export default function Login() {
                     }}
                     data-cy="login-button"
                 >
-                    Login
+                    Anmelden
                 </Button>
             </div>
             <img

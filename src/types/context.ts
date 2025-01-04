@@ -5,5 +5,5 @@ export declare interface AppContextType {
 
 export declare interface UserData {
     username?: string;
-    token?: string;
+    roles?: string[];
 }

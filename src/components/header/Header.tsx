@@ -36,7 +36,7 @@ export default function Header() {
                         <User />
                     </Button>
                 </DropdownMenuTrigger>
-                {user.token ? (
+                {user.username ? (
                     <UserMenu name={user.username} setUser={setUser} />
                 ) : (
                     <DropdownMenuContent style={{ marginRight: '20px' }}>
@@ -45,7 +45,7 @@ export default function Header() {
                                 navigate(`/login?callback=${location.pathname}`)
                             }
                         >
-                            <span>To Login</span>
+                            <span>Anmelden</span>
                         </DropdownMenuItem>
                     </DropdownMenuContent>
                 )}

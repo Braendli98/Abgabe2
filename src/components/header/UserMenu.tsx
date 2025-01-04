@@ -6,6 +6,7 @@ import {
 } from '../shadcn-ui/dropdown-menu';
 
 import { UserData } from '@/types/context';
+import { removeToken } from '@/lib/token-handling';
 import { useToast } from '@/hooks/use-toast';
 
 export default function UserMenu({
@@ -20,19 +21,20 @@ export default function UserMenu({
     return (
         <DropdownMenuContent style={{ marginRight: '20px' }}>
             <DropdownMenuLabel>
-                <span>Hello {name}!</span>
+                <span>Hallo {name}!</span>
             </DropdownMenuLabel>
             <DropdownMenuSeparator />
             <DropdownMenuItem
                 onClick={() => {
                     setUser({});
+                    removeToken();
                     toast({
                         variant: 'success',
-                        description: 'Du wurdest erfolgreich ausgeloggt.',
+                        description: 'Du wurdest erfolgreich abgemeldet.',
                     });
                 }}
             >
-                <span>Logout</span>
+                <span>Abmelden</span>
             </DropdownMenuItem>
         </DropdownMenuContent>
     );

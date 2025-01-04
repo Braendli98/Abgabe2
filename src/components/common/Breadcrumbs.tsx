@@ -33,8 +33,6 @@ function generateBreadcrumbs(path: BreadcrumbComponent[]) {
         );
     }
 
-    console.log(path);
-
     return (
         <>
             {path
@@ -42,7 +40,7 @@ function generateBreadcrumbs(path: BreadcrumbComponent[]) {
                 .map((value) => {
                     return (
                         <>
-                            <BreadcrumbLink href={getRefLink(value)}>
+                            <BreadcrumbLink href={getRefLink(value)} >
                                 {mapToName(value)}
                             </BreadcrumbLink>
                             <BreadcrumbSeparator />

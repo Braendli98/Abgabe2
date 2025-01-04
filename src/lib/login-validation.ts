@@ -17,7 +17,15 @@ export async function handleResponse(
     switch (response.status) {
         case 200: {
             const content = await response.json();
-            handleSuccess(content, setAlert, setUser, setLogin, toast, navigate, callback);
+            handleSuccess(
+                content,
+                setAlert,
+                setUser,
+                setLogin,
+                toast,
+                navigate,
+                callback,
+            );
             break;
         }
         case 401:

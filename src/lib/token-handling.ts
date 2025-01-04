@@ -1,5 +1,5 @@
 import Cookies from 'js-cookie';
-import { UserData } from "@/types/context";
+import { UserData } from '@/types/context';
 
 export function getUserDataFromToken(jwt: string) {
     const [, payloadStr] = (jwt as string).split('.');
@@ -27,25 +27,27 @@ export function getToken() {
 
 export function getUserData() {
     const token = getToken();
-    if(token === undefined) {
+    if (token === undefined) {
         return {};
     }
 
     const userData = getUserDataFromToken(token);
-    if(userData === undefined) {
+    if (userData === undefined) {
         return {};
     }
-    
+
     return userData;
 }
 
 export function setToken(access_token: string, expires_in: string) {
-    Cookies.set('access_token', access_token, { secure: true, expires: getExpiryDate(expires_in)});
+    Cookies.set('access_token', access_token, {
+        secure: true,
+        expires: getExpiryDate(expires_in),
+    });
 }
 
 function getExpiryDate(expires_in: string) {
     return new Date(
-            Date.now() +
-                Number.parseInt(expires_in.toString(), 10) * 1000,
-        );
+        Date.now() + Number.parseInt(expires_in.toString(), 10) * 1000,
+    );
 }

@@ -9,7 +9,7 @@ import { Button } from '../shadcn-ui/button';
 import { Input } from '../shadcn-ui/input';
 import { apiGet } from '@/lib/api/api-handler';
 import { hasAddRights } from '@/lib/role-utils';
-import { useAppContext } from '../common/Context';
+import { useAppContext } from '@/hooks/use-context';
 import { useNavigate } from 'react-router';
 
 export default function Overview() {

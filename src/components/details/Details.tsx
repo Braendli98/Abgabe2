@@ -10,7 +10,7 @@ import { Buch } from '@/types/buch';
 import { Button } from '../shadcn-ui/button';
 import { getBreadcrumbComponents } from '@/lib/breadcrumb-utils';
 import { hasRemoveRights } from '@/lib/role-utils';
-import { useAppContext } from '../common/Context';
+import { useAppContext } from '@/hooks/use-context';
 import { useToast } from '@/hooks/use-toast';
 
 export default function Details() {

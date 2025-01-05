@@ -1,14 +1,8 @@
-import { AppContextType, UserData } from '@/types/context';
-import { ReactNode, createContext, useContext, useState } from 'react';
+import { ReactNode, useState } from 'react';
 
+import { AppContext } from '@/hooks/use-context';
+import { UserData } from '@/types/context';
 import { getUserData } from '@/lib/token-handling';
-
-const defaultState: AppContextType = {
-    user: {},
-    setUser: () => {},
-};
-
-const AppContext = createContext<AppContextType>(defaultState);
 
 export const AppProvider = ({ children }: { children: ReactNode }) => {
     const [user, setUser] = useState<UserData>(getUserData());
@@ -18,5 +12,3 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
         </AppContext.Provider>
     );
 };
-
-export const useAppContext = () => useContext(AppContext);

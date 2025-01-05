@@ -72,8 +72,6 @@ export default function AddBook() {
             rabatt: parseFloat(formData.rabatt.toString()),
         };
 
-        console.log('Gesendete Formulardaten:', submissionData);
-
         apiPost(
             '/api/rest',
             JSON.stringify(submissionData),

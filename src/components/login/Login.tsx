@@ -11,7 +11,7 @@ import LoginAlert from './LoginAlert';
 import { apiPost } from '@/lib/api/api-handler';
 import { getBreadcrumbComponents } from '@/lib/breadcrumb-utils';
 import hkaLogo from '../../assets/hka-logo.png';
-import { useAppContext } from '../common/Context';
+import { useAppContext } from '@/hooks/use-context';
 import { useState } from 'react';
 import { useToast } from '@/hooks/use-toast';
 

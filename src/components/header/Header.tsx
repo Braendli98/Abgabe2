@@ -10,7 +10,7 @@ import { Button } from '../shadcn-ui/button';
 import { User } from 'lucide-react';
 import UserMenu from './UserMenu';
 import hkaLogo from '../../assets/hka.png';
-import { useAppContext } from '../common/Context';
+import { useAppContext } from '@/hooks/use-context';
 
 export default function Header() {
     const location = useLocation();

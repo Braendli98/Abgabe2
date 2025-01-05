@@ -2,7 +2,7 @@ import Breadcrumbs from '../common/Breadcrumbs';
 import { Buch } from '@/types/buch';
 import { Button } from '../shadcn-ui/button';
 import { handleResponse } from '@/lib/add-validation';
-import { useAppContext } from '../common/Context';
+import { useAppContext } from '@/hooks/use-context';
 import { useNavigate } from 'react-router';
 import { useState } from 'react';
 import { useToast } from '@/hooks/use-toast';
@@ -71,8 +71,6 @@ export default function AddBook() {
             preis: parseFloat(formData.preis.toString()),
             rabatt: parseFloat(formData.rabatt.toString()),
         };
-
-        console.log('Gesendete Formulardaten:', submissionData);
 
         try {
             const response = await fetch('/api/rest', {

@@ -120,7 +120,8 @@ const ToastIcon = React.forwardRef<
     React.ElementRef<typeof ToastIconPrimitives>,
     React.ComponentPropsWithoutRef<typeof ToastIconPrimitives> &
         VariantProps<typeof toastVariants>
->(({ variant }) => getToastIcon(variant));
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+>(({ variant }, _ref) => getToastIcon(variant));
 
 function getToastIcon(variant: string | null | undefined) {
     switch (variant) {

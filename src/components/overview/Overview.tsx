@@ -6,7 +6,7 @@ import Breadcrumbs from '../common/Breadcrumbs';
 import { Buch } from '@/types/buch';
 import { Button } from '../shadcn-ui/button';
 import { Input } from '../shadcn-ui/input';
-import { useAppContext } from '../common/Context';
+import { useAppContext } from '@/hooks/use-context';
 import { useNavigate } from 'react-router';
 
 export default function Overview() {

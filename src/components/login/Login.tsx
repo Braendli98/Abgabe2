@@ -9,7 +9,7 @@ import LoginAlert from './LoginAlert';
 import { getBreadcrumbComponents } from '@/lib/breadcrumb-utils';
 import { handleResponse } from '@/lib/login-validation';
 import hkaLogo from '../../assets/hka-logo.png';
-import { useAppContext } from '../common/Context';
+import { useAppContext } from '@/hooks/use-context';
 import { useState } from 'react';
 import { useToast } from '@/hooks/use-toast';
 

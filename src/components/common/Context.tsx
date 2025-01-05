@@ -1,12 +1,7 @@
-import { AppContextType, UserData } from '@/types/context';
-import { ReactNode, createContext, useContext, useState } from 'react';
+import { ReactNode, useState } from 'react';
 
-const defaultState: AppContextType = {
-    user: {},
-    setUser: () => {},
-};
-
-const AppContext = createContext<AppContextType>(defaultState);
+import { AppContext } from '@/hooks/use-context';
+import { UserData } from '@/types/context';
 
 export const AppProvider = ({ children }: { children: ReactNode }) => {
     const [user, setUser] = useState<UserData>({});
@@ -16,5 +11,3 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
         </AppContext.Provider>
     );
 };
-
-export const useAppContext = () => useContext(AppContext);

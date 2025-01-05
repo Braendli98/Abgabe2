@@ -7,7 +7,7 @@ import { Buch } from '@/types/buch';
 import { Button } from '../shadcn-ui/button';
 import { getBreadcrumbComponents } from '@/lib/breadcrumb-utils';
 import { handleResponse } from '@/lib/delete-validation';
-import { useAppContext } from '../common/Context';
+import { useAppContext } from '@/hooks/use-context';
 import { useToast } from '@/hooks/use-toast';
 
 export default function Details() {
@@ -20,7 +20,6 @@ export default function Details() {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                console.log(params.bookId);
                 const response = await fetch(`api/rest/${params.bookId}`, {
                     method: 'GET',
                     headers: {
@@ -33,8 +32,6 @@ export default function Details() {
                 }
 
                 const book = await response.json();
-                // Debugging
-                console.log(book);
                 setBook({ ...book, id: params.bookId });
             } catch (error) {
                 console.error('Error while loading book data: ', error);
@@ -46,7 +43,6 @@ export default function Details() {
 
     const deleteEntry = async () => {
         try {
-            console.log(params.bookId);
             const response = await fetch(`api/rest/${params.bookId}`, {
                 method: 'DELETE',
                 headers: {

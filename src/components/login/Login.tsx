@@ -1,13 +1,15 @@
 import { AlertType, LoginData } from '@/types/login';
+import { handleFailure, handleSuccess } from '@/lib/login-validation';
 import { useNavigate, useSearchParams } from 'react-router';
 
+import { AxiosResponse } from 'axios';
 import Breadcrumbs from '../common/Breadcrumbs';
 import { Button } from '@/components/shadcn-ui/button';
 import { Input } from '@/components/shadcn-ui/input';
 import { Label } from '@/components/shadcn-ui/label';
 import LoginAlert from './LoginAlert';
+import { apiPost } from '@/lib/api/api-handler';
 import { getBreadcrumbComponents } from '@/lib/breadcrumb-utils';
-import { handleResponse } from '@/lib/login-validation';
 import hkaLogo from '../../assets/hka-logo.png';
 import { useAppContext } from '@/hooks/use-context';
 import { useState } from 'react';
@@ -23,32 +25,27 @@ export default function Login() {
 
     const callback = searchParams.get('callback') ?? '/';
 
-    const fetchData = async () => {
-        try {
-            const response = await fetch('api/auth/token', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/x-www-form-urlencoded',
-                    'Cache-Control': 'no-cache, no-store',
-                    Pragma: 'no-cache',
-                    Expires: '0',
-                },
-                body: `username=${login.username}&password=${login.password}`,
-            });
-            await handleResponse(
-                response,
-                setAlert,
-                setUser,
-                login,
-                setLogin,
-                toast,
-                navigate,
-                callback,
-            );
-        } catch (error) {
-            console.error('An Error occured while fetching a token:', error);
-        }
-    };
+    const fetchData = () =>
+        apiPost(
+            'api/auth/token',
+            { username: login.username, password: login.password },
+            (response: AxiosResponse) =>
+                handleSuccess(
+                    response.data,
+                    setAlert,
+                    setUser,
+                    setLogin,
+                    toast,
+                    navigate,
+                    callback,
+                ),
+            (status: number) => handleFailure(status, setAlert),
+            {
+                noCache: true,
+                token: false,
+                contentType: 'application/x-www-form-urlencoded',
+            },
+        );
 
     return (
         <div className="flex justify-center items-center min-h-[400px] w-4/12 bg-backgroundColor">
@@ -62,7 +59,7 @@ export default function Login() {
             </div>
             <div className="grid w-full flex-item max-w-sm items-center gap-1.5">
                 <div className="text-2xl text-textGray text-center mb-10">
-                    <strong>Login to your account:</strong>
+                    <strong>Melde dich mit deinem Account an:</strong>
                 </div>
                 {alert !== 'none' && <LoginAlert alertType={alert} />}
                 <Label
@@ -70,7 +67,7 @@ export default function Login() {
                     className="text-sm text-textGray"
                     data-cy="username-label"
                 >
-                    Username
+                    Benutzername
                 </Label>
                 <Input
                     type="string"
@@ -85,7 +82,7 @@ export default function Login() {
                     className="text-sm text-textGray"
                     data-cy="password-label"
                 >
-                    Password
+                    Passwort
                 </Label>
                 <Input
                     type="password"
@@ -103,7 +100,7 @@ export default function Login() {
                     }}
                     data-cy="login-button"
                 >
-                    Login
+                    Anmelden
                 </Button>
             </div>
             <img

@@ -1,12 +1,15 @@
+import { apiDelete, apiGet } from '@/lib/api/api-handler';
+import { handleFailure, handleSuccess } from '@/lib/delete-validation';
 import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router';
 
+import { AxiosResponse } from 'axios';
 import BookCover from '../common/BookCover';
 import Breadcrumbs from '../common/Breadcrumbs';
 import { Buch } from '@/types/buch';
 import { Button } from '../shadcn-ui/button';
 import { getBreadcrumbComponents } from '@/lib/breadcrumb-utils';
-import { handleResponse } from '@/lib/delete-validation';
+import { hasRemoveRights } from '@/lib/role-utils';
 import { useAppContext } from '@/hooks/use-context';
 import { useToast } from '@/hooks/use-toast';
 
@@ -19,41 +22,28 @@ export default function Details() {
 
     useEffect(() => {
         const fetchData = async () => {
-            try {
-                const response = await fetch(`api/rest/${params.bookId}`, {
-                    method: 'GET',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                });
-
-                if (!response.ok) {
-                    throw new Error(`HTTP error! Status: ${response.status}`);
-                }
-
-                const book = await response.json();
-                setBook({ ...book, id: params.bookId });
-            } catch (error) {
-                console.error('Error while loading book data: ', error);
-            }
+            apiGet(
+                `api/rest/${params.bookId}`,
+                (response: AxiosResponse) =>
+                    setBook({ ...response.data, id: params.bookId }),
+                () => {
+                    console.error('Oops!');
+                },
+            );
         };
-
         fetchData();
     }, [params]);
 
-    const deleteEntry = async () => {
-        try {
-            const response = await fetch(`api/rest/${params.bookId}`, {
-                method: 'DELETE',
-                headers: {
-                    Authorization: `Bearer ${user.token}`,
-                    'If-Match': `"0"`, // Header für Optimistic Locking
-                },
-            });
-            await handleResponse(response, toast, navigate, book);
-        } catch (error) {
-            console.error('Error while deleting book:', error);
-        }
+    const deleteEntry = () => {
+        apiDelete(
+            `api/rest/${params.bookId}`,
+            () => handleSuccess(toast, navigate, book),
+            (status: number) => handleFailure(status, toast),
+            {
+                noCache: false,
+                token: true,
+            },
+        );
     };
 
     if (book === undefined) {
@@ -113,7 +103,7 @@ export default function Details() {
                             {book?.schlagwoerter?.join(', ') || 'Keine'}
                         </div>
                     </div>
-                    {user.token && (
+                    {hasRemoveRights(user) && (
                         <div className="flex flex-row-reverse">
                             <Button
                                 variant="destructive"

@@ -1,8 +1,9 @@
+import { handleFailure, handleSuccess } from '@/lib/add-validation';
+
 import Breadcrumbs from '../common/Breadcrumbs';
 import { Buch } from '@/types/buch';
 import { Button } from '../shadcn-ui/button';
-import { handleResponse } from '@/lib/add-validation';
-import { useAppContext } from '@/hooks/use-context';
+import { apiPost } from '@/lib/api/api-handler';
 import { useNavigate } from 'react-router';
 import { useState } from 'react';
 import { useToast } from '@/hooks/use-toast';
@@ -10,7 +11,6 @@ import { useToast } from '@/hooks/use-toast';
 export default function AddBook() {
     const navigate = useNavigate();
     const { toast } = useToast();
-    const { user } = useAppContext();
 
     const [formData, setFormData] = useState<Buch>({
         id: '',
@@ -72,20 +72,16 @@ export default function AddBook() {
             rabatt: parseFloat(formData.rabatt.toString()),
         };
 
-        try {
-            const response = await fetch('/api/rest', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    Authorization: `Bearer ${user.token}`,
-                },
-                body: JSON.stringify(submissionData),
-            });
-
-            await handleResponse(response, toast, navigate, formData);
-        } catch (error) {
-            console.error('Fehler beim Hinzufügen des Buches:', error);
-        }
+        apiPost(
+            '/api/rest',
+            JSON.stringify(submissionData),
+            () => handleSuccess(toast, navigate, formData),
+            (status: number) => handleFailure(status, toast),
+            {
+                noCache: false,
+                token: true,
+            },
+        );
     };
 
     return (

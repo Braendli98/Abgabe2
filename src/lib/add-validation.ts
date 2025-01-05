@@ -1,20 +1,27 @@
 import { Buch } from '@/types/buch';
 import { NavigateFunction } from 'react-router';
-import { ResType } from '@/types/details';
 
-export async function handleResponse(
-    response: Response,
+export function handleSuccess(
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     toast: any,
     navigate: NavigateFunction,
     book?: Buch,
 ) {
-    let responseType: ResType;
-    switch (response.status) {
-        case 201: {
-            responseType = 'success';
-            break;
-        }
+    toast({
+        variant: 'success',
+        title: 'Erfolg!',
+        description: `Buch ${book?.titel.titel} wurde erfolgreich angelegt!`,
+    });
+    navigate('/', { state: { refresh: true } });
+}
+
+export function handleFailure(
+    status: number,
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    toast: any,
+) {
+    let responseType: string;
+    switch (status) {
         case 401:
         case 403: {
             responseType = 'unauthorized';
@@ -28,30 +35,15 @@ export async function handleResponse(
             responseType = 'unexpected';
         }
     }
-    toast(getToastProps(responseType, book?.titel.titel));
-    if (responseType === 'success') {
-        navigate('/', { state: { refresh: true } });
-    }
+    toast({
+        variant: 'failure',
+        title: 'Fehler!',
+        desciption: getToastDescription(responseType === 'unauthorized'),
+    });
 }
 
-function getToastProps(resType?: ResType, title?: string) {
-    return {
-        variant: resType === 'success' ? 'success' : 'failure',
-        title: resType === 'success' ? 'Erfolg!' : 'Fehler!',
-        description: getToastDescription(resType, title),
-    };
-}
-
-function getToastDescription(resType?: ResType, title?: string) {
-    switch (resType) {
-        case 'success': {
-            return `Buch ${title} wurde erfolgreich angelegt!`;
-        }
-        case 'unauthorized': {
-            return 'Sie haben nicht die erforderlichen Berechtigungen!';
-        }
-        default: {
-            return 'Es ist ein unerwarteter Fehler aufgetreten!';
-        }
-    }
+function getToastDescription(unauthorized: boolean) {
+    return unauthorized
+        ? 'Sie haben nicht die erforderlichen Berechtigungen!'
+        : 'Es ist ein unerwarteter Fehler aufgetreten!';
 }

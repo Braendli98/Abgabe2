@@ -1,13 +1,15 @@
 import { AlertType, LoginData } from '@/types/login';
+import { handleFailure, handleSuccess } from '@/lib/login-validation';
 import { useNavigate, useSearchParams } from 'react-router';
 
+import { AxiosResponse } from 'axios';
 import Breadcrumbs from '../common/Breadcrumbs';
 import { Button } from '@/components/shadcn-ui/button';
 import { Input } from '@/components/shadcn-ui/input';
 import { Label } from '@/components/shadcn-ui/label';
 import LoginAlert from './LoginAlert';
+import { apiPost } from '@/lib/api/api-handler';
 import { getBreadcrumbComponents } from '@/lib/breadcrumb-utils';
-import { handleResponse } from '@/lib/login-validation';
 import hkaLogo from '../../assets/hka-logo.png';
 import { useAppContext } from '../common/Context';
 import { useState } from 'react';
@@ -23,31 +25,27 @@ export default function Login() {
 
     const callback = searchParams.get('callback') ?? '/';
 
-    const fetchData = async () => {
-        try {
-            const response = await fetch('api/auth/token', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/x-www-form-urlencoded',
-                    'Cache-Control': 'no-cache, no-store',
-                    Pragma: 'no-cache',
-                    Expires: '0',
-                },
-                body: `username=${login.username}&password=${login.password}`,
-            });
-            await handleResponse(
-                response,
-                setAlert,
-                setUser,
-                setLogin,
-                toast,
-                navigate,
-                callback,
-            );
-        } catch (error) {
-            console.error('An Error occured while fetching a token:', error);
-        }
-    };
+    const fetchData = () =>
+        apiPost(
+            'api/auth/token',
+            { username: login.username, password: login.password },
+            (response: AxiosResponse) =>
+                handleSuccess(
+                    response.data,
+                    setAlert,
+                    setUser,
+                    setLogin,
+                    toast,
+                    navigate,
+                    callback,
+                ),
+            (status: number) => handleFailure(status, setAlert),
+            {
+                noCache: true,
+                token: false,
+                contentType: 'application/x-www-form-urlencoded',
+            },
+        );
 
     return (
         <div className="flex justify-center items-center min-h-[400px] w-4/12 bg-backgroundColor">

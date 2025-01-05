@@ -1,11 +1,13 @@
 import { useEffect, useState } from 'react';
 
 import AddCard from './AddCard';
+import { AxiosResponse } from 'axios';
 import BookCard from './BookCard';
 import Breadcrumbs from '../common/Breadcrumbs';
 import { Buch } from '@/types/buch';
 import { Button } from '../shadcn-ui/button';
 import { Input } from '../shadcn-ui/input';
+import { apiGet } from '@/lib/api/api-handler';
 import { hasAddRights } from '@/lib/role-utils';
 import { useAppContext } from '../common/Context';
 import { useNavigate } from 'react-router';
@@ -17,36 +19,16 @@ export default function Overview() {
     const [category, setCategory] = useState('');
     const { user } = useAppContext();
 
-    const fetchBooks = async (query = '', selectedCategory = '') => {
-        try {
-            const urlParams = new URLSearchParams();
-            if (query) urlParams.append('titel', query);
-            if (selectedCategory) urlParams.append('art', selectedCategory);
-
-            const url = `/api/rest?${urlParams.toString()}`;
-            const response = await fetch(url, {
-                method: 'GET',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-            });
-
-            if (!response.ok) {
-                setBooks([]);
-                throw new Error(`HTTP error! Status: ${response.status}`);
-            }
-
-            const content = await response.json();
-            const fetchedBooks = content._embedded?.buecher || [];
-            setBooks(fetchedBooks);
-
-            if (fetchedBooks.length === 0) {
-                console.warn('Keine Bücher gefunden.');
-            }
-        } catch (error) {
-            console.error('Fehler beim Laden der Buchdaten:', error);
-            setBooks([]);
-        }
+    const fetchBooks = (query = '', selectedCategory = '') => {
+        const urlParams = new URLSearchParams();
+        if (query) urlParams.append('titel', query);
+        if (selectedCategory) urlParams.append('art', selectedCategory);
+        apiGet(
+            `/api/rest?${urlParams.toString()}`,
+            (response: AxiosResponse) =>
+                setBooks(response.data._embedded?.buecher ?? []),
+            () => console.error('Oops!'),
+        );
     };
 
     useEffect(() => {
@@ -66,7 +48,6 @@ export default function Overview() {
             handleSearch();
         }
     };
-    console.log(user);
 
     return (
         <div className="content p-4">

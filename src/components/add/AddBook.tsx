@@ -1,8 +1,9 @@
+import { handleFailure, handleSuccess } from '@/lib/add-validation';
+
 import Breadcrumbs from '../common/Breadcrumbs';
 import { Buch } from '@/types/buch';
 import { Button } from '../shadcn-ui/button';
-import { getToken } from '@/lib/token-handling';
-import { handleResponse } from '@/lib/add-validation';
+import { apiPost } from '@/lib/api/api-handler';
 import { useNavigate } from 'react-router';
 import { useState } from 'react';
 import { useToast } from '@/hooks/use-toast';
@@ -73,20 +74,16 @@ export default function AddBook() {
 
         console.log('Gesendete Formulardaten:', submissionData);
 
-        try {
-            const response = await fetch('/api/rest', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    Authorization: `Bearer ${getToken()}`,
-                },
-                body: JSON.stringify(submissionData),
-            });
-
-            await handleResponse(response, toast, navigate, formData);
-        } catch (error) {
-            console.error('Fehler beim Hinzufügen des Buches:', error);
-        }
+        apiPost(
+            '/api/rest',
+            JSON.stringify(submissionData),
+            () => handleSuccess(toast, navigate, formData),
+            (status: number) => handleFailure(status, toast),
+            {
+                noCache: false,
+                token: true,
+            },
+        );
     };
 
     return (

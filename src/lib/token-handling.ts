@@ -1,4 +1,3 @@
-import Cookies from 'js-cookie';
 import { UserData } from '@/types/context';
 
 export function getUserDataFromToken(jwt: string) {
@@ -9,7 +8,6 @@ export function getUserDataFromToken(jwt: string) {
     const payloadDecoded = atob(payloadStr);
     const payload = JSON.parse(payloadDecoded);
     const { azp, resource_access } = payload;
-    console.log(payload);
 
     return {
         username: payload.preferred_username,
@@ -18,16 +16,16 @@ export function getUserDataFromToken(jwt: string) {
 }
 
 export function removeToken() {
-    Cookies.remove('access_token');
+    sessionStorage.clear();
 }
 
 export function getToken() {
-    return Cookies.get('access_token');
+    return sessionStorage.getItem('access_token');
 }
 
 export function getUserData() {
     const token = getToken();
-    if (token === undefined) {
+    if (token === undefined || token === null) {
         return {};
     }
 
@@ -39,15 +37,12 @@ export function getUserData() {
     return userData;
 }
 
-export function setToken(access_token: string, expires_in: string) {
-    Cookies.set('access_token', access_token, {
-        secure: true,
-        expires: getExpiryDate(expires_in),
-    });
+export function setToken(accessToken: string) {
+    sessionStorage.setItem('access_token', accessToken);
 }
 
-function getExpiryDate(expires_in: string) {
-    return new Date(
-        Date.now() + Number.parseInt(expires_in.toString(), 10) * 1000,
-    );
-}
+// function getExpiryDate(expiresIn: string) {
+//     return new Date(
+//         Date.now() + Number.parseInt(expiresIn.toString(), 10) * 1000,
+//     ).toUTCString();
+// }

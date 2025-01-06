@@ -24,7 +24,7 @@ export default function AddBook() {
         rabatt: 0,
         datum: '',
         schlagwoerter: [],
-        coverImage: '', // Hier wird das Bild gespeichert
+        coverImage: '',
         _links: { self: { href: '' } },
     });
 
@@ -64,7 +64,7 @@ export default function AddBook() {
             reader.onloadend = () => {
                 setFormData((prev) => ({
                     ...prev,
-                    coverImage: reader.result as string, // Base64-String wird gespeichert
+                    coverImage: reader.result as string,
                 }));
             };
             reader.readAsDataURL(file);
@@ -168,6 +168,7 @@ export default function AddBook() {
                             value={formData.titel.titel}
                             onChange={handleChange}
                             className="border rounded-md p-2 w-full"
+                            placeholder="Der Herr der Ringe"
                             required
                         />
                     </label>
@@ -180,6 +181,7 @@ export default function AddBook() {
                             value={formData.titel.untertitel}
                             onChange={handleChange}
                             className="border rounded-md p-2 w-full"
+                            placeholder="Die Gefährten"
                         />
                     </label>
 
@@ -191,6 +193,7 @@ export default function AddBook() {
                             value={formData.isbn}
                             onChange={handleChange}
                             className="border rounded-md p-2 w-full"
+                            placeholder="978-3-86680-192-9"
                             required
                         />
                     </label>
@@ -203,13 +206,14 @@ export default function AddBook() {
                             value={formData.datum}
                             onChange={handleChange}
                             className="border rounded-md p-2 w-full"
+                            onKeyDown={(e) => e.preventDefault()}
                         />
                     </label>
 
                     <label className="font-medium">
                         Preis (€): {' '}
                         <input
-                            type="number"
+                            type="text"
                             name="preis"
                             value={formData.preis}
                             onChange={handleChange}
@@ -306,7 +310,7 @@ export default function AddBook() {
                             value={formData.schlagwoerter.join(',')}
                             onChange={handleChange}
                             className="border rounded-md p-2 w-full"
-                            placeholder="Comma-separated"
+                            placeholder="Fantasy, Abenteuer"
                         />
                     </label>
                 </div>

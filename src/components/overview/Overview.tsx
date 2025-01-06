@@ -6,8 +6,7 @@ import { AxiosResponse } from 'axios';
 import BookCard from './BookCard';
 import Breadcrumbs from '../common/Breadcrumbs';
 import { Buch } from '@/types/buch';
-import { Button } from '../shadcn-ui/button';
-import { Input } from '../shadcn-ui/input';
+import Search from './Search';
 import { apiGet } from '@/lib/api/api-handler';
 import { hasAddRights } from '@/lib/role-utils';
 import { useAppContext } from '@/hooks/use-context';
@@ -19,14 +18,16 @@ export default function Overview() {
     const [failureText, setFailureText] = useState<string>(
         'Ein unerwarteter Fehler ist aufgetreten.',
     );
-    const [searchTerm, setSearchTerm] = useState('');
-    const [category, setCategory] = useState('');
+    const [searchParams, setSearchParams] = useState<Record<string, string>>(
+        {},
+    );
     const { user } = useAppContext();
 
-    const fetchBooks = (query = '', selectedCategory = '') => {
+    const fetchBooks = () => {
         const urlParams = new URLSearchParams();
-        if (query) urlParams.append('titel', query);
-        if (selectedCategory) urlParams.append('art', selectedCategory);
+        Object.entries(searchParams).forEach(([key, value]) => {
+            urlParams.append(key, value);
+        });
         apiGet(
             `/api/rest?${urlParams.toString()}`,
             (response: AxiosResponse) => handleSuccess(response, setBooks),
@@ -38,17 +39,9 @@ export default function Overview() {
         fetchBooks();
     }, []);
 
-    const handleSearch = () => {
-        if (searchTerm.trim() === '' && category.trim() === '') {
-            fetchBooks();
-        } else {
-            fetchBooks(searchTerm, category);
-        }
-    };
-
     const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
         if (event.key === 'Enter') {
-            handleSearch();
+            fetchBooks();
         }
     };
 
@@ -56,36 +49,12 @@ export default function Overview() {
         <div className="content p-4">
             <Breadcrumbs path={[{ base: '' }]} />
             <h1 className="text-2xl font-bold mb-4">Bücher</h1>
-            <div className="flex items-center space-x-2 searchbar mb-4">
-                {/* Suchfeld */}
-                <Input
-                    className="flex-item flex-auto p-2 bg-gray-100 rounded border border-gray-300 focus:outline-none focus:ring-2 focus:ring-mainColor"
-                    type="text"
-                    value={searchTerm}
-                    onChange={(e) => setSearchTerm(e.target.value)}
-                    onKeyDown={handleKeyDown}
-                    placeholder="Nach Buchtiteln suchen..."
-                />
-                {/* Dropdown für Kategorie */}
-                <select
-                    className="flex-item p-2 bg-gray-100 rounded border border-gray-300 focus:outline-none focus:ring-2 focus:ring-mainColor"
-                    value={category}
-                    onChange={(e) => setCategory(e.target.value)}
-                >
-                    <option value="">Alle Buchkategorien</option>
-                    <option value="EPUB">EPUB</option>
-                    <option value="HARDCOVER">HARDCOVER</option>
-                    <option value="PAPERBACK">PAPERBACK</option>
-                </select>
-                {/* Suchbutton */}
-                <Button
-                    variant="custom"
-                    className="flex-item px-4 py-2 rounded"
-                    onClick={handleSearch}
-                >
-                    Suchen
-                </Button>
-            </div>
+            <Search
+                searchParams={searchParams}
+                setSearchParams={setSearchParams}
+                handleKeyDown={handleKeyDown}
+                handleSearch={fetchBooks}
+            />
 
             {/* Anzeige der Bücher oder eine Fehlermeldung */}
             {books.length === 0 && (

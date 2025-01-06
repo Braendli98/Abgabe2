@@ -6,7 +6,7 @@ import { AxiosResponse } from 'axios';
 import BookCard from './BookCard';
 import Breadcrumbs from '../common/Breadcrumbs';
 import { Buch } from '@/types/buch';
-import Search from './Search';
+import SearchComponent from './Search';
 import { apiGet } from '@/lib/api/api-handler';
 import { hasAddRights } from '@/lib/role-utils';
 import { useAppContext } from '@/hooks/use-context';
@@ -26,7 +26,9 @@ export default function Overview() {
     const fetchBooks = () => {
         const urlParams = new URLSearchParams();
         Object.entries(searchParams).forEach(([key, value]) => {
-            urlParams.append(key, value);
+            if (value !== undefined && value != '') {
+                urlParams.append(key, value);
+            }
         });
         apiGet(
             `/api/rest?${urlParams.toString()}`,
@@ -37,11 +39,16 @@ export default function Overview() {
 
     useEffect(() => {
         fetchBooks();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
+
+    const handleSearch = () => {
+        fetchBooks();
+    };
 
     const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
         if (event.key === 'Enter') {
-            fetchBooks();
+            handleSearch();
         }
     };
 
@@ -49,11 +56,11 @@ export default function Overview() {
         <div className="content p-4">
             <Breadcrumbs path={[{ base: '' }]} />
             <h1 className="text-2xl font-bold mb-4">Bücher</h1>
-            <Search
+            <SearchComponent
                 searchParams={searchParams}
                 setSearchParams={setSearchParams}
                 handleKeyDown={handleKeyDown}
-                handleSearch={fetchBooks}
+                handleSearch={handleSearch}
             />
 
             {/* Anzeige der Bücher oder eine Fehlermeldung */}

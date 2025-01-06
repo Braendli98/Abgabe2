@@ -95,20 +95,12 @@ export default function AddBook() {
             return 'Der Preis muss größer als 0 sein.';
         }
 
-        if (formData.rating < 1 || formData.rating > 5) {
-            return 'Das Rating muss zwischen 1 und 5 liegen.';
-        }
-
         if (formData.rabatt < 0 || formData.rabatt > 100) {
             return 'Der Rabatt muss zwischen 0 und 100 liegen.';
         }
 
         if (!formData.datum || new Date(formData.datum).toString() === 'Invalid Date') {
             return 'Ein gültiges Datum ist erforderlich.';
-        }
-
-        if (!formData.coverImage || formData.coverImage.trim() === '') {
-            return 'Ein Bild muss hochgeladen werden.';
         }
 
         return null;
@@ -122,7 +114,7 @@ export default function AddBook() {
             toast({
                 title: 'Ungültige Eingabe',
                 description: errorMessage,
-                variant: 'destructive',
+                variant: 'failure',
             });
             return;
         }
@@ -133,8 +125,9 @@ export default function AddBook() {
             ...formData,
             datum: formattedDate,
             preis: parseFloat(formData.preis.toString()),
-            rabatt: parseFloat(formData.rabatt.toString()),
+            rabatt: parseFloat(formData.rabatt.toString()) / 100,
             rating: formData.rating || undefined,
+            coverImage: formData.coverImage || undefined,
         };
 
         console.log('Gesendete Daten:', JSON.stringify(submissionData, null, 2));

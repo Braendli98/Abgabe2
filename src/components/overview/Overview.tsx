@@ -1,3 +1,4 @@
+import { handleFailure, handleSuccess } from '@/lib/search-validation';
 import { useEffect, useState } from 'react';
 
 import AddCard from './AddCard';
@@ -15,6 +16,9 @@ import { useNavigate } from 'react-router';
 export default function Overview() {
     const navigate = useNavigate();
     const [books, setBooks] = useState<Buch[]>([]);
+    const [failureText, setFailureText] = useState<string>(
+        'Ein unerwarteter Fehler ist aufgetreten.',
+    );
     const [searchTerm, setSearchTerm] = useState('');
     const [category, setCategory] = useState('');
     const { user } = useAppContext();
@@ -25,9 +29,8 @@ export default function Overview() {
         if (selectedCategory) urlParams.append('art', selectedCategory);
         apiGet(
             `/api/rest?${urlParams.toString()}`,
-            (response: AxiosResponse) =>
-                setBooks(response.data._embedded?.buecher ?? []),
-            () => console.error('Oops!'),
+            (response: AxiosResponse) => handleSuccess(response, setBooks),
+            (status: number) => handleFailure(status, setBooks, setFailureText),
         );
     };
 
@@ -56,7 +59,7 @@ export default function Overview() {
             <div className="flex items-center space-x-2 searchbar mb-4">
                 {/* Suchfeld */}
                 <Input
-                    className="flex-1 p-2 bg-gray-100 rounded border border-gray-300 focus:outline-none focus:ring-2 focus:ring-mainColor"
+                    className="flex-item flex-auto p-2 bg-gray-100 rounded border border-gray-300 focus:outline-none focus:ring-2 focus:ring-mainColor"
                     type="text"
                     value={searchTerm}
                     onChange={(e) => setSearchTerm(e.target.value)}
@@ -65,7 +68,7 @@ export default function Overview() {
                 />
                 {/* Dropdown für Kategorie */}
                 <select
-                    className="p-2 bg-gray-100 rounded border border-gray-300 focus:outline-none focus:ring-2 focus:ring-mainColor"
+                    className="flex-item p-2 bg-gray-100 rounded border border-gray-300 focus:outline-none focus:ring-2 focus:ring-mainColor"
                     value={category}
                     onChange={(e) => setCategory(e.target.value)}
                 >
@@ -77,7 +80,7 @@ export default function Overview() {
                 {/* Suchbutton */}
                 <Button
                     variant="custom"
-                    className="px-4 py-2 rounded"
+                    className="flex-item px-4 py-2 rounded"
                     onClick={handleSearch}
                 >
                     Suchen
@@ -86,11 +89,7 @@ export default function Overview() {
 
             {/* Anzeige der Bücher oder eine Fehlermeldung */}
             {books.length === 0 && (
-                <p className="text-center mt-4 text-gray-500">
-                    {searchTerm.trim() === '' && category.trim() === ''
-                        ? 'Bitte geben Sie einen Suchbegriff ein oder wählen Sie eine Kategorie aus.'
-                        : 'Keine Bücher gefunden oder ein Fehler ist aufgetreten.'}
-                </p>
+                <p className="text-center mt-4 text-gray-500">{failureText}</p>
             )}
             <div className="grid grid-cols-6 gap-4">
                 {books.length > 0 &&

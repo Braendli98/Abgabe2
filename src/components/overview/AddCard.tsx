@@ -18,7 +18,7 @@ export default function AddCard({ className, onClick }: AddCardProps) {
                 <Plus className="flex-item grow" size={70} />
             </CardContent>
             <CardFooter className="flex-item">
-                <p>Add Book</p>
+                <p>Buch Anlegen</p>
             </CardFooter>
         </Card>
     );

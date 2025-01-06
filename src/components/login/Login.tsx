@@ -48,7 +48,7 @@ export default function Login() {
         );
 
     return (
-        <div className="flex justify-center items-center min-h-[400px] w-4/12 bg-backgroundColor">
+        <div className="flex justify-center items-center w-8/12 md:min-h-[400px] md:w-4/12 bg-backgroundColor">
             <div className="absolute top-8 left-8">
                 <Breadcrumbs
                     path={[
@@ -93,7 +93,8 @@ export default function Login() {
                     }
                 />
                 <Button
-                    className="w-full bg-mainColor bg-opacity-60 text-white hover:bg-mainColor hover:bg-opacity-70 py-2 rounded-lg mt-16"
+                    className="w-full py-2 mt-16"
+                    variant="custom"
                     disabled={!isButtonEnabled(login)}
                     onClick={() => {
                         fetchData();
@@ -106,8 +107,8 @@ export default function Login() {
             <img
                 src={hkaLogo}
                 alt="HKA Logo"
-                className="absolute top-8 right-8"
-                style={{ height: '195px' }}
+                className="absolute top-8 right-8 h-[100px] md:h-[195px]"
+                // style={{ height: '195px' }}
             />
         </div>
     );

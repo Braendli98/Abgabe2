@@ -76,7 +76,8 @@ export default function Overview() {
                 </select>
                 {/* Suchbutton */}
                 <Button
-                    className="bg-mainColor text-white px-4 py-2 rounded shadow hover:bg-opacity-90"
+                    variant="custom"
+                    className="px-4 py-2 rounded"
                     onClick={handleSearch}
                 >
                     Suchen
@@ -91,19 +92,19 @@ export default function Overview() {
                         : 'Keine Bücher gefunden oder ein Fehler ist aufgetreten.'}
                 </p>
             )}
-            <div className="flex flex-wrap">
+            <div className="grid grid-cols-6 gap-4">
                 {books.length > 0 &&
                     books.map((book) => (
                         <BookCard
                             key={book._links.self.href}
-                            className="flex-item"
+                            className="col-span-6 md:col-span-3 lg:col-span-2"
                             book={book}
                         />
                     ))}
                 {/* Zusatzoption für eingeloggte Admins */}
                 {hasAddRights(user) && (
                     <AddCard
-                        className="flex-item"
+                        className="col-span-6 md:col-span-2 lg:col-span-1 w-full"
                         onClick={(
                             event: React.MouseEvent<HTMLDivElement, MouseEvent>,
                         ) => {

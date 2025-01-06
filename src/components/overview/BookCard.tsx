@@ -27,7 +27,6 @@ export default function BookCard({
     return (
         <Card
             className={`${className} cursor-pointer hover:shadow-lg transition-shadow`}
-            style={{ margin: '10px', minWidth: '350px', minHeight: '50px' }}
             onClick={handleClick}
             role="button"
         >

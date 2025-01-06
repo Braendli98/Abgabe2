@@ -8,6 +8,7 @@ import BookCover from '../common/BookCover';
 import Breadcrumbs from '../common/Breadcrumbs';
 import { Buch } from '@/types/buch';
 import { Button } from '../shadcn-ui/button';
+import { Trash2 } from 'lucide-react';
 import { getBreadcrumbComponents } from '@/lib/breadcrumb-utils';
 import { hasRemoveRights } from '@/lib/role-utils';
 import { useAppContext } from '@/hooks/use-context';
@@ -74,27 +75,27 @@ export default function Details() {
                         {book?.titel?.untertitel || 'Kein Untertitel'}
                     </p>
                     <div className="grid grid-cols-2 gap-x-8 gap-y-4">
-                        <div>
+                        <div className="col-span-2 md:col-span-1">
                             <strong>ISBN:</strong>{' '}
                             {book?.isbn || 'Nicht verfügbar'}
                         </div>
-                        <div>
+                        <div className="col-span-2 md:col-span-1">
                             <strong>Art:</strong> {book?.art || 'Unbekannt'}
                         </div>
-                        <div>
+                        <div className="col-span-2 md:col-span-1">
                             <strong>Preis:</strong>{' '}
                             {book?.preis
                                 ? `${book.preis} €`
                                 : 'Nicht verfügbar'}
                         </div>
-                        <div>
+                        <div className="col-span-2 md:col-span-1">
                             <strong>Lieferbar:</strong>{' '}
                             {book?.lieferbar ? 'Ja' : 'Nein'}
                         </div>
-                        <div>
+                        <div className="col-span-2 md:col-span-1">
                             <strong>Rabatt:</strong> {book?.rabatt || 0} %
                         </div>
-                        <div>
+                        <div className="col-span-2 md:col-span-1">
                             <strong>Erscheinungsdatum:</strong>{' '}
                             {book?.datum || 'Nicht verfügbar'}
                         </div>
@@ -112,6 +113,7 @@ export default function Details() {
                                     deleteEntry();
                                 }}
                             >
+                                <Trash2 />
                                 Buch Löschen
                             </Button>
                         </div>

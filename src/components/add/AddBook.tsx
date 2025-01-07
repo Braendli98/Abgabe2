@@ -99,10 +99,11 @@ export default function AddBook() {
             return 'Der Rabatt muss zwischen 0 und 100 liegen.';
         }
 
-        if (
-            !formData.datum ||
-            new Date(formData.datum).toString() === 'Invalid Date'
-        ) {
+        if (!formData.datum || formData.datum.trim() === '') {
+            return 'Ein Datum ist erforderlich.';
+        }
+
+        if (new Date(formData.datum).toString() === 'Invalid Date') {
             return 'Ein gültiges Datum ist erforderlich.';
         }
 
@@ -117,7 +118,7 @@ export default function AddBook() {
             toast({
                 title: 'Ungültige Eingabe',
                 description: errorMessage,
-                variant: 'failure',
+                variant: 'destructive',
             });
             return;
         }
@@ -131,8 +132,6 @@ export default function AddBook() {
             datum: formattedDate,
             preis: parseFloat(formData.preis.toString()),
             rabatt: parseFloat(formData.rabatt.toString()) / 100,
-            rating: formData.rating || undefined,
-            coverImage: formData.coverImage || undefined,
         };
 
         console.log(
@@ -162,7 +161,7 @@ export default function AddBook() {
             >
                 <div className="flex flex-col space-y-4">
                     <label className="font-medium">
-                        Titel:{' '}
+                        Titel<span className="text-red-500">*</span>:{' '}
                         <input
                             type="text"
                             name="titel.titel"
@@ -187,7 +186,7 @@ export default function AddBook() {
                     </label>
 
                     <label className="font-medium">
-                        ISBN:{' '}
+                        ISBN<span className="text-red-500">*</span>:{' '}
                         <input
                             type="text"
                             name="isbn"
@@ -200,7 +199,7 @@ export default function AddBook() {
                     </label>
 
                     <label className="font-medium">
-                        Datum:{' '}
+                        Datum<span className="text-red-500">*</span>:{' '}
                         <input
                             type="date"
                             name="datum"
@@ -212,7 +211,7 @@ export default function AddBook() {
                     </label>
 
                     <label className="font-medium">
-                        Preis (€):{' '}
+                        Preis (€)<span className="text-red-500">*</span>:{' '}
                         <input
                             type="text"
                             name="preis"

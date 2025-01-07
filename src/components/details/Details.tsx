@@ -8,6 +8,7 @@ import BookCover from '../common/BookCover';
 import Breadcrumbs from '../common/Breadcrumbs';
 import { Buch } from '@/types/buch';
 import { Button } from '../shadcn-ui/button';
+import StarRating from '../common/StarRating';
 import { Trash2 } from 'lucide-react';
 import { getBreadcrumbComponents } from '@/lib/breadcrumb-utils';
 import { hasRemoveRights } from '@/lib/role-utils';
@@ -60,7 +61,7 @@ export default function Details() {
             <Breadcrumbs path={getBreadcrumbComponents(`details/${book.id}`)} />
 
             {/* Buchdetails */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-12 border rounded-lg shadow-lg p-8 bg-white">
+            <div className="grid grid-cols-1 md:grid-cols-[2fr_3fr] gap-12 border rounded-lg shadow-lg p-12 bg-white">
                 {/* Bild des Buches */}
                 <div className="flex justify-center items-start">
                     <BookCover book={book} size="large" />
@@ -93,13 +94,23 @@ export default function Details() {
                             {book?.lieferbar ? 'Ja' : 'Nein'}
                         </div>
                         <div className="col-span-2 md:col-span-1">
-                            <strong>Rabatt:</strong> {book?.rabatt || 0} %
+                            <strong>Rabatt:</strong>{' '}
+                            {book?.rabatt ? (book.rabatt * 100).toFixed(1) : 0}{' '}
+                            %
                         </div>
                         <div className="col-span-2 md:col-span-1">
                             <strong>Erscheinungsdatum:</strong>{' '}
                             {book?.datum || 'Nicht verfügbar'}
                         </div>
-                        <div className="col-span-2">
+                        <div className="col-span-2 md:col-span-1">
+                            <strong>Rating:</strong>{' '}
+                            {book?.rating ? (
+                                <StarRating rating={book.rating} />
+                            ) : (
+                                'Kein Rating'
+                            )}
+                        </div>
+                        <div className="col-span-2 md:col-span-1">
                             <strong>Schlagwörter:</strong>{' '}
                             {book?.schlagwoerter?.join(', ') || 'Keine'}
                         </div>
@@ -114,7 +125,9 @@ export default function Details() {
                                 }}
                             >
                                 <Trash2 />
-                                Buch Löschen
+                                <span className="text-lg md:text-base">
+                                    Buch Löschen
+                                </span>
                             </Button>
                         </div>
                     )}

@@ -33,7 +33,7 @@ export default function Overview() {
             },
             () => {
                 console.error('Fehler bei der API-Anfrage.');
-                setBooks([]); 
+                setBooks([]);
             },
         );
     };

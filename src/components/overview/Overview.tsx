@@ -65,7 +65,9 @@ export default function Overview() {
 
             {/* Anzeige der Bücher oder eine Fehlermeldung */}
             {books.length === 0 && (
-                <p className="text-center mt-4 text-gray-500">{failureText}</p>
+                <p className="text-center mt-4 text-gray-500">
+                    {failureText}
+                </p>
             )}
             <div className="grid grid-cols-6 gap-4">
                 {books.length > 0 &&

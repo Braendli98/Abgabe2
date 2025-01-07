@@ -94,7 +94,9 @@ export default function Details() {
                             {book?.lieferbar ? 'Ja' : 'Nein'}
                         </div>
                         <div>
-                            <strong>Rabatt:</strong> {book?.rabatt ? (book.rabatt * 100).toFixed(1) : 0} %
+                            <strong>Rabatt:</strong>{' '}
+                            {book?.rabatt ? (book.rabatt * 100).toFixed(1) : 0}{' '}
+                            %
                         </div>
                         <div>
                             <strong>Erscheinungsdatum:</strong>{' '}

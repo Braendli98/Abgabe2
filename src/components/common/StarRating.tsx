@@ -13,12 +13,12 @@ export default function StarRating({
                 <svg
                     key={index}
                     xmlns="http://www.w3.org/2000/svg"
-                    fill={index < Math.floor(rating) ? "gold" : "lightgray"}
+                    fill={index < Math.floor(rating) ? 'gold' : 'lightgray'}
                     viewBox="0 0 24 24"
                     strokeWidth={1.5}
                     stroke="currentColor"
                     className="w-6 h-6 cursor-pointer"
-                    onClick={() => onClick && onClick(index + 1)} 
+                    onClick={() => onClick && onClick(index + 1)}
                 >
                     <path
                         strokeLinecap="round"

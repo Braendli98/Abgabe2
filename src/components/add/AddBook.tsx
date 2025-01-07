@@ -99,7 +99,10 @@ export default function AddBook() {
             return 'Der Rabatt muss zwischen 0 und 100 liegen.';
         }
 
-        if (!formData.datum || new Date(formData.datum).toString() === 'Invalid Date') {
+        if (
+            !formData.datum ||
+            new Date(formData.datum).toString() === 'Invalid Date'
+        ) {
             return 'Ein gültiges Datum ist erforderlich.';
         }
 
@@ -119,7 +122,9 @@ export default function AddBook() {
             return;
         }
 
-        const formattedDate = new Date(formData.datum).toISOString().split('T')[0];
+        const formattedDate = new Date(formData.datum)
+            .toISOString()
+            .split('T')[0];
 
         const submissionData = {
             ...formData,
@@ -130,7 +135,10 @@ export default function AddBook() {
             coverImage: formData.coverImage || undefined,
         };
 
-        console.log('Gesendete Daten:', JSON.stringify(submissionData, null, 2));
+        console.log(
+            'Gesendete Daten:',
+            JSON.stringify(submissionData, null, 2),
+        );
 
         apiPost(
             '/api/rest',
@@ -154,7 +162,7 @@ export default function AddBook() {
             >
                 <div className="flex flex-col space-y-4">
                     <label className="font-medium">
-                        Titel: {' '}
+                        Titel:{' '}
                         <input
                             type="text"
                             name="titel.titel"
@@ -167,7 +175,7 @@ export default function AddBook() {
                     </label>
 
                     <label className="font-medium">
-                        Untertitel: {' '}
+                        Untertitel:{' '}
                         <input
                             type="text"
                             name="titel.untertitel"
@@ -179,7 +187,7 @@ export default function AddBook() {
                     </label>
 
                     <label className="font-medium">
-                        ISBN: {' '}
+                        ISBN:{' '}
                         <input
                             type="text"
                             name="isbn"
@@ -192,7 +200,7 @@ export default function AddBook() {
                     </label>
 
                     <label className="font-medium">
-                        Datum: {' '}
+                        Datum:{' '}
                         <input
                             type="date"
                             name="datum"
@@ -204,7 +212,7 @@ export default function AddBook() {
                     </label>
 
                     <label className="font-medium">
-                        Preis (€): {' '}
+                        Preis (€):{' '}
                         <input
                             type="text"
                             name="preis"
@@ -216,7 +224,7 @@ export default function AddBook() {
                     </label>
 
                     <label className="font-medium">
-                        Rabatt (%): {' '}
+                        Rabatt (%):{' '}
                         <input
                             type="number"
                             name="rabatt"
@@ -227,7 +235,7 @@ export default function AddBook() {
                     </label>
 
                     <label className="font-medium">
-                        Rating: {' '}
+                        Rating:{' '}
                         <div className="mt-2">
                             <StarRating
                                 rating={formData.rating}
@@ -239,7 +247,7 @@ export default function AddBook() {
                     </label>
 
                     <label className="font-medium">
-                        Cover Image: {' '}
+                        Cover Image:{' '}
                         <input
                             type="file"
                             accept="image/*"
@@ -285,7 +293,7 @@ export default function AddBook() {
                     </div>
 
                     <label className="font-medium">
-                        Lieferbar: {' '}
+                        Lieferbar:{' '}
                         <input
                             type="checkbox"
                             name="lieferbar"
@@ -296,7 +304,7 @@ export default function AddBook() {
                     </label>
 
                     <label className="font-medium">
-                        Schlagwörter: {' '}
+                        Schlagwörter:{' '}
                         <input
                             type="text"
                             name="schlagwoerter"

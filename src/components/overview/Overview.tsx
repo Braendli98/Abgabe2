@@ -23,11 +23,18 @@ export default function Overview() {
         const urlParams = new URLSearchParams();
         if (query) urlParams.append('titel', query);
         if (selectedCategory) urlParams.append('art', selectedCategory);
+
         apiGet(
             `/api/rest?${urlParams.toString()}`,
-            (response: AxiosResponse) =>
-                setBooks(response.data._embedded?.buecher ?? []),
-            () => console.error('Oops!'),
+            (response: AxiosResponse) => {
+                console.log('API Response:', response);
+                const books = response.data._embedded?.buecher ?? [];
+                setBooks(books);
+            },
+            () => {
+                console.error('Fehler bei der API-Anfrage.');
+                setBooks([]); 
+            },
         );
     };
 
@@ -88,7 +95,7 @@ export default function Overview() {
                 <p className="text-center mt-4 text-gray-500">
                     {searchTerm.trim() === '' && category.trim() === ''
                         ? 'Bitte geben Sie einen Suchbegriff ein oder wählen Sie eine Kategorie aus.'
-                        : 'Keine Bücher gefunden oder ein Fehler ist aufgetreten.'}
+                        : 'Keine Bücher gefunden. Bitte versuchen Sie es mit einem anderen Suchbegriff oder einer anderen Kategorie.'}
                 </p>
             )}
             <div className="flex flex-wrap">

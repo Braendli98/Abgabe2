@@ -4,6 +4,7 @@ import {
     CollapsibleContent,
     CollapsibleTrigger,
 } from '../shadcn-ui/collapsible';
+import { RadioGroup, RadioGroupItem } from '../shadcn-ui/radio-group';
 import {
     Select,
     SelectContent,
@@ -14,6 +15,7 @@ import {
 } from '../shadcn-ui/select';
 
 import { Button } from '../shadcn-ui/button';
+import { Checkbox } from '../shadcn-ui/checkbox';
 import { Input } from '../shadcn-ui/input';
 import { Label } from '../shadcn-ui/label';
 
@@ -40,10 +42,15 @@ export default function SearchComponent({
         setSearchParams(searchParams);
     };
 
+    const setCheckboxParam = (key: string, checked: string) => {
+        searchParams[key] = searchParams[key] === checked ? '' : checked;
+        setSearchParams(searchParams);
+    };
+
     return (
-        <Collapsible className="w-full">
-            <div className="flex items-center w-full md:w-2/3 mb-4">
-                {/* Suchfeld */}
+        <Collapsible>
+            <div className="flex items-center md:w-2/3 mb-4">
+                {/* Suchfeld für Titel */}
                 <SearchInput
                     searchKey="title"
                     placeholder="Nach Buchtiteln suchen..."
@@ -73,24 +80,35 @@ export default function SearchComponent({
                 </Button>
             </div>
             <CollapsibleContent className="mb-2">
-                <div className="grid grid-cols-1 md:grid-cols-2 md:w-2/3 gap-x-4 border rounded p-2 border-gray-300">
+                <div className="grid grid-cols-1 md:grid-cols-2 md:w-2/3 gap-x-4 gap-y-4 md:gap-y-1 border rounded-lg p-2 border-gray-300">
                     {/* Dropdown für Kategorie */}
                     <div className="col-span-1 col-start-1">
-                        <Label>Buchkategorie</Label>
+                        <SearchLabel>Buchkategorie</SearchLabel>
                         <Select
                             onValueChange={(e) => setSelectParam('art', e)}
                             defaultValue="NULL"
                         >
-                            <SelectTrigger className="w-full">
+                            <SelectTrigger className="w-full text-base">
                                 <SelectValue />
                             </SelectTrigger>
                             <SelectContent>
                                 <SelectGroup>
-                                    <SelectItem value="NULL">
+                                    <SelectItem
+                                        value="NULL"
+                                        className="text-base"
+                                    >
                                         Alle Buchkategorien
                                     </SelectItem>
-                                    <SelectItem value="EPUB">Epub</SelectItem>
-                                    <SelectItem value="HARDCOVER">
+                                    <SelectItem
+                                        value="EPUB"
+                                        className="text-base"
+                                    >
+                                        Epub
+                                    </SelectItem>
+                                    <SelectItem
+                                        value="HARDCOVER"
+                                        className="text-base"
+                                    >
                                         Hardcover
                                     </SelectItem>
                                     <SelectItem value="PAPERBACK">
@@ -100,37 +118,108 @@ export default function SearchComponent({
                             </SelectContent>
                         </Select>
                     </div>
-                    {/* Dropdown für Lieferbar */}
-                    <div className="col-span-1 col-start-1 md:col-start-2">
-                        <Label>Lieferbar</Label>
-                        <Select
+                    {/* Eingabefeld für ISBN */}
+                    <div className="col-span-1 col-start-1">
+                        <SearchLabel>ISBN</SearchLabel>
+                        <SearchInput
+                            searchKey="isbn"
+                            placeholder="Nach ISBN suchen..."
+                            type="text"
+                            searchParams={searchParams}
+                            setSearchParam={setSearchParam}
+                            handleKeyDown={handleKeyDown}
+                            className={'flex-item flex-auto mr-1'}
+                        />
+                    </div>
+                    {/* Eingabefeld für Preis */}
+                    <div className="col-span-1 col-start-1">
+                        <SearchLabel>Preis</SearchLabel>
+                        <SearchInput
+                            searchKey="preis"
+                            placeholder="Nach exaktem Preis suchen..."
+                            type="number"
+                            searchParams={searchParams}
+                            setSearchParam={setSearchParam}
+                            handleKeyDown={handleKeyDown}
+                            className={'flex-item flex-auto mr-1'}
+                        />
+                    </div>
+                    {/* Eingabefeld für Rabatt */}
+                    <div className="col-span-1 col-start-1">
+                        <SearchLabel>Rabatt</SearchLabel>
+                        <SearchInput
+                            searchKey="rabatt"
+                            placeholder="Nach exaktem Rabatt suchen..."
+                            type="number"
+                            searchParams={searchParams}
+                            setSearchParam={setSearchParam}
+                            handleKeyDown={handleKeyDown}
+                            className={'flex-item flex-auto mr-1'}
+                        />
+                    </div>
+                    {/* Radiogroup für Nur Lieferbar */}
+                    <div className="col-span-1 col-start-1 md:col-start-2 row-span-2 md:row-start-1 self-center space-y-2">
+                        <Label className="text-lg md:text-base">
+                            Lieferbar
+                        </Label>
+                        <RadioGroup
+                            defaultValue=""
                             onValueChange={(e) =>
-                                setSelectParam('lieferbar', e)
+                                setSearchParam('lieferbar', e)
                             }
-                            defaultValue="NULL"
                         >
-                            <SelectTrigger className="w-full">
-                                <SelectValue />
-                            </SelectTrigger>
-                            <SelectContent>
-                                <SelectGroup>
-                                    <SelectItem value="NULL">
-                                        Lieferbare/Nicht Lieferbare
-                                    </SelectItem>
-                                    <SelectItem value="1">
-                                        Nur Lieferbare
-                                    </SelectItem>
-                                    <SelectItem value="0">
-                                        Nur nicht Lieferbare
-                                    </SelectItem>
-                                </SelectGroup>
-                            </SelectContent>
-                        </Select>
+                            <div className="flex items-center space-x-2">
+                                <RadioGroupItem value="" id="r1" />
+                                <Label className="text-base">
+                                    Lieferbare/Nicht Lieferbare
+                                </Label>
+                            </div>
+                            <div className="flex items-center space-x-2">
+                                <RadioGroupItem value="1" id="r2" />
+                                <Label className="text-base">
+                                    Nur Lieferbare
+                                </Label>
+                            </div>
+                            <div className="flex items-center space-x-2">
+                                <RadioGroupItem value="0" id="r3" />
+                                <Label className="text-base">
+                                    Nur nicht Lieferbare
+                                </Label>
+                            </div>
+                        </RadioGroup>
+                    </div>
+                    {/* Checkboxen für Schlagwörter */}
+                    <div className="col-span-1 col-start-1 md:col-start-2 row-span-2 md:row-start-3 self-center space-y-2">
+                        <Label className="text-lg md:text-base">
+                            Schlagwörter
+                        </Label>
+                        <div className="flex items-center space-x-2">
+                            <Checkbox
+                                id="terms"
+                                onCheckedChange={() =>
+                                    setCheckboxParam('javascript', 'true')
+                                }
+                            />
+                            <Label className="text-base">Javascript</Label>
+                        </div>
+                        <div className="flex items-center space-x-2">
+                            <Checkbox
+                                id="terms"
+                                onCheckedChange={() =>
+                                    setCheckboxParam('typescript', 'true')
+                                }
+                            />
+                            <Label className="text-base">Typescript</Label>
+                        </div>
                     </div>
                 </div>
             </CollapsibleContent>
         </Collapsible>
     );
+}
+
+function SearchLabel({ children }: { children: string }) {
+    return <Label className="text-lg md:text-base">{children}</Label>;
 }
 
 function SearchInput({

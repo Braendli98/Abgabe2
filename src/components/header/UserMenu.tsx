@@ -10,11 +10,11 @@ import { removeToken } from '@/lib/utils/token-handling';
 import { useToast } from '@/hooks/use-toast';
 
 /**
- * Rendert ein Nutzermenü. Das Menü erlaubt das Abmelden des Nutzers. 
- * 
- * @param props React Props bestehend aus `name` und `setUser`  
- * `name` Name des Nutzers  
- * `setUser` Setzt State des Nutzers 
+ * Rendert ein Nutzermenü. Das Menü erlaubt das Abmelden des Nutzers.
+ *
+ * @param props React Props bestehend aus `name` und `setUser`
+ * `name` Name des Nutzers
+ * `setUser` Setzt State des Nutzers
  * @returns Nutzermenü Komponente
  */
 export default function UserMenu({

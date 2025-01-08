@@ -2,7 +2,7 @@ import { BreadcrumbComponent } from '@/types/breadcrumb';
 
 /**
  * Erstellt BreadcrumbComponents aus einem URI Pfad.
- * 
+ *
  * @param path Pfad für den BreadcrumbComponents erstellt werden
  * @returns Array aus BreadcrumbComponents
  */

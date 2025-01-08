@@ -1,9 +1,14 @@
+import { RadioGroup, RadioGroupItem } from '../shadcn-ui/radio-group';
 import { handleFailure, handleSuccess } from '@/lib/api/add-response-handler';
 
 import { AxiosResponse } from 'axios';
 import Breadcrumbs from '../common/Breadcrumbs';
 import { Buch } from '@/types/buch';
 import { Button } from '../shadcn-ui/button';
+import { Checkbox } from '../shadcn-ui/checkbox';
+import { CheckedState } from '@radix-ui/react-checkbox';
+import { Input } from '../shadcn-ui/input';
+import { Label } from '../shadcn-ui/label';
 import StarRating from '../common/StarRating';
 import { apiPost } from '@/lib/api/api-handler';
 import { useNavigate } from 'react-router';
@@ -24,11 +29,11 @@ const defaultFormData = {
     schlagwoerter: [],
     coverImage: '',
     _links: { self: { href: '' } },
-}
+};
 
 /**
  * Rendert eine React Komponente, die das Hinzufügen von Büchern erlaubt.
- * 
+ *
  * @returns Komponente zum Hinzufügen von Büchern
  */
 export default function AddBook() {
@@ -65,6 +70,22 @@ export default function AddBook() {
                 [name]: fieldValue,
             }));
         }
+    };
+
+    const handleCheckboxChange = (value: CheckedState) => {
+        if (value !== 'indeterminate') {
+            setFormData((prev) => ({
+                ...prev,
+                lieferbar: value,
+            }));
+        }
+    };
+
+    const handleTypeChange = (value: string) => {
+        setFormData((prev) => ({
+            ...prev,
+            art: value,
+        }));
     };
 
     // Funktion die das Einbandbild in den Formulardaten aktualisiert
@@ -133,62 +154,54 @@ export default function AddBook() {
             <h2 className="text-4xl font-extrabold mb-6">Buch anlegen</h2>
             <form
                 onSubmit={handleSubmit}
-                className="grid grid-cols-1 md:grid-cols-2 gap-8 border rounded-lg shadow-lg p-8 bg-white"
+                className="grid grid-cols-2 gap-4 gap-x-16 border rounded-lg shadow-lg p-8 bg-white"
             >
-                <div className="flex flex-col space-y-4">
-                    <label className="font-medium">
-                        Titel<span className="text-red-500">*</span>:{' '}
-                        <input
-                            type="text"
-                            name="titel.titel"
-                            value={formData.titel.titel}
-                            onChange={handleChange}
-                            className="border rounded-md p-2 w-full"
-                            placeholder="Der Herr der Ringe"
-                            required
-                        />
-                    </label>
+                {/* Eingabe für den Titel */}
+                <Label className="text-lg col-span-2 md:col-span-1">
+                    Titel<span className="text-red-500">*</span>
+                    <Input
+                        type="text"
+                        name="titel.titel"
+                        value={formData.titel.titel}
+                        onChange={handleChange}
+                        className="border rounded-md p-2 w-full"
+                        placeholder="Der Herr der Ringe"
+                        required
+                    />
+                </Label>
 
-                    <label className="font-medium">
-                        Untertitel:{' '}
-                        <input
-                            type="text"
-                            name="titel.untertitel"
-                            value={formData.titel.untertitel}
-                            onChange={handleChange}
-                            className="border rounded-md p-2 w-full"
-                            placeholder="Die Gefährten"
-                        />
-                    </label>
+                {/* Eingabe für Untertitel */}
+                <Label className="text-lg col-span-2 md:col-span-1">
+                    Untertitel
+                    <Input
+                        type="text"
+                        name="titel.untertitel"
+                        value={formData.titel.untertitel}
+                        onChange={handleChange}
+                        className="border rounded-md p-2 w-full"
+                        placeholder="Die Gefährten"
+                    />
+                </Label>
 
-                    <label className="font-medium">
-                        ISBN<span className="text-red-500">*</span>:{' '}
-                        <input
-                            type="text"
-                            name="isbn"
-                            value={formData.isbn}
-                            onChange={handleChange}
-                            className="border rounded-md p-2 w-full"
-                            placeholder="978-3-86680-192-9"
-                            required
-                        />
-                    </label>
+                {/* Eingabe für ISBN */}
+                <Label className="text-lg col-span-2 md:col-span-1">
+                    ISBN<span className="text-red-500">*</span>
+                    <Input
+                        type="text"
+                        name="isbn"
+                        value={formData.isbn}
+                        onChange={handleChange}
+                        className="border rounded-md p-2 w-full"
+                        placeholder="978-3-86680-192-9"
+                        required
+                    />
+                </Label>
 
-                    <label className="font-medium">
-                        Datum<span className="text-red-500">*</span>:{' '}
-                        <input
-                            type="date"
-                            name="datum"
-                            value={formData.datum}
-                            onChange={handleChange}
-                            className="border rounded-md p-2 w-full"
-                            onKeyDown={(e) => e.preventDefault()}
-                        />
-                    </label>
-
-                    <label className="font-medium">
-                        Preis (€)<span className="text-red-500">*</span>:{' '}
-                        <input
+                {/* Preis festlegen */}
+                <div className="grid grid-cols-2 gap-4 col-span-2 md:col-span-1">
+                    <Label className="text-lg col-span-1">
+                        Preis (€)<span className="text-red-500">*</span>
+                        <Input
                             type="text"
                             name="preis"
                             value={formData.preis}
@@ -196,102 +209,106 @@ export default function AddBook() {
                             className="border rounded-md p-2 w-full"
                             required
                         />
-                    </label>
+                    </Label>
 
-                    <label className="font-medium">
-                        Rabatt (%):{' '}
-                        <input
+                    {/* Rabatt festlegen */}
+                    <Label className="text-lg col-span-1">
+                        Rabatt (%)
+                        <Input
                             type="number"
                             name="rabatt"
                             value={formData.rabatt}
                             onChange={handleChange}
                             className="border rounded-md p-2 w-full"
                         />
-                    </label>
-
-                    <label className="font-medium">
-                        Rating:{' '}
-                        <div className="mt-2">
-                            <StarRating
-                                rating={formData.rating}
-                                onClick={(newRating: number) =>
-                                    handleStarClick(newRating)
-                                }
-                            />
-                        </div>
-                    </label>
-
-                    <label className="font-medium">
-                        Cover Image:{' '}
-                        <input
-                            type="file"
-                            accept="image/*"
-                            onChange={handleFileChange}
-                            className="border rounded-md p-2 w-full"
-                        />
-                    </label>
+                    </Label>
                 </div>
 
-                <div className="flex flex-col space-y-4">
-                    <span className="font-medium">Art:</span>
-                    <div className="space-y-2">
-                        <label className="flex items-center space-x-2">
-                            <input
-                                type="radio"
-                                name="art"
-                                value="EPUB"
-                                checked={formData.art === 'EPUB'}
-                                onChange={handleChange}
-                            />
-                            <span>EPUB</span>
-                        </label>
-                        <label className="flex items-center space-x-2">
-                            <input
-                                type="radio"
-                                name="art"
-                                value="HARDCOVER"
-                                checked={formData.art === 'HARDCOVER'}
-                                onChange={handleChange}
-                            />
-                            <span>HARDCOVER</span>
-                        </label>
-                        <label className="flex items-center space-x-2">
-                            <input
-                                type="radio"
-                                name="art"
-                                value="PAPERBACK"
-                                checked={formData.art === 'PAPERBACK'}
-                                onChange={handleChange}
-                            />
-                            <span>PAPERBACK</span>
-                        </label>
+                {/* Datum festlegen */}
+                <Label className="text-lg col-span-2 md:col-span-1 md:w-2/3">
+                    Datum<span className="text-red-500">*</span>
+                    <input
+                        type="date"
+                        name="datum"
+                        value={formData.datum}
+                        onChange={handleChange}
+                        className="border rounded-md p-2 w-full"
+                        onKeyDown={(e) => e.preventDefault()}
+                    />
+                </Label>
+
+                {/* Checkbox ob Buch Lieferbar ist */}
+                <Label className="text-lg col-span-1 md:row-start-1 md:col-start-2">
+                    Verfügbarkeit
+                    <div className="flex items-center space-x-2">
+                        <Checkbox
+                            id="terms"
+                            onCheckedChange={handleCheckboxChange}
+                        />
+                        <Label className="text-base">Lieferbar</Label>
                     </div>
-
-                    <label className="font-medium">
-                        Lieferbar:{' '}
-                        <input
-                            type="checkbox"
-                            name="lieferbar"
-                            checked={formData.lieferbar}
-                            onChange={handleChange}
-                            className="ml-2"
-                        />
-                    </label>
-
-                    <label className="font-medium">
-                        Schlagwörter:{' '}
-                        <input
-                            type="text"
-                            name="schlagwoerter"
-                            value={formData.schlagwoerter.join(',')}
-                            onChange={handleChange}
-                            className="border rounded-md p-2 w-full"
-                            placeholder="Fantasy, Abenteuer"
-                        />
-                    </label>
+                </Label>
+                {/* Auswahl der Buchart */}
+                <div className="space-y-2 col-span-2 md:col-span-1 row-span-2 md:row-start-2 md:col-start-2">
+                    <Label className="text-lg">Art</Label>
+                    <RadioGroup
+                        defaultValue="EPUB"
+                        onValueChange={handleTypeChange}
+                    >
+                        <div className="flex items-center space-x-2">
+                            <RadioGroupItem value="EPUB" id="r1" />
+                            <Label className="text-base">EPUB</Label>
+                        </div>
+                        <div className="flex items-center space-x-2">
+                            <RadioGroupItem value="HARDCOVER" id="r2" />
+                            <Label className="text-base">Hardcover</Label>
+                        </div>
+                        <div className="flex items-center space-x-2">
+                            <RadioGroupItem value="PAPERBACK" id="r3" />
+                            <Label className="text-base">Paperback</Label>
+                        </div>
+                    </RadioGroup>
                 </div>
 
-                <div className="col-span-2">
+                {/* Eingabe von Schlagwörtern */}
+                <Label className="text-lg col-span-2 md:col-span-1 md:row-start-4 md:col-start-2">
+                    Schlagwörter
+                    <Input
+                        type="text"
+                        name="schlagwoerter"
+                        value={formData.schlagwoerter.join(',')}
+                        onChange={handleChange}
+                        className="border rounded-md p-2 w-full"
+                        placeholder="Fantasy, Abenteuer"
+                    />
+                </Label>
+
+                {/* Eingabe des Ratings */}
+                <Label className="text-lg col-span-2 md:col-span-1 md:row-start-5 md:col-start-2">
+                    Rating
+                    <div className="mt-2">
+                        <StarRating
+                            rating={formData.rating}
+                            onClick={(newRating: number) =>
+                                handleStarClick(newRating)
+                            }
+                        />
+                    </div>
+                </Label>
+
+                {/* Eingabe des Einbandbilds*/}
+                <Label className="text-lg col-span-2 md:col-span-1">
+                    Einband
+                    <Input
+                        type="file"
+                        accept="image/*"
+                        onChange={handleFileChange}
+                        className="border rounded-md p-2 w-full text-base"
+                    />
+                </Label>
+
+                {/* Button um Buch zu erstellen */}
+                <div className="col-span-2 md:w-1/4 md:justify-self-end mt-8">
                     <Button
                         variant="custom"
                         type="submit"
@@ -334,6 +351,6 @@ function validateForm(formData: Buch) {
     if (new Date(formData.datum).toString() === 'Invalid Date') {
         return 'Ein gültiges Datum ist erforderlich.';
     }
-    
+
     return null;
-};
+}

@@ -14,7 +14,7 @@ import { useAppContext } from '@/hooks/use-context';
 
 /**
  * Rendert einen Header für die Anwendung. Der Header enthält ein Logo, sowie einen Button zum Anzeigen eines Nutzermenüs.
- * 
+ *
  * @returns Headerkomponente
  */
 export default function Header() {
@@ -24,11 +24,13 @@ export default function Header() {
 
     return (
         <header
-            className="flex flex-nowrap header justify-between"
+            className="flex flex-nowrap header justify-between sticky bg-white"
+            style={{ top: 0 }}
             data-cy="header"
         >
-            <div className="flex items-center">
+            <div className="flex items-center cursor-pointer">
                 <img
+                    onClick={() => navigate('/')}
                     src={hkaLogo}
                     alt="HKA Logo"
                     className="h-11 w-auto mr-4"

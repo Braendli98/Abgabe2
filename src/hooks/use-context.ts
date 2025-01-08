@@ -14,7 +14,7 @@ export const AppContext = createContext<AppContextType>(defaultState);
 
 /**
  * Hook um auf aktuellen AppContext zuzugreifen.
- * 
+ *
  * @returns AppContext
  */
 export const useAppContext = () => useContext(AppContext);

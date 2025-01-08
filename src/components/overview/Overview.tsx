@@ -1,4 +1,7 @@
-import { handleFailure, handleSuccess } from '@/lib/api/search-response-handling';
+import {
+    handleFailure,
+    handleSuccess,
+} from '@/lib/api/search-response-handling';
 import { useEffect, useState } from 'react';
 
 import AddCard from './AddCard';
@@ -14,7 +17,7 @@ import { useNavigate } from 'react-router';
 
 /**
  * Rendert Übersicht für Bücher mit Suche und Buchdaten als Karten.
- * 
+ *
  * @returns Übersichtskomponente
  */
 export default function Overview() {
@@ -28,7 +31,7 @@ export default function Overview() {
     );
     const { user } = useAppContext();
 
-    // Funktion die Bücher vom Backend anfragt. 
+    // Funktion die Bücher vom Backend anfragt.
     // Falls Suchparameter gesetzt sind, werden diese als Query Parameter für die Anfrage gesetzt.
     const fetchBooks = () => {
         const urlParams = new URLSearchParams();
@@ -40,7 +43,8 @@ export default function Overview() {
         apiGet(
             `/api/rest?${urlParams.toString()}`,
             (response: AxiosResponse) => handleSuccess(response, setBooks),
-            (response: AxiosResponse) => handleFailure(response, setBooks, setFailureText),
+            (response: AxiosResponse) =>
+                handleFailure(response, setBooks, setFailureText),
         );
     };
 

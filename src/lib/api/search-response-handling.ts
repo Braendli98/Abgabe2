@@ -3,7 +3,7 @@ import { Buch } from '@/types/buch';
 
 /**
  * Funktion die vom Backend erhaltene Bücher in den State setzt.
- * 
+ *
  * @param response Antwort vom Backend
  * @param setBooks Funktion die Bücher in den State setzt
  */
@@ -16,7 +16,7 @@ export function handleSuccess(
 
 /**
  * Funktion die eine Fehlermeldung für die Übersicht anhand vom Fehlertyp erstellt.
- * 
+ *
  * @param response Antwort vom Backend
  * @param setBooks Funktion die Bücher in den State setzt
  * @param setFailureText Funktion die Fehlermeldung für Übersicht setzt

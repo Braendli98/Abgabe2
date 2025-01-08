@@ -1,5 +1,8 @@
 import { apiDelete, apiGet } from '@/lib/api/api-handler';
-import { handleFailure, handleSuccess } from '@/lib/api/delete-response-handler';
+import {
+    handleFailure,
+    handleSuccess,
+} from '@/lib/api/delete-response-handler';
 import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router';
 
@@ -17,7 +20,7 @@ import { useToast } from '@/hooks/use-toast';
 
 /**
  * Rendert eine Komponente, die die Daten eines einzelnen Buchs anzeigt.
- * 
+ *
  * @returns Buchdetails
  */
 export default function Details() {
@@ -63,7 +66,7 @@ export default function Details() {
             </div>
         );
     }
-    
+
     return (
         <div className="content max-w-screen-lg mx-auto">
             <Breadcrumbs path={getBreadcrumbComponents(`details/${book.id}`)} />

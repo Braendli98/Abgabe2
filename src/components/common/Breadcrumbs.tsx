@@ -18,8 +18,8 @@ const breadcrumbMapping = {
 
 /**
  * Rendert Breadcrumbs für eine Seite der Anwendung, generiert aus einem *path*.
- * 
- * @param props React Props bestehend aus `path`  
+ *
+ * @param props React Props bestehend aus `path`
  * `path` legt Pfadelemente fest, für die Breadcrumbs generiert werden
  * @returns Generierte Breadcrumbs
  */
@@ -48,7 +48,7 @@ function generateBreadcrumbs(path: BreadcrumbComponent[]) {
 
     // Array für generierte Links und Seperatoren
     const breadcrumbEntries: React.ReactElement[] = [];
-    
+
     path.filter((_, index) => index !== path.length - 1).forEach((value) => {
         breadcrumbEntries.push(
             <BreadcrumbLink

@@ -6,8 +6,8 @@ import { AlertType } from '@/types/login';
 /**
  * Rendert Fehlermeldung, die dem Nutzer bei einem fehlgeschlagenen Login angezeigt wird.
  * Abhängig von der Fehlerursache wird eine andere Fehlermeldung angezeigt.
- * 
- * @param param0 
+ *
+ * @param param0
  * @returns Fehlermeldungs Komponente
  */
 export default function LoginAlert({

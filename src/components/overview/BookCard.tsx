@@ -13,9 +13,9 @@ import { useNavigate } from 'react-router';
 /**
  * Rendert eine Karte für die Übersicht, die einige Buchdaten anzeigt.
  * Beim Klick auf ein Buch wird zur Detailseite des Buchs navigiert.
- * 
- * @param props React Props mit `className` und `book`  
- * `className` für zusätzliche CSS Klassen  
+ *
+ * @param props React Props mit `className` und `book`
+ * `className` für zusätzliche CSS Klassen
  * `book` Buch dessen Daten angezeigt werden.
  * @returns Karte mit Buchdaten
  */

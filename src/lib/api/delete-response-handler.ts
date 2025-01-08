@@ -6,8 +6,8 @@ type ResponseType = 'unauthorized' | 'internal' | 'unexpected';
 
 /**
  * Funktion die einen Toast mit dem Namen des gelöschten Buchs erstellt, und zur Startseite navigiert.
- * 
-  * @param toast Funktion die einen Toast erstellt
+ *
+ * @param toast Funktion die einen Toast erstellt
  * @param navigate Funktion die zu einer gegeben URI navigiert
  * @param book Gelöschtes Buch
  */
@@ -27,7 +27,7 @@ export function handleSuccess(
 
 /**
  * Funktion die einen Toast mit vom Fehlerfall abhängiger Nachricht erstellt.
- * 
+ *
  * @param response Antwort vom Backend
  * @param toast Funktion die einen Toast erstellt
  */
@@ -59,9 +59,7 @@ function getResponseType(status: number): ResponseType {
 }
 
 // Gibt zu einem Fehlerfall passende Nachricht zurück
-function getToastDescription(
-    errorType: ResponseType,
-) {
+function getToastDescription(errorType: ResponseType) {
     switch (errorType) {
         case 'unauthorized':
             return 'Sie haben nicht die erforderlichen Berechtigungen!';

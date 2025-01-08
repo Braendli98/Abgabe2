@@ -20,14 +20,14 @@ import { Input } from '../shadcn-ui/input';
 import { Label } from '../shadcn-ui/label';
 
 /**
- * Rendert Suchformular. 
+ * Rendert Suchformular.
  * Das Suchformular besteht standardmäßig nur aus einer Suche nach Buchtiteln, eine erweiterte Suche kann aber aufgeklappt werden.
- * 
- * @param props React Props bestehend aus `searchParams`, `setSearchParams`, `handleKeyDown` und `handleSearch`  
- * `searchParams` Aktuelle Suchparameter  
- * `setSearchParams` Funktion zum Setzend der Suchparameter  
- * `handleKeyDown` Funktion, die bei Tastatureingabe ausgeführt wird  
- * `handleSearch` Funktion um Suche auszuführen  
+ *
+ * @param props React Props bestehend aus `searchParams`, `setSearchParams`, `handleKeyDown` und `handleSearch`
+ * `searchParams` Aktuelle Suchparameter
+ * `setSearchParams` Funktion zum Setzend der Suchparameter
+ * `handleKeyDown` Funktion, die bei Tastatureingabe ausgeführt wird
+ * `handleSearch` Funktion um Suche auszuführen
  * @returns Suchkomponente
  */
 export default function SearchComponent({
@@ -55,7 +55,7 @@ export default function SearchComponent({
         setSearchParams(searchParams);
     };
 
-    // Funktion um Suchparameter für Checkboxen zu setzen. 
+    // Funktion um Suchparameter für Checkboxen zu setzen.
     // Ist der Wert nicht gleich `checked`, wird er auf `checked` gesetzt, ansonsten wird der Parameter geleert.
     const setCheckboxParam = (key: string, checked: string) => {
         searchParams[key] = searchParams[key] === checked ? '' : checked;

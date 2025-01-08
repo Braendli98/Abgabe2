@@ -1,5 +1,8 @@
 import { AlertType, LoginData } from '@/types/login';
-import { handleFailure, handleSuccess } from '@/lib/api/login-response-handling';
+import {
+    handleFailure,
+    handleSuccess,
+} from '@/lib/api/login-response-handling';
 import { useNavigate, useSearchParams } from 'react-router';
 
 import { AxiosResponse } from 'axios';
@@ -20,7 +23,7 @@ import { useToast } from '@/hooks/use-toast';
  * Der Login erlaubt die Anmeldung sobald Nutzername und Password ausgefüllt sind.
  * Beim Fehlschlag wird eine entsprechende Fehlermeldung angezeigt.
  * Bei einem erfolgreichen Login wird zu einer Callback URI navigiert.
- * 
+ *
  * @returns Login Komponente
  */
 export default function Login() {

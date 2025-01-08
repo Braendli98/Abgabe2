@@ -9,8 +9,8 @@ interface AddCardProps {
 
 /**
  * Rendert eine Karte für die Übersicht, die das Hinzufügen von Büchern erlaubt.
- * 
- * @param props *AddCardProps* enthält `className` für zusätzliche CSS Klassen,   
+ *
+ * @param props *AddCardProps* enthält `className` für zusätzliche CSS Klassen,
  * und `onClick` Funktion die beim Klick auf Komponente ausgeführt wird
  * @returns Karte zum Hinzufügen
  */

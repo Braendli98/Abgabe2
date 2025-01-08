@@ -3,7 +3,7 @@ import { UserData } from '@/types/context';
 /**
  * Extrahiert Nutzerdaten aus einem JWT.
  * Falls das Extrahieren fehlschlägt wird undefined zurückgegeben.
- * 
+ *
  * @param jwt Token mit Nutzerdaten
  * @returns Nutzerdaten, oder undefined
  */
@@ -38,7 +38,7 @@ export function removeToken(): void {
 /**
  * Gibt das Access Token heraus.
  * Falls keins existiert wird null herausgegeben
- * 
+ *
  * @returns Access Token als string, oder null
  */
 export function getToken(): string | null {
@@ -48,7 +48,7 @@ export function getToken(): string | null {
 /**
  * Gibt Nutzerdaten des aktuell angemeldeten Nutzers heraus.
  * Falls kein Nutzer angemeldet ist, wird ein leeres Objekt herausgegeben.
- * 
+ *
  * @returns Nutzerdaten oder leeres Objekt
  */
 export function getUserData(): Partial<UserData> {

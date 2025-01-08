@@ -3,7 +3,7 @@ import { twMerge } from 'tailwind-merge';
 
 /**
  * Funktion die CSS Klassen zusammenfügt
- * 
+ *
  * @param inputs Array aus CSS Klassen
  * @returns zusammengefügte CSS Klassen
  */

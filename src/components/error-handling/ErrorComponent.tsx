@@ -3,21 +3,22 @@ import { useNavigate } from 'react-router';
 
 interface ApplicationError {
     type: 'notFound' | 'unexpected';
-    error?: string;
 }
 
 /**
  * Rendert eine Fehlerkomponente.
  * Abhängig vom aufgetretenen Fehler wird die Komponente als *Not Found* oder *Internal Error* dargestellt.
- * 
- * @param props *ApplicationError* mit `type` für Fehlertyp und `error` für Fehlermeldung
+ *
+ * @param props *ApplicationError* mit `type` für den Fehlertyp
  * @returns Fehlerkomponente
  */
-export default function ErrorComponent({
-    type,
-    error,
-}: Readonly<ApplicationError>) {
+export default function ErrorComponent({ type }: Readonly<ApplicationError>) {
     const navigate = useNavigate();
+
+    const errorMessage =
+        type === 'notFound'
+            ? 'Die gesuchte Seite konnte leider nicht gefunden werden.'
+            : 'Es ist ein unerwarteter Fehler aufgetreten.';
 
     return (
         <div className="flex justify-center items-center h-screen bg-backgroundColor">
@@ -39,7 +40,7 @@ export default function ErrorComponent({
                         {type === 'notFound' ? 4 : 0}
                     </span>
                 </strong>
-                <span className="text-xl text-center">{error}</span>
+                <span className="text-xl text-center">{errorMessage}</span>
                 <Button
                     className="flex-item mt-4 bg-mainColor bg-opacity-60 text-white"
                     onClick={() => {

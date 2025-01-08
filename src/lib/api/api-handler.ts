@@ -15,7 +15,7 @@ declare type Headers = {
 
 /**
  * Funktion um eine GET-Request an das Backend abzuschicken.
- * 
+ *
  * @param url URL and die Request gesendet wird
  * @param successCallback Funktion die ausgeführt wird falls Request erfolgreich ist
  * @param errorCallback  Funktion die ausgeführt wird falls Request fehlschlägt
@@ -38,10 +38,9 @@ export function apiGet(
     );
 }
 
-
 /**
  * Funktion um eine POST-Request an das Backend abzuschicken.
- * 
+ *
  * @param url URL and die Request gesendet wird
  * @param successCallback Funktion die ausgeführt wird falls Request erfolgreich ist
  * @param errorCallback  Funktion die ausgeführt wird falls Request fehlschlägt
@@ -65,10 +64,9 @@ export function apiPost(
     );
 }
 
-
 /**
  * Funktion um eine DELETE-Request an das Backend abzuschicken.
- * 
+ *
  * @param url URL and die Request gesendet wird
  * @param successCallback Funktion die ausgeführt wird falls Request erfolgreich ist
  * @param errorCallback  Funktion die ausgeführt wird falls Request fehlschlägt
@@ -99,7 +97,6 @@ function apiFunction(
 ) {
     axiosPromise
         .then((response) => {
-            console.log(response);
             successCallback(response);
         })
         .catch((error) => {

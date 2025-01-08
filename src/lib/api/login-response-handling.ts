@@ -6,9 +6,9 @@ import { NavigateFunction } from 'react-router';
 import { UserData } from '@/types/context';
 
 /**
- * Extrahiert Nutzerdaten aus einem erhaltenen Accesstoken, setzt Token und Nutzerdaten, 
+ * Extrahiert Nutzerdaten aus einem erhaltenen Accesstoken, setzt Token und Nutzerdaten,
  * cleared nicht mehr benötigte Daten, navigiert zur Callback-URI und erstellt einen Toast mit Nutzernamen.
- * 
+ *
  * @param response Antwort vom Backend
  * @param setAlert Funktion die Fehlermeldungstyp für Login setzt
  * @param setUser Funktion die aktuellen Nutzer setzt
@@ -45,7 +45,7 @@ export function handleSuccess(
 
 /**
  * Funktion die eine Fehlermeldung für den Login anhand vom Fehlertyp erstellt.
- * 
+ *
  * @param response Antwort vom Backend
  * @param setAlert Funktion die Fehlermeldungstyp für Login setzt
  */

@@ -7,8 +7,8 @@ import { getUserData } from '@/lib/utils/token-handling';
 /**
  * Rendert eine AppProvider Komponente.
  * Diese erlaubt es den state *user* als Kontext in jeder Komponente die von AppProvider gewrappt wird zu verwenden.
- * 
- * @param props React Props mit Attribut `children`  
+ *
+ * @param props React Props mit Attribut `children`
  * `children` ReactNode die von einem AppContext.Provider gewrappt wird
  * @returns Einen AppContext.Provider
  */

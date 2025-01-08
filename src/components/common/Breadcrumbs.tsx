@@ -33,12 +33,9 @@ export default function Breadcrumbs({
     );
 }
 
-/**
+/*
  * Generiert BreadcrumbItems und -Links für BreadcrumbComponents.
  * Falls keine BreadcrumbComponents übergeben wurden, wird ein einzelnes Item für die Startseite zurückgegeben.
- * 
- * @param path Array aus BreadcrumbComponents
- * @returns Generierte BreadcrumbItems bzw. BreadcrumbLinks
  */
 function generateBreadcrumbs(path: BreadcrumbComponent[]) {
     if (path === undefined || path.length === 0) {
@@ -81,12 +78,9 @@ function generateBreadcrumbs(path: BreadcrumbComponent[]) {
     );
 }
 
-/**
+/*
  * Gibt eine relative URI für einen BreadcrumbComponent aus.
  * Die URI wird aus *base* und optionalem *param* als Suffix erstellt.
- * 
- * @param component BreadcrumbComponent für die eine URI erstellt wird
- * @returns Erstellte URI
  */
 function getRefLink(component: BreadcrumbComponent) {
     const pathSuffix =
@@ -94,13 +88,10 @@ function getRefLink(component: BreadcrumbComponent) {
     return `/${component.base}${pathSuffix}`;
 }
 
-/**
+/*
  * Mappt BreadcrumbComponent zu einem Anzeigetext.
  * Als Schlüssel wird der Basispfad *base* der Komponente genutzt.
  * Falls der Schlüssel nicht in der Map vorhanden ist, wird ein leerer String zurückgegeben.
- * 
- * @param component BreadcrumbComponent für den der Anzeigetext herausgegeben werden soll
- * @returns Anzeigetext oder leerer String
  */
 function mapToName(component: BreadcrumbComponent) {
     return breadcrumbMapping[component.base] ?? '';

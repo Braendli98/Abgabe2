@@ -43,7 +43,9 @@ const AlertTitle = React.forwardRef<
             className,
         )}
         {...props}
-    />
+    >
+        {props.children || 'Standard-Überschrift'}
+    </h5>
 ));
 AlertTitle.displayName = 'AlertTitle';
 

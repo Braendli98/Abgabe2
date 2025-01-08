@@ -8,6 +8,8 @@ import type {
     ToastProps,
 } from '@/components/shadcn-ui/toast';
 
+// Shadcn Datei => Keine zusätzlichen Kommentare
+
 const TOAST_LIMIT = 1;
 const TOAST_REMOVE_DELAY = 1000000;
 

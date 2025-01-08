@@ -10,6 +10,15 @@ import BookCover from '../common/BookCover';
 import { Buch } from '@/types/buch';
 import { useNavigate } from 'react-router';
 
+/**
+ * Rendert eine Karte für die Übersicht, die einige Buchdaten anzeigt.
+ * Beim Klick auf ein Buch wird zur Detailseite des Buchs navigiert.
+ *
+ * @param props React Props mit `className` und `book`
+ * `className` für zusätzliche CSS Klassen
+ * `book` Buch dessen Daten angezeigt werden.
+ * @returns Karte mit Buchdaten
+ */
 export default function BookCard({
     className,
     book,
@@ -20,6 +29,7 @@ export default function BookCard({
     const navigate = useNavigate();
     const id = getIdFromBook(book);
 
+    // Funktion die zur Detailseite des Buchs navigiert
     const handleClick = () => {
         navigate(`/details/${id}`);
     };
@@ -59,7 +69,7 @@ export default function BookCard({
     );
 }
 
-// Fallback since the server response does not contain the book id
+// Fallback um ID des Buchs zu erhalten, da diese nicht in der Server Response vorhanden ist
 function getIdFromBook(book: Buch) {
     return book._links.self.href.split('/').reverse()[0];
 }

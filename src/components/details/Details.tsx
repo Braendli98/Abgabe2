@@ -1,5 +1,8 @@
 import { apiDelete, apiGet } from '@/lib/api/api-handler';
-import { handleFailure, handleSuccess } from '@/lib/delete-validation';
+import {
+    handleFailure,
+    handleSuccess,
+} from '@/lib/api/delete-response-handler';
 import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router';
 
@@ -10,11 +13,16 @@ import { Buch } from '@/types/buch';
 import { Button } from '../shadcn-ui/button';
 import StarRating from '../common/StarRating';
 import { Trash2 } from 'lucide-react';
-import { getBreadcrumbComponents } from '@/lib/breadcrumb-utils';
-import { hasRemoveRights } from '@/lib/role-utils';
+import { getBreadcrumbComponents } from '@/lib/utils/breadcrumb-utils';
+import { hasRemoveRights } from '@/lib/utils/role-utils';
 import { useAppContext } from '@/hooks/use-context';
 import { useToast } from '@/hooks/use-toast';
 
+/**
+ * Rendert eine Komponente, die die Daten eines einzelnen Buchs anzeigt.
+ *
+ * @returns Buchdetails
+ */
 export default function Details() {
     const navigate = useNavigate();
     const { toast } = useToast();
@@ -22,6 +30,7 @@ export default function Details() {
     const [book, setBook] = useState<Buch | undefined>(undefined);
     const params = useParams();
 
+    // Reacthook um Buchdaten anhand der ID aus Pfadparametern zu laden
     useEffect(() => {
         const fetchData = async () => {
             apiGet(
@@ -29,18 +38,19 @@ export default function Details() {
                 (response: AxiosResponse) =>
                     setBook({ ...response.data, id: params.bookId }),
                 () => {
-                    console.error('Oops!');
+                    setBook(undefined);
                 },
             );
         };
         fetchData();
     }, [params]);
 
+    // Funktion um Buch anhand der ID zu löschen
     const deleteEntry = () => {
         apiDelete(
             `api/rest/${params.bookId}`,
             () => handleSuccess(toast, navigate, book),
-            (status: number) => handleFailure(status, toast),
+            (response: AxiosResponse) => handleFailure(response, toast),
             {
                 noCache: false,
                 token: true,
@@ -48,6 +58,7 @@ export default function Details() {
         );
     };
 
+    // Fallback falls keine Buchdaten gefunden wurden
     if (book === undefined) {
         return (
             <div className="text-2xl text-center mt-8">
@@ -115,6 +126,7 @@ export default function Details() {
                             {book?.schlagwoerter?.join(', ') || 'Keine'}
                         </div>
                     </div>
+                    {/* Button zum Löschen des Buches. Wird nur bei vorhandener Nutzerrolle angezeigt */}
                     {hasRemoveRights(user) && (
                         <div className="flex flex-row-reverse">
                             <Button

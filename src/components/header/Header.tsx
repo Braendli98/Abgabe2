@@ -12,6 +12,11 @@ import UserMenu from './UserMenu';
 import hkaLogo from '../../assets/hka.png';
 import { useAppContext } from '@/hooks/use-context';
 
+/**
+ * Rendert einen Header für die Anwendung. Der Header enthält ein Logo, sowie einen Button zum Anzeigen eines Nutzermenüs.
+ *
+ * @returns Headerkomponente
+ */
 export default function Header() {
     const location = useLocation();
     const navigate = useNavigate();
@@ -19,10 +24,11 @@ export default function Header() {
 
     return (
         <header
-            className="flex flex-nowrap header justify-between"
+            className="flex flex-nowrap header justify-between sticky bg-white"
+            style={{ top: 0 }}
             data-cy="header"
         >
-            <div className="flex items-center">
+            <div className="flex items-center cursor-pointer">
                 <img
                     src={hkaLogo}
                     alt="HKA Logo"
@@ -30,6 +36,7 @@ export default function Header() {
                     data-cy="hka-logo"
                 />
             </div>
+            {/* Dropdown für Nutzermenü */}
             <DropdownMenu>
                 <DropdownMenuTrigger asChild>
                     <Button variant="custom">

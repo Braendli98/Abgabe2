@@ -1,5 +1,8 @@
 import { AlertType, LoginData } from '@/types/login';
-import { handleFailure, handleSuccess } from '@/lib/login-validation';
+import {
+    handleFailure,
+    handleSuccess,
+} from '@/lib/api/login-response-handling';
 import { useNavigate, useSearchParams } from 'react-router';
 
 import { AxiosResponse } from 'axios';
@@ -9,12 +12,20 @@ import { Input } from '@/components/shadcn-ui/input';
 import { Label } from '@/components/shadcn-ui/label';
 import LoginAlert from './LoginAlert';
 import { apiPost } from '@/lib/api/api-handler';
-import { getBreadcrumbComponents } from '@/lib/breadcrumb-utils';
+import { getBreadcrumbComponents } from '@/lib/utils/breadcrumb-utils';
 import hkaLogo from '../../assets/hka-logo.png';
 import { useAppContext } from '@/hooks/use-context';
 import { useState } from 'react';
 import { useToast } from '@/hooks/use-toast';
 
+/**
+ * Rendert eine Login Komponente.
+ * Der Login erlaubt die Anmeldung sobald Nutzername und Password ausgefüllt sind.
+ * Beim Fehlschlag wird eine entsprechende Fehlermeldung angezeigt.
+ * Bei einem erfolgreichen Login wird zu einer Callback URI navigiert.
+ *
+ * @returns Login Komponente
+ */
 export default function Login() {
     const navigate = useNavigate();
     const [searchParams] = useSearchParams();
@@ -23,15 +34,17 @@ export default function Login() {
     const [login, setLogin] = useState<LoginData>({});
     const [alert, setAlert] = useState<AlertType>('none');
 
+    // Callback URI die aus Query Parametern gelesen wird.
     const callback = searchParams.get('callback') ?? '/';
 
+    // Funktion um Logindaten an Backend zu senden
     const fetchData = () =>
         apiPost(
             'api/auth/token',
             { username: login.username, password: login.password },
             (response: AxiosResponse) =>
                 handleSuccess(
-                    response.data,
+                    response,
                     setAlert,
                     setUser,
                     setLogin,
@@ -39,7 +52,7 @@ export default function Login() {
                     navigate,
                     callback,
                 ),
-            (status: number) => handleFailure(status, setAlert),
+            (response: AxiosResponse) => handleFailure(response, setAlert),
             {
                 noCache: true,
                 token: false,
@@ -108,12 +121,12 @@ export default function Login() {
                 src={hkaLogo}
                 alt="HKA Logo"
                 className="absolute top-8 right-8 h-[100px] md:h-[195px]"
-                // style={{ height: '195px' }}
             />
         </div>
     );
 }
 
+// Prüft ob für Anmeldung notwendige Felder ausgefüllt sind
 function isButtonEnabled(loginData: LoginData) {
     return (
         loginData.username &&

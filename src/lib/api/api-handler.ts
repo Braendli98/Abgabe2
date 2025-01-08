@@ -2,8 +2,9 @@
 
 import axios, { AxiosResponse } from 'axios';
 
-import { getToken } from '../token-handling';
+import { getToken } from '../utils/token-handling';
 
+// Typ für Request-Header
 declare type Headers = {
     'Content-Type': string;
     Authorization?: string;
@@ -12,6 +13,14 @@ declare type Headers = {
     Expires?: string;
 };
 
+/**
+ * Funktion um eine GET-Request an das Backend abzuschicken.
+ *
+ * @param url URL and die Request gesendet wird
+ * @param successCallback Funktion die ausgeführt wird falls Request erfolgreich ist
+ * @param errorCallback  Funktion die ausgeführt wird falls Request fehlschlägt
+ * @param headerModifiers Modifikatoren aus denen Header erstellt wird
+ */
 export function apiGet(
     url: string,
     successCallback: any,
@@ -29,6 +38,14 @@ export function apiGet(
     );
 }
 
+/**
+ * Funktion um eine POST-Request an das Backend abzuschicken.
+ *
+ * @param url URL and die Request gesendet wird
+ * @param successCallback Funktion die ausgeführt wird falls Request erfolgreich ist
+ * @param errorCallback  Funktion die ausgeführt wird falls Request fehlschlägt
+ * @param headerModifiers Modifikatoren aus denen Header erstellt wird
+ */
 export function apiPost(
     url: string,
     body: any,
@@ -47,6 +64,14 @@ export function apiPost(
     );
 }
 
+/**
+ * Funktion um eine DELETE-Request an das Backend abzuschicken.
+ *
+ * @param url URL and die Request gesendet wird
+ * @param successCallback Funktion die ausgeführt wird falls Request erfolgreich ist
+ * @param errorCallback  Funktion die ausgeführt wird falls Request fehlschlägt
+ * @param headerModifiers Modifikatoren aus denen Header erstellt wird
+ */
 export function apiDelete(
     url: string,
     successCallback: any,
@@ -64,6 +89,7 @@ export function apiDelete(
     );
 }
 
+// Abstrakte Funktion für Requests. Nimmt ein Promise entgegen, führt anschließend Callback Funktionen aus
 function apiFunction(
     axiosPromise: Promise<AxiosResponse<any, any>>,
     successCallback: any,
@@ -71,20 +97,18 @@ function apiFunction(
 ) {
     axiosPromise
         .then((response) => {
-            console.log(response);
             successCallback(response);
         })
         .catch((error) => {
             if (error.response) {
-                errorCallback(error.response.status);
+                errorCallback(error.response);
             } else {
                 console.error('Error', error.message);
             }
         });
 }
 
-// 'If-Match': `"0"`, // Header für Optimistic Locking
-
+// Erstellt Request-Header aus Headermodifikatoren
 function getHeaders(headerModifiers?: {
     noCache: boolean;
     token: boolean;

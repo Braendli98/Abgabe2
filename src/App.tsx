@@ -11,6 +11,12 @@ import Login from './components/login/Login';
 import Overview from './components/overview/Overview';
 import { Toaster } from './components/shadcn-ui/toaster';
 
+/**
+ * Rendert Hauptkomponente der Anwendung.
+ * Abhängig von der aktuellen URI im Browser werden Komponenten gerendert.
+ *
+ * @returns Hauptkomponente der Anwendung
+ */
 function App(): JSX.Element {
     return (
         <div>
@@ -38,12 +44,7 @@ function App(): JSX.Element {
                         />
                         <Route
                             path="*"
-                            element={
-                                <ErrorComponent
-                                    type={'notFound'}
-                                    error="Die gesuchte Seite konnte leider nicht gefunden werden."
-                                />
-                            }
+                            element={<ErrorComponent type={'notFound'} />}
                         />
                     </Routes>
                 </BrowserRouter>

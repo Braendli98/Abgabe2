@@ -1,3 +1,4 @@
+import { AxiosResponse } from 'axios';
 import { Buch } from '@/types/buch';
 import { NavigateFunction } from 'react-router';
 
@@ -18,11 +19,11 @@ export function handleSuccess(
 }
 
 export function handleFailure(
-    status: number,
+    response: AxiosResponse,
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     toast: any,
 ) {
-    const responseType: ResponseType = getResponseType(status);
+    const responseType: ResponseType = getResponseType(response.status);
 
     toast({
         variant: 'failure',

@@ -16,6 +16,13 @@ const breadcrumbMapping = {
     login: 'Login',
 };
 
+/**
+ * Rendert Breadcrumbs für eine Seite der Anwendung, generiert aus einem *path*.
+ * 
+ * @param props React Props bestehend aus *path*
+ * *path* legt Pfadelemente fest, für die Breadcrumbs generiert werden
+ * @returns Generierte Breadcrumbs
+ */
 export default function Breadcrumbs({
     path,
 }: Readonly<{ path: BreadcrumbComponent[] }>) {
@@ -26,6 +33,13 @@ export default function Breadcrumbs({
     );
 }
 
+/**
+ * Generiert BreadcrumbItems und -Links für BreadcrumbComponents.
+ * Falls keine BreadcrumbComponents übergeben wurden, wird ein einzelnes Item für die Startseite zurückgegeben.
+ * 
+ * @param path Array aus BreadcrumbComponents
+ * @returns Generierte BreadcrumbItems bzw. BreadcrumbLinks
+ */
 function generateBreadcrumbs(path: BreadcrumbComponent[]) {
     if (path === undefined || path.length === 0) {
         return (
@@ -35,7 +49,9 @@ function generateBreadcrumbs(path: BreadcrumbComponent[]) {
         );
     }
 
+    // Array für generierte Links und Seperatoren
     const breadcrumbEntries: React.ReactElement[] = [];
+    
     path.filter((_, index) => index !== path.length - 1).forEach((value) => {
         breadcrumbEntries.push(
             <BreadcrumbLink
@@ -65,12 +81,27 @@ function generateBreadcrumbs(path: BreadcrumbComponent[]) {
     );
 }
 
+/**
+ * Gibt eine relative URI für einen BreadcrumbComponent aus.
+ * Die URI wird aus *base* und optionalem *param* als Suffix erstellt.
+ * 
+ * @param component BreadcrumbComponent für die eine URI erstellt wird
+ * @returns Erstellte URI
+ */
 function getRefLink(component: BreadcrumbComponent) {
     const pathSuffix =
         component.param === undefined ? '' : `/${component.param}`;
     return `/${component.base}${pathSuffix}`;
 }
 
+/**
+ * Mappt BreadcrumbComponent zu einem Anzeigetext.
+ * Als Schlüssel wird der Basispfad *base* der Komponente genutzt.
+ * Falls der Schlüssel nicht in der Map vorhanden ist, wird ein leerer String zurückgegeben.
+ * 
+ * @param component BreadcrumbComponent für den der Anzeigetext herausgegeben werden soll
+ * @returns Anzeigetext oder leerer String
+ */
 function mapToName(component: BreadcrumbComponent) {
-    return breadcrumbMapping[component.base];
+    return breadcrumbMapping[component.base] ?? '';
 }

@@ -1,5 +1,14 @@
 import { Star } from 'lucide-react';
 
+/**
+ * Rendert eine Sternebewertung bestehend aus 5 Sternen.
+ * Kann durch eine *onClick* Funktion genutzt werden, um Bewertungen zu erstellen.
+ * 
+ * @param props React Props bestehend aus *rating* und *onClick*.
+ * *rating*: Bewertung, anhand derer Sterne gefüllt dargestellt werden.
+ * *onClick*: Funktion, die beim Klick auf einen Stern ausgeführt wird.
+ * @returns Sternebewertung
+ */
 export default function StarRating({
     rating,
     onClick,

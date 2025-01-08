@@ -1,6 +1,7 @@
 import { AlertType, LoginData } from '@/types/login';
 import { getUserDataFromToken, setToken } from './token-handling';
 
+import { AxiosResponse } from 'axios';
 import { NavigateFunction } from 'react-router';
 import { UserData } from '@/types/context';
 
@@ -32,10 +33,10 @@ export function handleSuccess(
 }
 
 export function handleFailure(
-    status: number,
+    response: AxiosResponse,
     setAlert: React.Dispatch<React.SetStateAction<AlertType>>,
 ) {
-    switch (status) {
+    switch (response.status) {
         case 401:
         case 403: {
             setAlert('unauthorized');

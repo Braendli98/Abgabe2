@@ -1,3 +1,4 @@
+import { AxiosResponse } from 'axios';
 import { Buch } from '@/types/buch';
 import { NavigateFunction } from 'react-router';
 
@@ -16,12 +17,19 @@ export function handleSuccess(
 }
 
 export function handleFailure(
-    status: number,
+    response: AxiosResponse,
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     toast: any,
 ) {
-    let responseType: 'unauthorized' | 'internal' | 'unexpected';
-    switch (status) {
+    let responseType: 'badRequest' | 'isbn' | 'unauthorized' | 'internal' | 'unexpected';
+    switch (response.status) {
+        case 400:
+            if(response.data.message[0] === 'isbn must be an ISBN') {
+                responseType = "isbn";
+                break;
+            }
+            responseType ="badRequest";
+            break;
         case 401:
         case 403:
             responseType = 'unauthorized';
@@ -33,6 +41,8 @@ export function handleFailure(
             responseType = 'unexpected';
     }
 
+    console.log(response);
+
     toast({
         variant: 'failure',
         title: 'Fehler!',
@@ -41,9 +51,13 @@ export function handleFailure(
 }
 
 function getToastDescription(
-    errorType: 'unauthorized' | 'internal' | 'unexpected',
+    errorType: 'badRequest' | 'isbn' | 'unauthorized' | 'internal' | 'unexpected',
 ) {
     switch (errorType) {
+        case 'badRequest':
+            return 'Ein Eingabefehler ist aufgetreten!';
+        case 'isbn':
+            return 'Die eingegebene ISBN ist ungültig!';
         case 'unauthorized':
             return 'Sie haben nicht die erforderlichen Berechtigungen!';
         case 'internal':
@@ -53,3 +67,4 @@ function getToastDescription(
             return 'Es ist ein unerwarteter Fehler aufgetreten!';
     }
 }
+

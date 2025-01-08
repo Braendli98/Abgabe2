@@ -76,14 +76,12 @@ function apiFunction(
         })
         .catch((error) => {
             if (error.response) {
-                errorCallback(error.response.status);
+                errorCallback(error.response);
             } else {
                 console.error('Error', error.message);
             }
         });
 }
-
-// 'If-Match': `"0"`, // Header für Optimistic Locking
 
 function getHeaders(headerModifiers?: {
     noCache: boolean;

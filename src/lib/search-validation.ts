@@ -9,12 +9,12 @@ export function handleSuccess(
 }
 
 export function handleFailure(
-    status: number,
+    response: AxiosResponse,
     setBooks: React.Dispatch<React.SetStateAction<Buch[]>>,
     setFailureText: React.Dispatch<React.SetStateAction<string>>,
 ) {
     setBooks([]);
-    switch (status) {
+    switch (response.status) {
         case 404: {
             setFailureText('Es wurden keine Bücher gefunden.');
             break;

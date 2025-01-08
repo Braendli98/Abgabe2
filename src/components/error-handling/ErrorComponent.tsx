@@ -6,6 +6,13 @@ interface ApplicationError {
     error?: string;
 }
 
+/**
+ * Rendert eine Fehlerkomponente.
+ * Abhängig vom aufgetretenen Fehler wird die Komponente als *Not Found* oder *Internal Error* dargestellt.
+ * 
+ * @param props *ApplicationError* mit `type` für Fehlertyp und `error` für Fehlermeldung
+ * @returns Fehlerkomponente
+ */
 export default function ErrorComponent({
     type,
     error,

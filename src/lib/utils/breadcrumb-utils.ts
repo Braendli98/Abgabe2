@@ -1,5 +1,11 @@
 import { BreadcrumbComponent } from '@/types/breadcrumb';
 
+/**
+ * Erstellt BreadcrumbComponents aus einem URI Pfad.
+ * 
+ * @param path Pfad für den BreadcrumbComponents erstellt werden
+ * @returns Array aus BreadcrumbComponents
+ */
 export function getBreadcrumbComponents(path: string) {
     const pathArray = stripPrefix(path).split('/', 2);
     const components: BreadcrumbComponent[] = [{ base: '' }];
@@ -14,6 +20,7 @@ export function getBreadcrumbComponents(path: string) {
     return components;
 }
 
+// Entfernt '/' Präfix von einem Pfad, falls Pfad mit '/' beginnt
 function stripPrefix(path: string) {
     if (path !== '/' && path.startsWith('/')) {
         return path.substring(1);

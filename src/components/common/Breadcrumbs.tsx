@@ -19,8 +19,8 @@ const breadcrumbMapping = {
 /**
  * Rendert Breadcrumbs für eine Seite der Anwendung, generiert aus einem *path*.
  * 
- * @param props React Props bestehend aus *path*
- * *path* legt Pfadelemente fest, für die Breadcrumbs generiert werden
+ * @param props React Props bestehend aus `path`  
+ * `path` legt Pfadelemente fest, für die Breadcrumbs generiert werden
  * @returns Generierte Breadcrumbs
  */
 export default function Breadcrumbs({

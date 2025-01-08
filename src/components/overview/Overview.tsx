@@ -1,4 +1,4 @@
-import { handleFailure, handleSuccess } from '@/lib/search-validation';
+import { handleFailure, handleSuccess } from '@/lib/api/search-response-handling';
 import { useEffect, useState } from 'react';
 
 import AddCard from './AddCard';
@@ -8,10 +8,15 @@ import Breadcrumbs from '../common/Breadcrumbs';
 import { Buch } from '@/types/buch';
 import SearchComponent from './Search';
 import { apiGet } from '@/lib/api/api-handler';
-import { hasAddRights } from '@/lib/role-utils';
+import { hasAddRights } from '@/lib/utils/role-utils';
 import { useAppContext } from '@/hooks/use-context';
 import { useNavigate } from 'react-router';
 
+/**
+ * Rendert Übersicht für Bücher mit Suche und Buchdaten als Karten.
+ * 
+ * @returns Übersichtskomponente
+ */
 export default function Overview() {
     const navigate = useNavigate();
     const [books, setBooks] = useState<Buch[]>([]);
@@ -23,6 +28,8 @@ export default function Overview() {
     );
     const { user } = useAppContext();
 
+    // Funktion die Bücher vom Backend anfragt. 
+    // Falls Suchparameter gesetzt sind, werden diese als Query Parameter für die Anfrage gesetzt.
     const fetchBooks = () => {
         const urlParams = new URLSearchParams();
         Object.entries(searchParams).forEach(([key, value]) => {
@@ -33,19 +40,22 @@ export default function Overview() {
         apiGet(
             `/api/rest?${urlParams.toString()}`,
             (response: AxiosResponse) => handleSuccess(response, setBooks),
-            (status: number) => handleFailure(status, setBooks, setFailureText),
+            (response: AxiosResponse) => handleFailure(response, setBooks, setFailureText),
         );
     };
 
+    // React Hook der Bücher beim ersten Rendern vom Backend anfragt.
     useEffect(() => {
         fetchBooks();
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
+    // Funktion, die die Suche ausführt
     const handleSearch = () => {
         fetchBooks();
     };
 
+    // Funktion, die beim Drücken von Enter Suche ausführt
     const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
         if (event.key === 'Enter') {
             handleSearch();
@@ -56,6 +66,7 @@ export default function Overview() {
         <div className="content p-4">
             <Breadcrumbs path={[{ base: '' }]} />
             <h1 className="text-2xl font-bold mb-4">Bücher</h1>
+            {/* Suchkomponente zum Suchen von Büchern */}
             <SearchComponent
                 searchParams={searchParams}
                 setSearchParams={setSearchParams}
@@ -76,7 +87,7 @@ export default function Overview() {
                             book={book}
                         />
                     ))}
-                {/* Zusatzoption für eingeloggte Admins */}
+                {/* Karte zum Hinzufügen von Büchern. Wird nur bei vorhandener Nutzerrolle angezeigt */}
                 {hasAddRights(user) && (
                     <AddCard
                         className="col-span-6 md:col-span-2 lg:col-span-1 w-full"

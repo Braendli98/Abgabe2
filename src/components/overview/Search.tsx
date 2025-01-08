@@ -19,6 +19,17 @@ import { Checkbox } from '../shadcn-ui/checkbox';
 import { Input } from '../shadcn-ui/input';
 import { Label } from '../shadcn-ui/label';
 
+/**
+ * Rendert Suchformular. 
+ * Das Suchformular besteht standardmäßig nur aus einer Suche nach Buchtiteln, eine erweiterte Suche kann aber aufgeklappt werden.
+ * 
+ * @param props React Props bestehend aus `searchParams`, `setSearchParams`, `handleKeyDown` und `handleSearch`  
+ * `searchParams` Aktuelle Suchparameter  
+ * `setSearchParams` Funktion zum Setzend der Suchparameter  
+ * `handleKeyDown` Funktion, die bei Tastatureingabe ausgeführt wird  
+ * `handleSearch` Funktion um Suche auszuführen  
+ * @returns Suchkomponente
+ */
 export default function SearchComponent({
     searchParams,
     setSearchParams,
@@ -32,16 +43,20 @@ export default function SearchComponent({
     handleKeyDown: (event: React.KeyboardEvent<HTMLInputElement>) => void;
     handleSearch: () => void;
 }>) {
+    // Funktion um allgemeinen Suchparameter zu setzen
     const setSearchParam = (key: string, value: string) => {
         searchParams[key] = value;
         setSearchParams(searchParams);
     };
 
+    // Funktion um Suchparameter für Select zu setzen. Der Wert NULL wird zu einem leeren Parameter
     const setSelectParam = (key: string, value: string) => {
         searchParams[key] = value === 'NULL' ? '' : value;
         setSearchParams(searchParams);
     };
 
+    // Funktion um Suchparameter für Checkboxen zu setzen. 
+    // Ist der Wert nicht gleich `checked`, wird er auf `checked` gesetzt, ansonsten wird der Parameter geleert.
     const setCheckboxParam = (key: string, checked: string) => {
         searchParams[key] = searchParams[key] === checked ? '' : checked;
         setSearchParams(searchParams);
@@ -60,6 +75,7 @@ export default function SearchComponent({
                     handleKeyDown={handleKeyDown}
                     className={'flex-item flex-auto mr-1'}
                 />
+                {/* Button der erweiterte Suche öffnet/schließt */}
                 <CollapsibleTrigger asChild className="flex-item">
                     <Button
                         variant="ghost"
@@ -218,10 +234,12 @@ export default function SearchComponent({
     );
 }
 
+// Rendert Label für Suchelemente
 function SearchLabel({ children }: Readonly<{ children: string }>) {
     return <Label className="text-lg md:text-base">{children}</Label>;
 }
 
+// Rendert Input für Suche
 function SearchInput({
     searchKey,
     placeholder,

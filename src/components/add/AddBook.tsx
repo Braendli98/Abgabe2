@@ -1,33 +1,43 @@
-import { handleFailure, handleSuccess } from '@/lib/add-validation';
+import { handleFailure, handleSuccess } from '@/lib/api/add-response-handler';
 
+import { AxiosResponse } from 'axios';
 import Breadcrumbs from '../common/Breadcrumbs';
 import { Buch } from '@/types/buch';
 import { Button } from '../shadcn-ui/button';
+import StarRating from '../common/StarRating';
 import { apiPost } from '@/lib/api/api-handler';
 import { useNavigate } from 'react-router';
 import { useState } from 'react';
 import { useToast } from '@/hooks/use-toast';
-import StarRating from '../common/StarRating';
 
+// Standardformulardaten
+const defaultFormData = {
+    id: '',
+    titel: { titel: '', untertitel: '' },
+    isbn: '',
+    preis: 0,
+    rating: 0,
+    art: 'EPUB',
+    lieferbar: false,
+    rabatt: 0,
+    datum: '',
+    schlagwoerter: [],
+    coverImage: '',
+    _links: { self: { href: '' } },
+}
+
+/**
+ * Rendert eine React Komponente, die das Hinzufügen von Büchern erlaubt.
+ * 
+ * @returns Komponente zum Hinzufügen von Büchern
+ */
 export default function AddBook() {
     const navigate = useNavigate();
     const { toast } = useToast();
 
-    const [formData, setFormData] = useState<Buch>({
-        id: '',
-        titel: { titel: '', untertitel: '' },
-        isbn: '',
-        preis: 0,
-        rating: 0,
-        art: 'EPUB',
-        lieferbar: false,
-        rabatt: 0,
-        datum: '',
-        schlagwoerter: [],
-        coverImage: '',
-        _links: { self: { href: '' } },
-    });
+    const [formData, setFormData] = useState<Buch>(defaultFormData);
 
+    // Funktion die Formulardaten aktualisiert
     const handleChange = (
         e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>,
     ) => {
@@ -57,6 +67,7 @@ export default function AddBook() {
         }
     };
 
+    // Funktion die das Einbandbild in den Formulardaten aktualisiert
     const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const file = e.target.files?.[0];
         if (file) {
@@ -71,6 +82,7 @@ export default function AddBook() {
         }
     };
 
+    // Funktion die die Bewertung in den Formulardaten aktualisiert
     const handleStarClick = (newRating: number) => {
         setFormData((prev) => ({
             ...prev,
@@ -78,42 +90,11 @@ export default function AddBook() {
         }));
     };
 
-    const validateForm = () => {
-        if (!formData.titel.titel || formData.titel.titel.trim() === '') {
-            return 'Titel ist erforderlich.';
-        }
-
-        if (!formData.isbn || formData.isbn.trim() === '') {
-            return 'ISBN ist erforderlich.';
-        }
-
-        if (!/^\d{3}-\d{1,5}-\d{1,7}-\d{1,7}-\d+$/.test(formData.isbn)) {
-            return 'Die ISBN ist ungültig. Sie muss dem Format "978-1-56619-909-6" entsprechen.';
-        }
-
-        if (formData.preis <= 0) {
-            return 'Der Preis muss größer als 0 sein.';
-        }
-
-        if (formData.rabatt < 0 || formData.rabatt > 100) {
-            return 'Der Rabatt muss zwischen 0 und 100 liegen.';
-        }
-
-        if (!formData.datum || formData.datum.trim() === '') {
-            return 'Ein Datum ist erforderlich.';
-        }
-
-        if (new Date(formData.datum).toString() === 'Invalid Date') {
-            return 'Ein gültiges Datum ist erforderlich.';
-        }
-
-        return null;
-    };
-
+    // Funktion die die Formulardaten ans Backend schickt
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
 
-        const errorMessage = validateForm();
+        const errorMessage = validateForm(formData);
         if (errorMessage) {
             toast({
                 title: 'Ungültige Eingabe',
@@ -134,16 +115,11 @@ export default function AddBook() {
             rabatt: parseFloat(formData.rabatt.toString()) / 100,
         };
 
-        console.log(
-            'Gesendete Daten:',
-            JSON.stringify(submissionData, null, 2),
-        );
-
         apiPost(
             '/api/rest',
             JSON.stringify(submissionData),
             () => handleSuccess(toast, navigate, formData),
-            (status: number) => handleFailure(status, toast),
+            (response: AxiosResponse) => handleFailure(response, toast),
             {
                 noCache: false,
                 token: true,
@@ -328,3 +304,36 @@ export default function AddBook() {
         </div>
     );
 }
+
+// Funktion die die Formulardaten validiert
+function validateForm(formData: Buch) {
+    if (!formData.titel.titel || formData.titel.titel.trim() === '') {
+        return 'Titel ist erforderlich.';
+    }
+
+    if (!formData.isbn || formData.isbn.trim() === '') {
+        return 'ISBN ist erforderlich.';
+    }
+
+    if (!/^\d{3}-\d{1,5}-\d{1,7}-\d{1,7}-\d+$/.test(formData.isbn)) {
+        return 'Die ISBN ist ungültig. Sie muss dem Format "978-1-56619-909-6" entsprechen.';
+    }
+
+    if (formData.preis <= 0) {
+        return 'Der Preis muss größer als 0 sein.';
+    }
+
+    if (formData.rabatt < 0 || formData.rabatt > 100) {
+        return 'Der Rabatt muss zwischen 0 und 100 liegen.';
+    }
+
+    if (!formData.datum || formData.datum.trim() === '') {
+        return 'Ein Datum ist erforderlich.';
+    }
+
+    if (new Date(formData.datum).toString() === 'Invalid Date') {
+        return 'Ein gültiges Datum ist erforderlich.';
+    }
+    
+    return null;
+};

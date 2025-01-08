@@ -7,11 +7,11 @@ interface AddCardProps {
     onClick: (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => void;
 }
 
-export default function AddCard({ className, onClick }: AddCardProps) {
+export default function AddCard({ className, onClick }: Readonly<AddCardProps>) {
     return (
         <Card
             className={`flex items-center flex-col ${className} cursor-pointer hover:shadow-lg transition-shadow`}
-            onClick={onClick} // Korrekte onClick-Typisierung
+            onClick={onClick}
             role="button"
         >
             <CardContent className="flex flex-item grow items-center mt-5">

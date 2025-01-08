@@ -5,10 +5,10 @@ const DEFAULT_IMAGE_PATH = '/covers/image-off.svg';
 export default function BookCover({
     book,
     size,
-}: {
+}: Readonly<{
     book: Buch;
     size: 'large' | 'small';
-}) {
+}>) {
     const coverClass =
         size === 'large'
             ? 'border-4 h-80 w-60 rounded-lg'

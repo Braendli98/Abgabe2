@@ -13,10 +13,10 @@ import { useNavigate } from 'react-router';
 export default function BookCard({
     className,
     book,
-}: {
+}: Readonly<{
     className: string;
     book: Buch;
-}) {
+}>) {
     const navigate = useNavigate();
     const id = getIdFromBook(book);
 
@@ -59,7 +59,7 @@ export default function BookCard({
     );
 }
 
-// TODO: Modify the server so it returns the id with the book
+// Fallback since the server response does not contain the book id
 function getIdFromBook(book: Buch) {
     return book._links.self.href.split('/').reverse()[0];
 }

@@ -12,10 +12,10 @@ import { useToast } from '@/hooks/use-toast';
 export default function UserMenu({
     name,
     setUser,
-}: {
+}: Readonly<{
     name?: string;
     setUser: React.Dispatch<React.SetStateAction<UserData>>;
-}) {
+}>) {
     const { toast } = useToast();
 
     return (

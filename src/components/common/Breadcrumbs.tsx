@@ -16,7 +16,7 @@ const breadcrumbMapping = {
     login: 'Login',
 };
 
-export default function Breadcrumbs({ path }: { path: BreadcrumbComponent[] }) {
+export default function Breadcrumbs({ path }: Readonly<{ path: BreadcrumbComponent[] }>) {
     return (
         <Breadcrumb className="text-4xl mb-6">
             <BreadcrumbList>{generateBreadcrumbs(path)}</BreadcrumbList>

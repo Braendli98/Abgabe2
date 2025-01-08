@@ -34,17 +34,16 @@ function generateBreadcrumbs(path: BreadcrumbComponent[]) {
     }
 
     const breadcrumbEntries: React.ReactElement[] = [];
-path.filter((_, index) => index !== path.length - 1).forEach((value) => {
-  breadcrumbEntries.push(
-    <BreadcrumbLink href={getRefLink(value)} key={value.base}>
-      {mapToName(value)}
-    </BreadcrumbLink>
-  );
-  breadcrumbEntries.push(
-    <BreadcrumbSeparator key={`${value.base}-separator`} />
-  );
-});
-
+    path.filter((_, index) => index !== path.length - 1).forEach((value) => {
+        breadcrumbEntries.push(
+            <BreadcrumbLink href={getRefLink(value)} key={value.base}>
+                {mapToName(value)}
+            </BreadcrumbLink>,
+        );
+        breadcrumbEntries.push(
+            <BreadcrumbSeparator key={`${value.base}-separator`} />,
+        );
+    });
 
     return (
         <>

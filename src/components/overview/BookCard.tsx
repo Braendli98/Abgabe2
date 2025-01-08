@@ -58,7 +58,6 @@ export default function BookCard({
             </table>
         </Card>
     );
-    
 }
 
 // TODO: Modify the server so it returns the id with the book

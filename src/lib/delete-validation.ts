@@ -35,11 +35,11 @@ function getResponseType(status: number): ResponseType {
     switch (status) {
         case 401:
         case 403:
-            return 'unauthorized'; 
+            return 'unauthorized';
         case 500:
-            return 'internal'; 
+            return 'internal';
         default:
-            return 'unexpected'; 
+            return 'unexpected';
     }
 }
 

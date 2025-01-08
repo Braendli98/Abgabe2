@@ -1,14 +1,14 @@
 import { UserData } from '@/types/context';
 
 export function getUserDataFromToken(jwt: string): UserData | undefined {
-    const [, payloadStr] = jwt.split('.'); 
+    const [, payloadStr] = jwt.split('.');
     if (!payloadStr) {
-        return; 
+        return;
     }
 
     try {
-        const payloadDecoded = atob(payloadStr); 
-        const payload = JSON.parse(payloadDecoded); 
+        const payloadDecoded = atob(payloadStr);
+        const payload = JSON.parse(payloadDecoded);
         const { azp, resource_access } = payload;
 
         return {
@@ -17,7 +17,7 @@ export function getUserDataFromToken(jwt: string): UserData | undefined {
         } as UserData;
     } catch (error) {
         console.error('Ungültiges Token:', error);
-        return undefined; 
+        return undefined;
     }
 }
 
@@ -32,11 +32,11 @@ export function getToken(): string | null {
 export function getUserData(): Partial<UserData> {
     const token = getToken();
     if (!token) {
-        return {}; 
+        return {};
     }
 
     const userData = getUserDataFromToken(token);
-    return userData || {}; 
+    return userData || {};
 }
 export function setToken(accessToken: string): void {
     sessionStorage.setItem('access_token', accessToken);

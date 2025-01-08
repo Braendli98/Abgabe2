@@ -1,4 +1,4 @@
-import { ReactNode, useState, useMemo  } from 'react';
+import { ReactNode, useState, useMemo } from 'react';
 
 import { AppContext } from '@/hooks/use-context';
 import { UserData } from '@/types/context';
@@ -8,11 +8,10 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
     const [user, setUser] = useState<UserData>(getUserData());
 
     return (
-        <AppContext.Provider 
+        <AppContext.Provider
             value={useMemo(() => ({ user, setUser }), [user, setUser])}
         >
             {children}
         </AppContext.Provider>
     );
-    
 };

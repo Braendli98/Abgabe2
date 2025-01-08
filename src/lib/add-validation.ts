@@ -40,7 +40,9 @@ export function handleFailure(
     });
 }
 
-function getToastDescription(errorType: 'unauthorized' | 'internal' | 'unexpected') {
+function getToastDescription(
+    errorType: 'unauthorized' | 'internal' | 'unexpected',
+) {
     switch (errorType) {
         case 'unauthorized':
             return 'Sie haben nicht die erforderlichen Berechtigungen!';

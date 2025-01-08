@@ -20,30 +20,36 @@ export function handleFailure(
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     toast: any,
 ) {
-    let responseType: string;
+    let responseType: 'unauthorized' | 'internal' | 'unexpected';
     switch (status) {
         case 401:
-        case 403: {
+        case 403:
             responseType = 'unauthorized';
             break;
-        }
-        case 500: {
+        case 500:
             responseType = 'internal';
             break;
-        }
-        default: {
+        default:
             responseType = 'unexpected';
-        }
     }
+
     toast({
         variant: 'failure',
         title: 'Fehler!',
-        desciption: getToastDescription(responseType === 'unauthorized'),
+        description: getToastDescription(responseType),
     });
 }
 
-function getToastDescription(unauthorized: boolean) {
-    return unauthorized
-        ? 'Sie haben nicht die erforderlichen Berechtigungen!'
-        : 'Es ist ein unerwarteter Fehler aufgetreten!';
+function getToastDescription(
+    errorType: 'unauthorized' | 'internal' | 'unexpected',
+) {
+    switch (errorType) {
+        case 'unauthorized':
+            return 'Sie haben nicht die erforderlichen Berechtigungen!';
+        case 'internal':
+            return 'Ein interner Serverfehler ist aufgetreten!';
+        case 'unexpected':
+        default:
+            return 'Es ist ein unerwarteter Fehler aufgetreten!';
+    }
 }

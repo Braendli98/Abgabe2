@@ -34,7 +34,7 @@ function generateBreadcrumbs(path: BreadcrumbComponent[]) {
     }
 
     const breadcrumbEntries: React.ReactElement[] = [];
-    path.filter((_, index) => index !== path.length - 1).map((value) => {
+    path.filter((_, index) => index !== path.length - 1).forEach((value) => {
         breadcrumbEntries.push(
             <BreadcrumbLink href={getRefLink(value)} key={value.base}>
                 {mapToName(value)}

@@ -32,6 +32,11 @@ export default function BookCard({
             role="button"
         >
             <table>
+                <thead>
+                    <tr>
+                        <th colSpan={2}>Buchdetails</th>
+                    </tr>
+                </thead>
                 <tbody>
                     <tr>
                         <td>

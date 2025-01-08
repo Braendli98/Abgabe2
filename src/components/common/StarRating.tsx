@@ -1,4 +1,4 @@
-import { Star } from "lucide-react";
+import { Star } from 'lucide-react';
 
 export default function StarRating({
     rating,
@@ -12,7 +12,7 @@ export default function StarRating({
     return (
         <div className="flex items-center space-x-1">
             {Array.from({ length: totalStars }, (_, index) => (
-                <Star 
+                <Star
                     key={index}
                     fill={index < Math.floor(rating) ? 'gold' : 'white'}
                     strokeWidth={1.5}

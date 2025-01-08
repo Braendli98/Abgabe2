@@ -10,16 +10,15 @@ interface AddCardProps {
 export default function AddCard({ className, onClick }: AddCardProps) {
     return (
         <Card
-            className={`flex items-center flex-col w-40 ${className} cursor-pointer hover:shadow-lg transition-shadow`}
-            style={{ margin: '10px', minWidth: '150px', minHeight: '200px' }}
+            className={`flex items-center flex-col ${className} cursor-pointer hover:shadow-lg transition-shadow`}
             onClick={onClick} // Korrekte onClick-Typisierung
             role="button"
         >
-            <CardContent className="flex flex-item grow items-center">
+            <CardContent className="flex flex-item grow items-center mt-5">
                 <Plus className="flex-item grow" size={70} />
             </CardContent>
             <CardFooter className="flex-item">
-                <p>Add Book</p>
+                <p>Buch Anlegen</p>
             </CardFooter>
         </Card>
     );

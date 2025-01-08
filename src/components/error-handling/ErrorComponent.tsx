@@ -11,7 +11,7 @@ export default function ErrorComponent({ type, error }: ApplicationError) {
 
     return (
         <div className="flex justify-center items-center h-screen bg-backgroundColor">
-            <div className="grid w-full flex-item max-w-sm items-center gap-1.5">
+            <div className="grid w-8/12 md:w-full flex-item max-w-sm items-center gap-1.5">
                 <strong className="text-9xl text-center mb-10">
                     <span style={{ color: 'red' }}>
                         {type === 'notFound' ? 4 : 5}

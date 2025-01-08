@@ -317,8 +317,9 @@ export default function AddBook() {
 
                 <div className="col-span-2">
                     <Button
+                        variant="custom"
                         type="submit"
-                        className="w-full bg-blue-500 text-white py-2 px-4 rounded-md"
+                        className="w-full py-2 px-4"
                     >
                         Buch anlegen
                     </Button>

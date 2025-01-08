@@ -8,11 +8,12 @@ import BookCover from '../common/BookCover';
 import Breadcrumbs from '../common/Breadcrumbs';
 import { Buch } from '@/types/buch';
 import { Button } from '../shadcn-ui/button';
+import StarRating from '../common/StarRating';
+import { Trash2 } from 'lucide-react';
 import { getBreadcrumbComponents } from '@/lib/breadcrumb-utils';
 import { hasRemoveRights } from '@/lib/role-utils';
 import { useAppContext } from '@/hooks/use-context';
 import { useToast } from '@/hooks/use-toast';
-import StarRating from '../common/StarRating';
 
 export default function Details() {
     const navigate = useNavigate();
@@ -74,35 +75,34 @@ export default function Details() {
                     <p className="text-2xl text-gray-600 font-medium">
                         {book?.titel?.untertitel || 'Kein Untertitel'}
                     </p>
-                    <div className="grid grid-cols-2 gap-x-6 gap-y-4">
-                        {/* Linke Seite */}
-                        <div>
+                    <div className="grid grid-cols-2 gap-x-8 gap-y-4">
+                        <div className="col-span-2 md:col-span-1">
                             <strong>ISBN:</strong>{' '}
                             {book?.isbn || 'Nicht verfügbar'}
                         </div>
-                        <div>
+                        <div className="col-span-2 md:col-span-1">
                             <strong>Art:</strong> {book?.art || 'Unbekannt'}
                         </div>
-                        <div>
+                        <div className="col-span-2 md:col-span-1">
                             <strong>Preis:</strong>{' '}
                             {book?.preis
                                 ? `${book.preis} €`
                                 : 'Nicht verfügbar'}
                         </div>
-                        <div>
+                        <div className="col-span-2 md:col-span-1">
                             <strong>Lieferbar:</strong>{' '}
                             {book?.lieferbar ? 'Ja' : 'Nein'}
                         </div>
-                        <div>
+                        <div className="col-span-2 md:col-span-1">
                             <strong>Rabatt:</strong>{' '}
                             {book?.rabatt ? (book.rabatt * 100).toFixed(1) : 0}{' '}
                             %
                         </div>
-                        <div>
+                        <div className="col-span-2 md:col-span-1">
                             <strong>Erscheinungsdatum:</strong>{' '}
                             {book?.datum || 'Nicht verfügbar'}
                         </div>
-                        <div>
+                        <div className="col-span-2 md:col-span-1">
                             <strong>Rating:</strong>{' '}
                             {book?.rating ? (
                                 <StarRating rating={book.rating} />
@@ -110,9 +110,7 @@ export default function Details() {
                                 'Kein Rating'
                             )}
                         </div>
-
-                        {/* Rechte Seite */}
-                        <div>
+                        <div className="col-span-2 md:col-span-1">
                             <strong>Schlagwörter:</strong>{' '}
                             {book?.schlagwoerter?.join(', ') || 'Keine'}
                         </div>
@@ -126,7 +124,10 @@ export default function Details() {
                                     deleteEntry();
                                 }}
                             >
-                                Buch Löschen
+                                <Trash2 />
+                                <span className="text-lg md:text-base">
+                                    Buch Löschen
+                                </span>
                             </Button>
                         </div>
                     )}

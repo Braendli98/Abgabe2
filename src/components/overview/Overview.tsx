@@ -1,3 +1,4 @@
+import { handleFailure, handleSuccess } from '@/lib/search-validation';
 import { useEffect, useState } from 'react';
 
 import AddCard from './AddCard';
@@ -5,8 +6,7 @@ import { AxiosResponse } from 'axios';
 import BookCard from './BookCard';
 import Breadcrumbs from '../common/Breadcrumbs';
 import { Buch } from '@/types/buch';
-import { Button } from '../shadcn-ui/button';
-import { Input } from '../shadcn-ui/input';
+import SearchComponent from './Search';
 import { apiGet } from '@/lib/api/api-handler';
 import { hasAddRights } from '@/lib/role-utils';
 import { useAppContext } from '@/hooks/use-context';
@@ -15,32 +15,35 @@ import { useNavigate } from 'react-router';
 export default function Overview() {
     const navigate = useNavigate();
     const [books, setBooks] = useState<Buch[]>([]);
-    const [searchTerm, setSearchTerm] = useState('');
-    const [category, setCategory] = useState('');
+    const [failureText, setFailureText] = useState<string>(
+        'Ein unerwarteter Fehler ist aufgetreten.',
+    );
+    const [searchParams, setSearchParams] = useState<Record<string, string>>(
+        {},
+    );
     const { user } = useAppContext();
 
-    const fetchBooks = (query = '', selectedCategory = '') => {
+    const fetchBooks = () => {
         const urlParams = new URLSearchParams();
-        if (query) urlParams.append('titel', query);
-        if (selectedCategory) urlParams.append('art', selectedCategory);
+        Object.entries(searchParams).forEach(([key, value]) => {
+            if (value !== undefined && value != '') {
+                urlParams.append(key, value);
+            }
+        });
         apiGet(
             `/api/rest?${urlParams.toString()}`,
-            (response: AxiosResponse) =>
-                setBooks(response.data._embedded?.buecher ?? []),
-            () => console.error('Oops!'),
+            (response: AxiosResponse) => handleSuccess(response, setBooks),
+            (status: number) => handleFailure(status, setBooks, setFailureText),
         );
     };
 
     useEffect(() => {
         fetchBooks();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     const handleSearch = () => {
-        if (searchTerm.trim() === '' && category.trim() === '') {
-            fetchBooks();
-        } else {
-            fetchBooks(searchTerm, category);
-        }
+        fetchBooks();
     };
 
     const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
@@ -53,57 +56,30 @@ export default function Overview() {
         <div className="content p-4">
             <Breadcrumbs path={[{ base: '' }]} />
             <h1 className="text-2xl font-bold mb-4">Bücher</h1>
-            <div className="flex items-center space-x-2 searchbar mb-4">
-                {/* Suchfeld */}
-                <Input
-                    className="flex-1 p-2 bg-gray-100 rounded border border-gray-300 focus:outline-none focus:ring-2 focus:ring-mainColor"
-                    type="text"
-                    value={searchTerm}
-                    onChange={(e) => setSearchTerm(e.target.value)}
-                    onKeyDown={handleKeyDown}
-                    placeholder="Nach Buchtiteln suchen..."
-                />
-                {/* Dropdown für Kategorie */}
-                <select
-                    className="p-2 bg-gray-100 rounded border border-gray-300 focus:outline-none focus:ring-2 focus:ring-mainColor"
-                    value={category}
-                    onChange={(e) => setCategory(e.target.value)}
-                >
-                    <option value="">Alle Buchkategorien</option>
-                    <option value="EPUB">EPUB</option>
-                    <option value="HARDCOVER">HARDCOVER</option>
-                    <option value="PAPERBACK">PAPERBACK</option>
-                </select>
-                {/* Suchbutton */}
-                <Button
-                    className="bg-mainColor text-white px-4 py-2 rounded shadow hover:bg-opacity-90"
-                    onClick={handleSearch}
-                >
-                    Suchen
-                </Button>
-            </div>
+            <SearchComponent
+                searchParams={searchParams}
+                setSearchParams={setSearchParams}
+                handleKeyDown={handleKeyDown}
+                handleSearch={handleSearch}
+            />
 
             {/* Anzeige der Bücher oder eine Fehlermeldung */}
             {books.length === 0 && (
-                <p className="text-center mt-4 text-gray-500">
-                    {searchTerm.trim() === '' && category.trim() === ''
-                        ? 'Bitte geben Sie einen Suchbegriff ein oder wählen Sie eine Kategorie aus.'
-                        : 'Keine Bücher gefunden oder ein Fehler ist aufgetreten.'}
-                </p>
+                <p className="text-center mt-4 text-gray-500">{failureText}</p>
             )}
-            <div className="flex flex-wrap">
+            <div className="grid grid-cols-6 gap-4">
                 {books.length > 0 &&
                     books.map((book) => (
                         <BookCard
                             key={book._links.self.href}
-                            className="flex-item"
+                            className="col-span-6 md:col-span-3 lg:col-span-2"
                             book={book}
                         />
                     ))}
                 {/* Zusatzoption für eingeloggte Admins */}
                 {hasAddRights(user) && (
                     <AddCard
-                        className="flex-item"
+                        className="col-span-6 md:col-span-2 lg:col-span-1 w-full"
                         onClick={(
                             event: React.MouseEvent<HTMLDivElement, MouseEvent>,
                         ) => {

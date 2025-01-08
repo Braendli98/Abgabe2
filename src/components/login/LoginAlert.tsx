@@ -5,9 +5,9 @@ import { AlertType } from '@/types/login';
 
 export default function LoginAlert({
     alertType,
-}: {
+}: Readonly<{
     alertType: Omit<AlertType, 'none'>;
-}) {
+}>) {
     let message = '';
     switch (alertType) {
         case 'internal':

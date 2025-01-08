@@ -6,7 +6,10 @@ interface ApplicationError {
     error?: string;
 }
 
-export default function ErrorComponent({ type, error }: ApplicationError) {
+export default function ErrorComponent({
+    type,
+    error,
+}: Readonly<ApplicationError>) {
     const navigate = useNavigate();
 
     return (

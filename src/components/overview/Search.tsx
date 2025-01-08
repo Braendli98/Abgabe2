@@ -24,14 +24,14 @@ export default function SearchComponent({
     setSearchParams,
     handleKeyDown,
     handleSearch,
-}: {
+}: Readonly<{
     searchParams: Record<string, string>;
     setSearchParams: React.Dispatch<
         React.SetStateAction<Record<string, string>>
     >;
     handleKeyDown: (event: React.KeyboardEvent<HTMLInputElement>) => void;
     handleSearch: () => void;
-}) {
+}>) {
     const setSearchParam = (key: string, value: string) => {
         searchParams[key] = value;
         setSearchParams(searchParams);
@@ -52,7 +52,7 @@ export default function SearchComponent({
             <div className="flex items-center md:w-2/3 mb-4">
                 {/* Suchfeld für Titel */}
                 <SearchInput
-                    searchKey="title"
+                    searchKey="titel"
                     placeholder="Nach Buchtiteln suchen..."
                     type="text"
                     searchParams={searchParams}
@@ -218,7 +218,7 @@ export default function SearchComponent({
     );
 }
 
-function SearchLabel({ children }: { children: string }) {
+function SearchLabel({ children }: Readonly<{ children: string }>) {
     return <Label className="text-lg md:text-base">{children}</Label>;
 }
 
@@ -230,7 +230,7 @@ function SearchInput({
     setSearchParam,
     handleKeyDown,
     className,
-}: {
+}: Readonly<{
     searchKey: string;
     placeholder: string;
     type: string;
@@ -238,7 +238,7 @@ function SearchInput({
     setSearchParam: (key: string, value: string) => void;
     handleKeyDown: (event: React.KeyboardEvent<HTMLInputElement>) => void;
     className?: string;
-}) {
+}>) {
     return (
         <Input
             className={`${className} p-2 bg-gray-100 rounded border border-gray-300 focus:outline-none focus:ring-2 focus:ring-mainColor`}

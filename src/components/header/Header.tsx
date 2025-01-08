@@ -28,9 +28,11 @@ export default function Header() {
             style={{ top: 0 }}
             data-cy="header"
         >
-            <div className="flex items-center cursor-pointer">
+            <div
+                className="flex items-center cursor-pointer"
+                onClick={() => navigate('/')}
+            >
                 <img
-                    onClick={() => navigate('/')}
                     src={hkaLogo}
                     alt="HKA Logo"
                     className="h-11 w-auto mr-4"

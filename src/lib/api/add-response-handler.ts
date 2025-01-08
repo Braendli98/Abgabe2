@@ -6,6 +6,7 @@ type ResponseType =
     | 'badRequest'
     | 'isbn'
     | 'unauthorized'
+    | 'unprocessable'
     | 'internal'
     | 'unexpected';
 
@@ -42,6 +43,7 @@ export function handleFailure(
     toast: any,
 ) {
     let responseType: ResponseType;
+    let messageOverride: string | undefined = undefined;
     switch (response.status) {
         case 400:
             if (response.data.message[0] === 'isbn must be an ISBN') {
@@ -54,6 +56,10 @@ export function handleFailure(
         case 403:
             responseType = 'unauthorized';
             break;
+        case 422:
+            responseType = 'unprocessable';
+            messageOverride = response.data?.message;
+            break;
         case 500:
             responseType = 'internal';
             break;
@@ -61,18 +67,17 @@ export function handleFailure(
             responseType = 'unexpected';
     }
 
-    console.log(response);
-
     toast({
         variant: 'failure',
         title: 'Fehler!',
-        description: getToastDescription(responseType),
+        description: messageOverride ?? getToastDescription(responseType),
     });
 }
 
 // Gibt zu einem Fehlerfall passende Nachricht zurück
 function getToastDescription(errorType: ResponseType) {
     switch (errorType) {
+        case 'unprocessable':
         case 'badRequest':
             return 'Ein Eingabefehler ist aufgetreten!';
         case 'isbn':

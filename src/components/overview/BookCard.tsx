@@ -33,7 +33,7 @@ export default function BookCard({
             <table>
                 <thead>
                     <tr>
-                        <th colSpan={2}>Buchdetails</th>
+                        <th colSpan={2}>{/* Leerer Tabellenheader */}</th>
                     </tr>
                 </thead>
                 <tbody>

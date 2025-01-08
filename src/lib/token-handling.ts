@@ -1,48 +1,43 @@
 import { UserData } from '@/types/context';
 
-export function getUserDataFromToken(jwt: string) {
-    const [, payloadStr] = (jwt as string).split('.');
-    if (payloadStr === undefined) {
-        return;
+export function getUserDataFromToken(jwt: string): UserData | undefined {
+    const [, payloadStr] = jwt.split('.'); 
+    if (!payloadStr) {
+        return; 
     }
-    const payloadDecoded = atob(payloadStr);
-    const payload = JSON.parse(payloadDecoded);
-    const { azp, resource_access } = payload;
 
-    return {
-        username: payload.preferred_username,
-        roles: resource_access[azp].roles,
-    } as UserData;
+    try {
+        const payloadDecoded = atob(payloadStr); 
+        const payload = JSON.parse(payloadDecoded); 
+        const { azp, resource_access } = payload;
+
+        return {
+            username: payload.preferred_username,
+            roles: resource_access[azp]?.roles || [],
+        } as UserData;
+    } catch (error) {
+        console.error('Ungültiges Token:', error);
+        return undefined; 
+    }
 }
 
-export function removeToken() {
+export function removeToken(): void {
     sessionStorage.clear();
 }
 
-export function getToken() {
+export function getToken(): string | null {
     return sessionStorage.getItem('access_token');
 }
 
-export function getUserData() {
+export function getUserData(): Partial<UserData> {
     const token = getToken();
-    if (token === undefined || token === null) {
-        return {};
+    if (!token) {
+        return {}; 
     }
 
     const userData = getUserDataFromToken(token);
-    if (userData === undefined) {
-        return {};
-    }
-
-    return userData;
+    return userData || {}; 
 }
-
-export function setToken(accessToken: string) {
+export function setToken(accessToken: string): void {
     sessionStorage.setItem('access_token', accessToken);
 }
-
-// function getExpiryDate(expiresIn: string) {
-//     return new Date(
-//         Date.now() + Number.parseInt(expiresIn.toString(), 10) * 1000,
-//     ).toUTCString();
-// }

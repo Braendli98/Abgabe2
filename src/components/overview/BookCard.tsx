@@ -32,6 +32,11 @@ export default function BookCard({
             role="button"
         >
             <table>
+                <thead>
+                    <tr>
+                        <th colSpan={2}>Buchdetails</th>
+                    </tr>
+                </thead>
                 <tbody>
                     <tr>
                         <td>
@@ -53,6 +58,7 @@ export default function BookCard({
             </table>
         </Card>
     );
+    
 }
 
 // TODO: Modify the server so it returns the id with the book

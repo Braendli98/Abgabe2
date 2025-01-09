@@ -28,7 +28,7 @@ export default function Header() {
             style={{ top: 0 }}
             data-cy="header"
         >
-            <div className="flex items-center cursor-pointer">
+            <div className="flex items-center">
                 <img
                     src={hkaLogo}
                     alt="HKA Logo"

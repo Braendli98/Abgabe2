@@ -1,16 +1,58 @@
 @startuml state
-[*] --> Overview : Start
+[*] --> Übersicht
 
-Overview --> Login : Click on Login
-Overview --> Details : Click on a Book
-Overview --> Add : Click Add
+Übersicht --> Login
+Details --> Login
+Hinzufügen --> Login
 
-Login --> Overview : Successful Login
-Login --> Rejected : Invalid Credentials
-Rejected --> Login : Retry Login
+Login --> Übersicht : Callback/Breadcrumbs 
+Login --> Details : Callback/Breadcrumbs
+Login --> Hinzufügen : Callback/Breadcrumbs
 
-Details --> Overview : Return
-Details --> Overview : Delete Book (if logged in)
+Details --> Übersicht : Breadcrumbs
+Hinzufügen --> Übersicht : Breadcrumbs
 
-Add --> Overview : Return to Overview
+state Hinzufügen {
+    state hinzufügen_choice <<choice>>
+
+    [*] --> Leeres_Buchformular
+    Leeres_Buchformular --> Buchformular_ausgefüllt : Fülle Buchformular aus
+    Buchformular_ausgefüllt --> hinzufügen_choice : Hinzufügenknopf drücken
+    hinzufügen_choice -[#red]-> Hinzufügen_Fehlermeldung : [Status ERROR]
+    hinzufügen_choice -[#green]-> Übersicht : [Status OK]
+    Hinzufügen_Fehlermeldung --> Buchformular_ausgefüllt : Fülle Buchformular aus
+}
+
+state Übersicht {
+    state suche_choice <<choice>>
+
+    [*] --> Bücher_angezeigt
+    Bücher_angezeigt --> Suchformular_ausgefüllt : Trage Suchbegriffe ein
+    Suchformular_ausgefüllt --> suche_choice : Suchknopf drücken
+    suche_choice -[#red]-> Übersicht_Fehlermeldung : [Status ERROR]
+    suche_choice -[#green]-> Bücher_angezeigt : [Status OK]
+    Übersicht_Fehlermeldung --> Suchformular_ausgefüllt : Trage Suchbegriffe ein
+    Bücher_angezeigt --> Details : Wähle Buch aus
+    Bücher_angezeigt -[#blue]-> Hinzufügen : [role=user or role=admin] Füge Buch hinzu
+} 
+
+state Details {
+    state löschen_choice <<choice>>
+
+    [*] --> Buchdaten_angezeigt
+    Buchdaten_angezeigt -[#blue]-> löschen_choice : [role=admin] Löschknopf gedrückt
+    löschen_choice -[#red]-> Löschen_Fehlermeldung : [Status ERROR]
+    Löschen_Fehlermeldung --> Buchdaten_angezeigt
+    löschen_choice -[#green]-> Übersicht : [Status OK]
+}
+
+state Login {
+    state login_choice <<choice>>
+
+    [*] --> Felder_ausgefüllt : Credentials eingeben
+    Felder_ausgefüllt --> login_choice : Loginbutton drücken
+    login_choice -[#red]-> Login_Fehlermeldung : [Status ERROR]
+    Login_Fehlermeldung --> Felder_ausgefüllt : Credentials eingeben
+    login_choice -[#green]-> [*] : [Status OK]
+}
 @enduml

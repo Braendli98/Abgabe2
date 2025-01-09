@@ -15,10 +15,6 @@ Anastasia Bologan, Jan Kuhnmünch, Meryem Daoussi, Pascal Brändli
 // http://de.plantuml.com/component.html
 // https://github.com/odrotbohm/asciidoctor-plantuml
 
-IMPORTANT: Free use of this software is granted under the terms of the
-           GNU General Public License (GPL) v3. +
-           For the full text of the license, see the http://www.gnu.org/licenses/gpl-3.0.html[license] file.
-
 == Das Frontend
 
 === Das Frontend im Überblick
